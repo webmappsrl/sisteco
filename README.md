@@ -1,10 +1,25 @@
-# server requirements 
+### server requirements 
 
-# optional requirements 
+### test e2e with Cypress 
+Cypress versione supportata per i test >= 6.0.0
+install cypress
+```
+npm install cypress --save-dev
+```
+lauch cypress : 
+```
+npx cypress open
+```
 
-# branch develop
+### postgress 
 
-# project structure 
+rimuovere la precedente versione di postgress
+brew uninstall --force postgresql
 
-# sisteco
+
+### branch develop
+
+### installation 
+
+### sisteco
 Repository dedicato al progetto BIGECO / Verticalizzazione per TIMESIS / SISTECO
