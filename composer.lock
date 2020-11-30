@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f621df1e6b82f7e31a176300753e0f6c",
+    "content-hash": "4d2c141d6da8c0286191ed1573b85f6d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -271,6 +271,47 @@
                 "time"
             ],
             "time": "2020-08-22T02:42:12+00:00"
+        },
+        {
+            "name": "dillingham/nova-minimal-theme",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dillingham/nova-minimal-theme.git",
+                "reference": "d6b79dafc2a66902719769cad054a1919e1c26b0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dillingham/nova-minimal-theme/zipball/d6b79dafc2a66902719769cad054a1919e1c26b0",
+                "reference": "d6b79dafc2a66902719769cad054a1919e1c26b0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MinimalTheme\\ThemeServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MinimalTheme\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A minimal Laravel Nova theme.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "time": "2019-04-27T21:36:47+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
