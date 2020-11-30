@@ -22,7 +22,13 @@ class AreaFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->sentence(2),
+            'name' => $this->faker->sentence(1),
+            'description' => $this->faker->sentence(1),
+            'geometry' =>  'Point', 'POINT(0 0)',
+            'layer_id' => \App\Models\AreaLayer::factory(),
+            'properties' => '"publisher" => "postgresqltutorial.com",
+	                        "language"  => "English",
+	                        "ISBN-13"   => "978-1449370000"'
         ];
     }
 }

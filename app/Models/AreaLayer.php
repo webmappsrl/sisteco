@@ -11,7 +11,7 @@ class AreaLayer extends Model
 
     protected $fillable = ['id','name','description'];
 
-    public function Area()
+    public function areas()
     {
         return $this->hasMany(Area::class);
     }

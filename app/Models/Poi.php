@@ -25,7 +25,7 @@ class Poi extends Model
     //     ]
     // ];
 
-    public function PoiLayer()
+    public function poiLayer()
     {
         return $this->belongsTo(PoiLayer::class);
     }

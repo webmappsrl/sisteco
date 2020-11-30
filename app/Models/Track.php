@@ -12,7 +12,7 @@ class Track extends Model
     protected $fillable = ['id','name','description','layer_id','properties','geometry'];
 
 
-    public function TrackLayer()
+    public function trackLayer()
     {
         return $this->belongsTo(TrackLayer::class);
     }

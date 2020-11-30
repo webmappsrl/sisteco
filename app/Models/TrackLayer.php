@@ -12,7 +12,7 @@ class TrackLayer extends Model
     protected $fillable = ['id','name','description'];
 
 
-    public function Track()
+    public function tracks()
     {
         return $this->hasMany(Track::class);
     }

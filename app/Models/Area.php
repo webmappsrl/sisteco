@@ -11,7 +11,7 @@ class Area extends Model
 
     protected $fillable = ['id','name','description','layer_id','properties','geometry'];
 
-    public function AreaLayer()
+    public function areaLayer()
     {
         return $this->belongsTo(AreaLayer::class);
     }

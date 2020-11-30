@@ -12,7 +12,7 @@ class PoiLayer extends Model
     protected $fillable = ['id','name','description'];
 
 
-    public function Poi()
+    public function pois()
     {
         return $this->hasMany(Poi::class);
     }
