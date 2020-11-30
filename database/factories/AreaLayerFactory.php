@@ -21,9 +21,13 @@ class AreaLayerFactory extends Factory
      */
     public function definition()
     {
+        $n=rand(-1,-129);
+        $date = $this->faker->dateTimeBetween($startDate = $n.' day', $endDate = 'now');
         return [
             'name' => $this->faker->sentence(1),
             'description' => $this->faker->sentence(1),
+            'created_at'=> $date,
+            'updated_at'=>$date
         ];
     }
 }

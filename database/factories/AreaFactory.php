@@ -24,11 +24,9 @@ class AreaFactory extends Factory
         return [
             'name' => $this->faker->sentence(1),
             'description' => $this->faker->sentence(1),
-            'geometry' =>  'Point', 'POINT(0 0)',
+            'geometry' =>  'POINT(0 0)',
             'layer_id' => \App\Models\AreaLayer::factory(),
-            'properties' => '"publisher" => "postgresqltutorial.com",
-	                        "language"  => "English",
-	                        "ISBN-13"   => "978-1449370000"'
+//            'properties' => '{"\"a\"=>\"1.0\", \"b\"=>\"2.0\"","\"a\"=>\"3.0\", \"b\"=>\"4.0\""}'
         ];
     }
 }

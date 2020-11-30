@@ -2,6 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Poi;
+use App\Nova\Metrics\AreaLayerCount;
+use App\Nova\Metrics\AreaLayersPerDay;
+use App\Nova\Metrics\AreaLayersPerName;
+use App\Nova\Metrics\PoiLayerCount;
+use App\Nova\Metrics\PoiLayersPerName;
+use App\Nova\Metrics\TrackLayerCount;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
@@ -58,7 +65,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function cards()
     {
         return [
-            new Help,
+
+            new PoiLayerCount(),
+            new TrackLayerCount(),
+            new AreaLayerCount(),
+            (new AreaLayersPerDay())->width('1/2'),
+            (new AreaLayersPerName())->width('1/2'),
         ];
     }
 

@@ -63,5 +63,11 @@ class DatabaseSeeder extends Seeder
             'email'=>'mauro.piazzi@timesis.it',
             'password'=>bcrypt('timesisteco'),
         ]);
+
+        \App\Models\PoiLayer::factory()->count(151)->create();
+        \App\Models\TrackLayer::factory()->count(51)->create();
+        \App\Models\AreaLayer::factory()->count(23)->create();
+
+
     }
 }
