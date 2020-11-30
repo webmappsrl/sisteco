@@ -20,9 +20,9 @@ class CreatePoisTable extends Migration
             $table->text('name');
             $table->text('description');
             $table->timestamps();
-            $table->text('geometry');
+            $table->text('geometry')->nullable();
             $table->unsignedBigInteger('layer_id');
-            $table->hstore('properties');
+            $table->hstore('properties')->nullable();;
 
             $table->foreign('layer_id')
             ->references('id')

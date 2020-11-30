@@ -67,6 +67,9 @@ class DatabaseSeeder extends Seeder
         \App\Models\PoiLayer::factory()->count(151)->create();
         \App\Models\TrackLayer::factory()->count(51)->create();
         \App\Models\AreaLayer::factory()->count(23)->create();
+        \App\Models\Poi::factory()->count(151)->create();
+        \App\Models\Track::factory()->count(51)->create();
+        \App\Models\Area::factory()->count(23)->create();
 
 
     }

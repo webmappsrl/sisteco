@@ -22,7 +22,9 @@ class TrackFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->sentence(1),
+            'description' => $this->faker->sentence(1),
+            'layer_id' => \App\Models\TrackLayer::factory(),
         ];
     }
 }

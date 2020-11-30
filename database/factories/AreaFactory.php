@@ -24,9 +24,7 @@ class AreaFactory extends Factory
         return [
             'name' => $this->faker->sentence(1),
             'description' => $this->faker->sentence(1),
-            'geometry' =>  'POINT(0 0)',
             'layer_id' => \App\Models\AreaLayer::factory(),
-//            'properties' => '{"\"a\"=>\"1.0\", \"b\"=>\"2.0\"","\"a\"=>\"3.0\", \"b\"=>\"4.0\""}'
         ];
     }
 }
