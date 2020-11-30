@@ -15,6 +15,8 @@ class CreateAreaLayersTable extends Migration
     {
         Schema::create('area_layers', function (Blueprint $table) {
             $table->id();
+            $table->text('name');
+            $table->text('description');
             $table->timestamps();
         });
     }

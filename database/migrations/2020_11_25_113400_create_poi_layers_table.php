@@ -15,6 +15,8 @@ class CreatePoiLayersTable extends Migration
     {
         Schema::create('poi_layers', function (Blueprint $table) {
             $table->id();
+            $table->text('name');
+            $table->text('description');
             $table->timestamps();
         });
     }
