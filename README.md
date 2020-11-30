@@ -11,7 +11,7 @@ Sisteco permette di analizzare e visuallizzare le più svariate informazioni ter
 ### server requirements 
 - composer version : 1.10.17
 - php: 7.4.12
-- postgress: 13.1
+- postgress: 13.1 (Eg: https://medium.com/codespace69/postgresql-and-postgis-installation-in-mac-os-7bb0c5a50321)
 
 ### Installazione Locale
 Dopo aver effettuato ```git pull``` ed entrare nel progetto appena scaricato ```cd sisteco```. Adesso e possibile configurare il DB Postgress in maniera adeguata per poter installare Sisteco:
