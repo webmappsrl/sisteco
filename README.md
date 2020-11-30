@@ -53,8 +53,12 @@ php artisan test
 ```
 per poter visualizzare il codice dei test basta andare sisteco/tests/
 
+### Directory
+questo progetto sfrutta la dashboard Laravel Nova. Le risorse di questa dashboard si trovano sisteco/app/Nova. Ogni risorsa deve fare riferimento ad un modello. Quest'ultimo di trova in sisteco/app/Models.
+Per poter andare a visualizzare i template della dashboard Laravel Nova basta andare in sisteco/resources/views/vendor/nova
+
 ### Branch Develop
-dove vengono caricate le feature per essere testate prima di essere portare in produzione
+dove vengono caricate le nuove funzionalita implementate per poi passarle successivamente in produzione
 
 ### Branch Main
 progetto in produzione 
