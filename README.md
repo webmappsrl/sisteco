@@ -16,13 +16,23 @@ Sisteco permette di analizzare e visuallizzare le più svariate informazioni ter
 ### Installazione Locale
 Dopo aver effettuato ```git pull``` ed entrare nel progetto appena scaricato ```cd sisteco```. Adesso e possibile configurare il DB Postgress in maniera adeguata per poter installare Sisteco:
 
-#### configure db postgress 
+#### configure db postgress con postgis
 - open postgress: ```pg_ctl -D /usr/local/var/postgres start```
 - create db: ```createdb mydatabasename```
 - connect db: ```psql mydatabasename```
 - impostare estensione postgis: ```CREATE EXTENSION postgis;```
 - impostare estensione hstore: ```CREATE EXTENSION hstore;```
 
+impostare la connessione al db di Laravel, aprire il file .ENV con ide (VS code, sublime, ecc) e modificare le seguenti voci come segue:
+```
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=mydatabasename
+DB_USERNAME=<nome_utente>
+DB_PASSWORD=<pass>
+```
+NB: le seguenti credenziali possono essere usato per configurare la connessione ad un Database Management come TablePlus ecc.  
 a questo punto e possibile eseguire una migrations caricando gli utenti di default con il seed:
 ```
 php artisan migrate --seed
