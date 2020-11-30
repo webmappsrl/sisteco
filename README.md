@@ -6,7 +6,7 @@ Repository dedicato al progetto BIGECO / Verticalizzazione per TIMESIS / SISTECO
 - php: 7.4.12
 - postgress: 13.1
 
-###Installazione Locale
+### Installazione Locale
 Dopo aver effettuato ```git pull``` Configurare il DB Postgress in maniera adeguata per installare poter installare Sisteco:
 
 #### configure db postgress 
@@ -53,10 +53,10 @@ php artisan test
 ```
 per poter visualizzare il codice dei test basta andare sisteco/tests/
 
-###Branch Develop
+### Branch Develop
 dove vengono caricate le feature per essere testate prima di essere portare in produzione
 
-###Branch Main
+### Branch Main
 progetto in produzione 
 
 
