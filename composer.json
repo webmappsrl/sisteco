@@ -18,7 +18,9 @@
         "laravel/framework": "^8.12",
         "laravel/nova": "*",
         "laravel/tinker": "^2.5",
-        "mstaack/laravel-postgis": "^5.2"
+        "m-a-k-o/nova-custom-table-card": "^3.0",
+        "mstaack/laravel-postgis": "^5.2",
+        "my_app/nova-table": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -49,10 +51,14 @@
             "Tests\\": "tests/"
         }
     },
-    "repositories":[
+    "repositories": [
         {
-            "type":"path",
-            "url":"./nova"
+            "type": "path",
+            "url": "./nova"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/NovaTable"
         }
     ],
     "minimum-stability": "dev",

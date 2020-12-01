@@ -1,0 +1,41 @@
+<?php
+namespace App\Nova\Cards;
+use App\Models\PoiLayer;
+
+
+class PoiLayerTableDashboard extends \Mako\CustomTableCard\CustomTableCard
+{
+    public function __construct()
+    {
+        $header = collect(['Name', 'Description', 'Created_at', 'Updated_at']);
+
+        $this->title('Latest Orders');
+        $this->viewall(['label' => 'View All', 'link' => '/resources/PoiLayer']);
+
+        $orders = PoiLayer::paginate(10);
+        // Data from you model
+        //$orders = collect([
+        //['date' => '2018-12-01', 'order_number' => '2018120101', 'status' => 'Ordered', 'price' => '20.55', 'name' => 'John Doe'],
+        //['date' => '2018-12-01', 'order_number' => '2018120101', 'status' => 'Ordered', 'price' => '20.55', 'name' => 'John Doe'],
+        //['date' => '2018-12-01', 'order_number' => '2018120101', 'status' => 'Ordered', 'price' => '20.55', 'name' => 'John Doe'],
+        //['date' => '2018-12-01', 'order_number' => '2018120101', 'status' => 'Ordered', 'price' => '20.55', 'name' => 'John Doe'],
+        //['date' => '2018-12-01', 'order_number' => '2018120101', 'status' => 'Ordered', 'price' => '20.55', 'name' => 'John Doe'],
+        //['date' => '2018-12-01', 'order_number' => '2018120101', 'status' => 'Ordered', 'price' => '20.55', 'name' => 'John Doe'],
+        //]);
+        $this->header($header->map(function ($value)
+        {
+            return new \Mako\CustomTableCard\Table\Cell($value);
+        })->toArray());
+
+        $this->data($orders->map(function ($order)
+        {
+                return new \Mako\CustomTableCard\Table\Row(
+                new \Mako\CustomTableCard\Table\Cell($order['name']),
+                new \Mako\CustomTableCard\Table\Cell($order['description']),
+                new \Mako\CustomTableCard\Table\Cell($order['created_at']),
+                new \Mako\CustomTableCard\Table\Cell($order['updated_at']));
+
+        })->toArray());
+    }
+}
+
