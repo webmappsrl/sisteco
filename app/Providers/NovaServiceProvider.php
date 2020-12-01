@@ -100,7 +100,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 })->toArray())
                 ->title('Poi Layers')
-                ->viewall(['label' => 'View All', 'link' => '/nova/resources/maps']),
+                ->viewall(['label' => 'View All', 'link' => '/nova/resources/poi-layers']),
             (new \Mako\CustomTableCard\CustomTableCard)
                 ->header([
                     new \Mako\CustomTableCard\Table\Cell('Name'),
@@ -119,7 +119,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 })->toArray())
                 ->title('Track Layers')
-                ->viewall(['label' => 'View All', 'link' => '/nova/resources/maps']),
+                ->viewall(['label' => 'View All', 'link' => '/nova/resources/poi-layers']),
             (new \Mako\CustomTableCard\CustomTableCard)
                 ->header([
                     new \Mako\CustomTableCard\Table\Cell('Name'),
@@ -139,7 +139,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                 })->toArray())
                 ->title('Area Layers')
-                ->viewall(['label' => 'View All', 'link' => '/nova/resources/maps'])
+                ->viewall(['label' => 'View All', 'link' => '/nova/resources/poi-layers'])
         ];
     }
 
