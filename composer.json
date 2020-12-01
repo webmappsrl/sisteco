@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.3|^8.0",
         "bosnadev/database": "^0.21.0",
+        "dillingham/nova-button": "^1.0",
         "dillingham/nova-minimal-theme": "^1.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",

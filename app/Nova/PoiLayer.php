@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
@@ -42,9 +43,10 @@ class PoiLayer extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
             Text::make('Name'),
-            HasMany::make('Poi')
+            Text::make('Description'),
+            DateTime::make('created_at'),
+            DateTime::make('updated_at'),
         ];
     }
 
