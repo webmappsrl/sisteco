@@ -91,15 +91,16 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])
                 ->data($pL->map(function ($order)
                 {
-                    return new \Mako\CustomTableCard\Table\Row(
+                    return (new \Mako\CustomTableCard\Table\Row(
                         new \Mako\CustomTableCard\Table\Cell($order['name']),
                         new \Mako\CustomTableCard\Table\Cell($order['description']),
                         new \Mako\CustomTableCard\Table\Cell($order['created_at']),
-                        new \Mako\CustomTableCard\Table\Cell($order['updated_at']));
+                        new \Mako\CustomTableCard\Table\Cell($order['updated_at']),
+                    ))->viewLink('/resources/maps/');
 
                 })->toArray())
                 ->title('Poi Layers')
-                ->viewall(['label' => 'View All', 'link' => '/nova/resources/poi-layers']),
+                ->viewall(['label' => 'View All', 'link' => '/nova/resources/maps']),
             (new \Mako\CustomTableCard\CustomTableCard)
                 ->header([
                     new \Mako\CustomTableCard\Table\Cell('Name'),
@@ -107,35 +108,38 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     new \Mako\CustomTableCard\Table\Cell('Created_at'),
                     new \Mako\CustomTableCard\Table\Cell('Updated_at'),
                 ])
-                ->data($tL->map(function ($order)
+                ->data($aL->map(function ($order)
                 {
-                    return new \Mako\CustomTableCard\Table\Row(
+                    return (new \Mako\CustomTableCard\Table\Row(
                         new \Mako\CustomTableCard\Table\Cell($order['name']),
                         new \Mako\CustomTableCard\Table\Cell($order['description']),
                         new \Mako\CustomTableCard\Table\Cell($order['created_at']),
-                        new \Mako\CustomTableCard\Table\Cell($order['updated_at']));
-
-                })->toArray())
-                ->title('Area Layers')
-                ->viewall(['label' => 'View All', 'link' => '/nova/resources/track-layers']),
-            (new \Mako\CustomTableCard\CustomTableCard)
-                ->header([
-                    new \Mako\CustomTableCard\Table\Cell('Name'),
-                    new \Mako\CustomTableCard\Table\Cell('Description'),
-                    new \Mako\CustomTableCard\Table\Cell('Created_at'),
-                    new \Mako\CustomTableCard\Table\Cell('Updated_at'),
-                ])
-                ->data($tL->map(function ($order)
-                {
-                    return new \Mako\CustomTableCard\Table\Row(
-                        new \Mako\CustomTableCard\Table\Cell($order['name']),
-                        new \Mako\CustomTableCard\Table\Cell($order['description']),
-                        new \Mako\CustomTableCard\Table\Cell($order['created_at']),
-                        new \Mako\CustomTableCard\Table\Cell($order['updated_at']));
+                        new \Mako\CustomTableCard\Table\Cell($order['updated_at']),
+                    ))->viewLink('/resources/maps/');
 
                 })->toArray())
                 ->title('Track Layers')
-                ->viewall(['label' => 'View All', 'link' => '/nova/resources/area-layers']),
+                ->viewall(['label' => 'View All', 'link' => '/nova/resources/maps']),
+            (new \Mako\CustomTableCard\CustomTableCard)
+                ->header([
+                    new \Mako\CustomTableCard\Table\Cell('Name'),
+                    new \Mako\CustomTableCard\Table\Cell('Description'),
+                    new \Mako\CustomTableCard\Table\Cell('Created_at'),
+                    new \Mako\CustomTableCard\Table\Cell('Updated_at'),
+                ])
+                ->data($tL->map(function ($order)
+                {
+                    return (new \Mako\CustomTableCard\Table\Row(
+                        new \Mako\CustomTableCard\Table\Cell($order['name']),
+                        new \Mako\CustomTableCard\Table\Cell($order['description']),
+                        new \Mako\CustomTableCard\Table\Cell($order['created_at']),
+                        new \Mako\CustomTableCard\Table\Cell($order['updated_at']),
+                    ))->viewLink('/resources/maps/');
+
+
+                })->toArray())
+                ->title('Area Layers')
+                ->viewall(['label' => 'View All', 'link' => '/nova/resources/maps'])
         ];
     }
 

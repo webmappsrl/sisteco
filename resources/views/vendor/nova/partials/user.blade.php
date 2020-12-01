@@ -21,7 +21,7 @@
     </ul>
     <ul class="list-reset">
         <li>
-            <a href="{{ 'http://sisteco.test/nova/resources/users/'.$user->id}}" class="block no-underline text-90 hover:bg-30 p-3">
+            <a href="{{ '/nova/resources/users/'.$user->id}}" class="block no-underline text-90 hover:bg-30 p-3">
                 {{ 'setting '. $user->name }}
             </a>
         </li>
