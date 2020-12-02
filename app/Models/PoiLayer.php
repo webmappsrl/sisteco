@@ -14,6 +14,6 @@ class PoiLayer extends Model
 
     public function pois()
     {
-        return $this->hasMany(Poi::class);
+        return $this->hasMany(Poi::class,'layer_id');
     }
 }

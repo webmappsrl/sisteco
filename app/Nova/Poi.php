@@ -3,20 +3,24 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\DateTime;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use MStaack\LaravelPostgis\Geometries\Geometry;
+use MStaack\LaravelPostgis\Geometries\Point;
+use NovaButton\Button;
 
-class PoiLayer extends Resource
+
+class Poi extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\PoiLayer::class;
+    public static $model = \App\Models\Poi::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -46,11 +50,13 @@ class PoiLayer extends Resource
             ID::make(__('ID'), 'id')->sortable(),
             Text::make('Name'),
             Text::make('Description'),
+            Text::make('Geometry'),
+            Text::make('Properties'),
+
             DateTime::make('created_at'),
             DateTime::make('updated_at'),
-            Text::make('Count Poi', function () {
-                return $this->pois()->count();
-            })
+            BelongsTo::make('PoiLayer'),
+            Button::make('Esplora')->link('https://nova.laravel.com', '_self')
         ];
     }
 
