@@ -2,7 +2,7 @@
 Repository dedicato al progetto BIGECO / Verticalizzazione per TIMESIS / SISTECO. 
 
 ### Finalita Progetto
-Sisteco permette di analizzare e visuallizzare le più svariate informazioni territoriali in maniera semplice. Un progettista di sisteco puo:
+Sisteco permette di analizzare e visualizzare le più svariate informazioni territoriali in maniera semplice. Un progettista di sisteco puo:
 - aggiungere e interrogare facilmente nuovi strati
 - visualizzare L’evoluzione nel tempo di una risorsa del Territorio
 - risalire facilmente al proprietario di un tassello di territorio
