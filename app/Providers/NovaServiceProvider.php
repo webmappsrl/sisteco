@@ -56,7 +56,14 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         Gate::define('viewNova', function ($user) {
             return in_array($user->email, [
-                'team@webmapp.it'
+                'team@webmapp.it',
+                'mario.pestarini@timesis.it',
+                'fabrizio.cassi@timesis.it',
+                'leonardo.pugliesi@timesis.it',
+                'ac.lorenzelli@timesis.it',
+                'enrico.quaglino@timesis.it',
+                'mauro.piazzi@timesis.it'
+
             ]);
         });
     }
