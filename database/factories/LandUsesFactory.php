@@ -20,7 +20,8 @@ class LandUsesFactory extends Factory {
      */
     public function definition() {
         return [
-            //
+            'code' => $this->faker->word,
+            'name' => $this->faker->name
         ];
     }
 }
