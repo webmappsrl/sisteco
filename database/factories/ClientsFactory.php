@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Area;
+use App\Models\Clients;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class AreaFactory extends Factory
+class ClientsFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Area::class;
+    protected $model = Clients::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,7 @@ class AreaFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->sentence(1),
-            'description' => $this->faker->sentence(1),
-            'layer_id' => \App\Models\AreaLayer::factory(),
+            //
         ];
     }
 }

@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Track;
+use App\Models\TuscanyRegionalPrices;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class TrackFactory extends Factory
+class TuscanyRegionalPricesFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Track::class;
+    protected $model = TuscanyRegionalPrices::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,7 @@ class TrackFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->sentence(1),
-            'description' => $this->faker->sentence(1),
-            'layer_id' => \App\Models\TrackLayer::factory(),
+            //
         ];
     }
 }

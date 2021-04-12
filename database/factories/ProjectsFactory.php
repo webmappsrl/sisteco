@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Poi;
+use App\Models\Projects;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class PoiFactory extends Factory
+class ProjectsFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Poi::class;
+    protected $model = Projects::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,7 @@ class PoiFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->sentence(1),
-            'description' => $this->faker->sentence(1),
-            'layer_id' => \App\Models\PoiLayer::factory(),
+            //
         ];
     }
 }
