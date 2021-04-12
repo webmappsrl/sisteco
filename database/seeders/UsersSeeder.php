@@ -15,7 +15,7 @@ class UsersSeeder extends Seeder {
         User::factory(1)->create([
             'name' => 'Webmapp Team',
             'email' => 'team@webmapp.it',
-            'password' => bcrypt('timesisteco'),
+            'password' => bcrypt('webmapp'),
             'remember_token' => 'g2BOTXhe5IfYVTXYmxTfDu1ribuh52lSdoqMj76Bk58MsUl1IuMdBzcg7JYq'
         ]);
 
