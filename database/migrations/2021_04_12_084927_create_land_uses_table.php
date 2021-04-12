@@ -14,7 +14,7 @@ class CreateLandUsesTable extends Migration {
         Schema::create('land_uses', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('code');
+            $table->string('code')->unique();
             $table->string('name');
         });
     }
