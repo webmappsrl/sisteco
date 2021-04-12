@@ -9,12 +9,18 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "bosnadev/database": "^0.21.0",
+        "dillingham/nova-button": "^1.0",
+        "dillingham/nova-minimal-theme": "^1.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.12",
+        "laravel/nova": "*",
         "laravel/tinker": "^2.5",
-        "laravel/nova":"*"
+        "m-a-k-o/nova-custom-table-card": "^3.0",
+        "mstaack/laravel-postgis": "^5.2",
+        "my_app/nova-table": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -45,10 +51,14 @@
             "Tests\\": "tests/"
         }
     },
-    "repositories":[
+    "repositories": [
         {
-            "type":"path",
-            "url":"./nova"
+            "type": "path",
+            "url": "./nova"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/NovaTable"
         }
     ],
     "minimum-stability": "dev",
