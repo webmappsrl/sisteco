@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class CadastralParcels extends Model {
+class CadastralParcel extends Model {
     use HasFactory;
 
-    public function clients(): BelongsToMany {
-        return $this->belongsToMany(Clients::class);
+    public function owners(): BelongsToMany {
+        return $this->belongsToMany(Owner::class);
     }
 
     public function landUses(): BelongsToMany {
