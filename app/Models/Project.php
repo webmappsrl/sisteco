@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Projects extends Model {
+class Project extends Model {
     use HasFactory;
 
     public function owner(): BelongsTo {
