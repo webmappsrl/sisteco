@@ -14,11 +14,12 @@ class CadastralParcelLandUse extends Migration {
         Schema::create('cadastral_parcel_land_use', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('cadastral_parcels_id');
-            $table->foreign('cadastral_parcels_id')->references('id')->on('cadastral_parcels');
+            $table->unsignedBigInteger('cadastral_parcel_id');
+            $table->foreign('cadastral_parcel_id')->references('id')->on('cadastral_parcels');
             $table->unsignedBigInteger('land_use_id');
             $table->foreign('land_use_id')->references('id')->on('land_uses');
-            $table->float("square_meter_surface");
+            $table->float('square_meter_surface');
+            $table->geometry('geometry');
         });
     }
 

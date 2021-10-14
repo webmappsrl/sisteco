@@ -11,13 +11,13 @@ class CadastralParcelClient extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('cadastral_parcel_client', function (Blueprint $table) {
+        Schema::create('cadastral_parcel_owner', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->unsignedBigInteger('cadastral_parcel_id');
             $table->foreign('cadastral_parcel_id')->references('id')->on('cadastral_parcels');
-            $table->unsignedBigInteger('client_id');
-            $table->foreign('client_id')->references('id')->on('clients');
+            $table->unsignedBigInteger('owner_id');
+            $table->foreign('owner_id')->references('id')->on('owners');
         });
     }
 
@@ -27,6 +27,6 @@ class CadastralParcelClient extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('cadastral_parcel_client');
+        Schema::dropIfExists('cadastral_parcel_owner');
     }
 }

@@ -11,7 +11,7 @@ class CreateResearchTable extends Migration {
      * @return void
      */
     public function up() {
-        Schema::create('research', function (Blueprint $table) {
+        Schema::create('researches', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('title');
@@ -25,6 +25,6 @@ class CreateResearchTable extends Migration {
      * @return void
      */
     public function down() {
-        Schema::dropIfExists('research');
+        Schema::dropIfExists('researches');
     }
 }
