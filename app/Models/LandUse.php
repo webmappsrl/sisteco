@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class LandUses extends Model {
+class LandUse extends Model {
     use HasFactory;
 
     public function cadastralParcels(): BelongsToMany {
-        return $this->belongsToMany(CadastralParcels::class);
+        return $this->belongsToMany(CadastralParcel::class);
     }
 
     public function tuscanyRegionalPrices(): BelongsToMany {
-        return $this->belongsToMany(TuscanyRegionalPrices::class);
+        return $this->belongsToMany(TuscanyRegionalPrice::class);
     }
 }
