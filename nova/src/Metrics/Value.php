@@ -108,17 +108,27 @@ abstract class Value extends RangedMetric
 
         $column = $column ?? $query->getModel()->getQualifiedKeyName();
 
+        if ($request->range === 'ALL') {
+            return $this->result(
+                round(with(clone $query)->{$function}($column), $this->precision)
+            );
+        }
+
         $timezone = Nova::resolveUserTimezone($request) ?? $request->timezone;
 
         $previousValue = round(with(clone $query)->whereBetween(
             $dateColumn ?? $query->getModel()->getQualifiedCreatedAtColumn(),
-            $this->previousRange($request->range, $timezone)
+            array_map(function ($datetime) {
+                return $this->asQueryDatetime($datetime);
+            }, $this->previousRange($request->range, $timezone))
         )->{$function}($column), $this->precision);
 
         return $this->result(
             round(with(clone $query)->whereBetween(
                 $dateColumn ?? $query->getModel()->getQualifiedCreatedAtColumn(),
-                $this->currentRange($request->range, $timezone)
+                array_map(function ($datetime) {
+                    return $this->asQueryDatetime($datetime);
+                }, $this->currentRange($request->range, $timezone))
             )->{$function}($column), $this->precision)
         )->previous($previousValue);
     }
@@ -135,14 +145,14 @@ abstract class Value extends RangedMetric
         if ($range == 'TODAY') {
             return [
                 now($timezone)->modify('yesterday')->setTime(0, 0),
-                now($timezone)->subDays(1),
+                today($timezone)->subSecond(1),
             ];
         }
 
         if ($range == 'MTD') {
             return [
                 now($timezone)->modify('first day of previous month')->setTime(0, 0),
-                now($timezone)->subMonthsNoOverflow(1),
+                now($timezone)->firstOfMonth()->subSecond(1),
             ];
         }
 
@@ -153,13 +163,13 @@ abstract class Value extends RangedMetric
         if ($range == 'YTD') {
             return [
                 now($timezone)->subYears(1)->firstOfYear()->setTime(0, 0),
-                now($timezone)->subYearsNoOverflow(1),
+                now($timezone)->firstOfYear()->subSecond(1),
             ];
         }
 
         return [
             now($timezone)->subDays($range * 2),
-            now($timezone)->subDays($range),
+            now($timezone)->subDays($range)->subSecond(1),
         ];
     }
 
@@ -173,8 +183,8 @@ abstract class Value extends RangedMetric
     protected function previousQuarterRange($timezone)
     {
         return [
-            Carbon::firstDayOfPreviousQuarter($timezone)->setTimezone($timezone)->setTime(0, 0),
-            now($timezone)->subMonthsNoOverflow(3),
+            Carbon::firstDayOfPreviousQuarter($timezone),
+            Carbon::firstDayOfQuarter($timezone)->subSecond(1),
         ];
     }
 
@@ -189,7 +199,7 @@ abstract class Value extends RangedMetric
     {
         if ($range == 'TODAY') {
             return [
-                now($timezone)->today(),
+                today($timezone),
                 now($timezone),
             ];
         }

@@ -1,7 +1,15 @@
 <p class="mt-8 text-center text-xs text-80">
-    {{ config('app.name') }} v{{ config('app.version') }}
+    Sisteco v{{ config('app.version') }}
     <span class="px-1">&middot;</span>
-    &copy; {{ date('Y') }} by <a href="https://webmapp.it" class="text-primary dim no-underline">WEBMAPP</a>
+    &copy; <a href="https://webmapp.it" class="text-primary dim no-underline">Webmapp</a>
     <span class="px-1">&middot;</span>
-    Nova v{{ Nova::version() }}
+    <a href="https://nova.laravel.com" class="text-primary dim no-underline">Laravel Nova</a>
+    v{{ \Laravel\Nova\Nova::version() }}
+    <span class="px-1">&middot;</span>
+    <a href="https://laravel.com/" class="text-primary dim no-underline">Laravel</a>
+    v{{ app()->version() }}
+    <span class="px-1">&middot;</span>
+    <a href="https://php.net/" class="text-primary dim no-underline">PHP</a>
+    v{{ phpversion() }}
+
 </p>

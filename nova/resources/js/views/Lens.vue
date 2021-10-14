@@ -33,7 +33,7 @@
         >&larr;</router-link
       >
 
-      <span class="px-2 text-70">/</span> {{ resourceResponse.name }}
+      <span class="px-2 text-70">/</span> {{ lenseName }}
     </heading>
 
     <card>
@@ -112,7 +112,9 @@
             :via-has-one="viaHasOne"
             :trashed="trashed"
             :per-page="perPage"
-            :per-page-options="perPageOptions"
+            :per-page-options="
+              perPageOptions || resourceInformation.perPageOptions
+            "
             :show-trashed-option="
               authorizedToForceDeleteAnyResources ||
               authorizedToRestoreAnyResources
@@ -218,6 +220,7 @@
             :via-relationship="viaRelationship"
             :relationship-type="relationshipType"
             :update-selection-status="updateSelectionStatus"
+            :sortable="true"
             @order="orderByField"
             @reset-order-by="resetOrderBy"
             @delete="deleteResources"
@@ -258,18 +261,19 @@
 </template>
 
 <script>
-import { Errors, Minimum } from 'laravel-nova'
-import HasActions from '@/mixins/HasActions'
-
 import {
   HasCards,
   Deletable,
+  Errors,
   Filterable,
+  Minimum,
   Paginatable,
   PerPageable,
   InteractsWithQueryString,
   InteractsWithResourceInformation,
 } from 'laravel-nova'
+import HasActions from '@/mixins/HasActions'
+import { CancelToken, Cancel } from 'axios'
 
 export default {
   mixins: [
@@ -282,6 +286,12 @@ export default {
     InteractsWithResourceInformation,
     InteractsWithQueryString,
   ],
+
+  metaInfo() {
+    return {
+      title: this.lenseName,
+    }
+  },
 
   props: {
     resourceName: {
@@ -313,6 +323,7 @@ export default {
   },
 
   data: () => ({
+    canceller: null,
     initialLoading: true,
     loading: true,
 
@@ -372,14 +383,25 @@ export default {
         )
       },
       () => {
+        if (this.canceller !== null) this.canceller()
+
         this.getResources()
       }
     )
   },
 
-  beforeRouteUpdate(to, from, next) {
-    next()
-    this.initializeState(this.lens)
+  watch: {
+    $route(to, from) {
+      if (
+        to.params.resourceName === from.params.resourceName &&
+        to.params.lens === from.params.lens
+      ) {
+        this.initializeState(this.lens)
+      } else {
+        this.initializeFilters(this.lens)
+        this.getActions()
+      }
+    },
   },
 
   methods: {
@@ -427,24 +449,35 @@ export default {
             '/nova-api/' + this.resourceName + '/lens/' + this.lens,
             {
               params: this.resourceRequestQueryString,
+              cancelToken: new CancelToken(canceller => {
+                this.canceller = canceller
+              }),
             }
           ),
           300
-        ).then(({ data }) => {
-          this.resources = []
+        )
+          .then(({ data }) => {
+            this.resources = []
 
-          this.resourceResponse = data
-          this.resources = data.resources
-          this.softDeletes = data.softDeletes
-          this.perPage = data.per_page
-          this.hasId = data.hasId
+            this.resourceResponse = data
+            this.resources = data.resources
+            this.softDeletes = data.softDeletes
+            this.perPage = data.per_page
+            this.hasId = data.hasId
 
-          this.loading = false
+            this.loading = false
 
-          this.getAllMatchingResourceCount()
+            this.getAllMatchingResourceCount()
 
-          Nova.$emit('resources-loaded')
-        })
+            Nova.$emit('resources-loaded')
+          })
+          .catch(e => {
+            if (e instanceof Cancel) {
+              return
+            }
+
+            throw e
+          })
       })
     },
 
@@ -461,10 +494,11 @@ export default {
             viaResourceId: this.viaResourceId,
             viaRelationship: this.viaRelationship,
             relationshipType: this.relationshipType,
+            display: 'index',
           },
         })
         .then(response => {
-          this.actions = _.filter(response.data.actions, a => a.showOnIndex)
+          this.actions = response.data.actions
           this.pivotActions = response.data.pivotActions
         })
     },
@@ -945,6 +979,15 @@ export default {
     perPageOptions() {
       if (this.resourceResponse) {
         return this.resourceResponse.per_page_options
+      }
+    },
+
+    /**
+     * The Lense name.
+     */
+    lenseName() {
+      if (this.resourceResponse) {
+        return this.resourceResponse.name
       }
     },
   },
