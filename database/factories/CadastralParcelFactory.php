@@ -2,16 +2,16 @@
 
 namespace Database\Factories;
 
-use App\Models\LandUse;
+use App\Models\cadastralParcel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class LandUseFactory extends Factory {
+class CadastralParcelFactory extends Factory {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = LandUse::class;
+    protected $model = cadastralParcel::class;
 
     /**
      * Define the model's default state.
@@ -20,8 +20,7 @@ class LandUseFactory extends Factory {
      */
     public function definition() {
         return [
-            'code' => $this->faker->word,
-            'name' => $this->faker->name
+            //
         ];
     }
 }
