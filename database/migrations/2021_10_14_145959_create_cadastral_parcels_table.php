@@ -14,10 +14,8 @@ class CreateCadastralParcelsTable extends Migration {
         Schema::create('cadastral_parcels', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('code_belfiore');
-            $table->string('code_foglio');
-            $table->string('code_parcel');
-            $table->string('code');
+            $table->string('code')->unique();
+            $table->geometry('geometry');
         });
     }
 
