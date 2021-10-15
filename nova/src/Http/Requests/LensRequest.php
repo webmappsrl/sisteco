@@ -115,7 +115,9 @@ class LensRequest extends NovaRequest
             return transform((new $resource($model))->serializeForIndex(
                 $this, $lenResource->resolveFields($this)
             ), function ($payload) use ($lenResource) {
-                $payload['actions'] = $lenResource->actions($this);
+                $payload['actions'] = collect(array_values($lenResource->actions($this)))
+                        ->filter->shownOnIndex()
+                        ->filter->authorizedToSee($this)->values();
 
                 return $payload;
             });
@@ -133,5 +135,23 @@ class LensRequest extends NovaRequest
         return method_exists($relation, 'getForeignKeyName')
             ? $relation->getForeignKeyName()
             : $relation->getForeignKey();
+    }
+
+    /**
+     * Get per page.
+     *
+     * @return int
+     */
+    public function perPage()
+    {
+        $resource = $this->resource();
+
+        $perPageOptions = $resource::perPageOptions();
+
+        if (empty($perPageOptions)) {
+            $perPageOptions = [$resource::newModel()->getPerPage()];
+        }
+
+        return (int) in_array($this->perPage, $perPageOptions) ? $this->perPage : $perPageOptions[0];
     }
 }
