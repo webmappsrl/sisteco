@@ -2,19 +2,16 @@
 
 namespace Database\Seeders;
 
+use App\Models\Owner;
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder {
+class OwnersSeeder extends Seeder {
     /**
      * Seed the application's database.
      *
      * @return void
      */
     public function run() {
-        $this->call([
-            UsersSeeder::class,
-            LandUsesSeeder::class,
-            OwnersSeeder::class
-        ]);
+        Owner::factory()->count(10)->create();
     }
 }
