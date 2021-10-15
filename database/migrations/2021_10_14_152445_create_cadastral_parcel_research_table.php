@@ -18,6 +18,7 @@ class CreateCadastralParcelResearchTable extends Migration {
             $table->foreign('cadastral_parcel_id')->references('id')->on('cadastral_parcels');
             $table->unsignedBigInteger('research_id');
             $table->foreign('research_id')->references('id')->on('researches');
+            $table->unique(['cadastral_parcel_id', 'research_id']);
         });
     }
 

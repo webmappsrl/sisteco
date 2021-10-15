@@ -20,6 +20,8 @@ class CreateCadastralParcelLandUseTable extends Migration {
             $table->foreign('land_use_id')->references('id')->on('land_uses');
             $table->float('square_meter_surface');
             $table->geometry('geometry');
+
+            $table->unique(['cadastral_parcel_id', 'land_use_id']);
         });
     }
 

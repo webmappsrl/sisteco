@@ -14,10 +14,11 @@ class CreateCadastralParcelProjectTable extends Migration {
         Schema::create('cadastral_parcel_project', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('cadastral_parcels_id');
-            $table->foreign('cadastral_parcels_id')->references('id')->on('cadastral_parcels');
+            $table->unsignedBigInteger('cadastral_parcel_id');
+            $table->foreign('cadastral_parcel_id')->references('id')->on('cadastral_parcels');
             $table->unsignedBigInteger('project_id');
             $table->foreign('project_id')->references('id')->on('projects');
+            $table->unique(['cadastral_parcel_id', 'project_id']);
         });
     }
 
