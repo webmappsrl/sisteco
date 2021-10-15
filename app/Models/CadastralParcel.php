@@ -20,4 +20,8 @@ class CadastralParcel extends Model {
     public function projects(): BelongsToMany {
         return $this->belongsToMany(Project::class);
     }
+
+    public function researches(): BelongsToMany {
+        return $this->belongsToMany(Research::class);
+    }
 }

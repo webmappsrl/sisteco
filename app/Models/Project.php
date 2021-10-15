@@ -10,11 +10,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Project extends Model {
     use HasFactory;
 
-    public function owner(): BelongsTo {
-        return $this->belongsTo(User::class);
+    public function owners(): BelongsToMany {
+        return $this->belongsToMany(Owner::class);
     }
 
     public function cadastralParcels(): BelongsToMany {
-        return $this->belongsToMany(CadastralParcels::class);
+        return $this->belongsToMany(CadastralParcel::class);
+    }
+
+    public function creator(): BelongsTo {
+        return $this->belongsTo(User::class);
+    }
+
+    public function research(): BelongsTo {
+        return $this->belongsTo(Research::class);
     }
 }
