@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\DB;
@@ -53,28 +54,82 @@ class ImportCadastralParcels extends Command {
      * @param string $tableName
      * @param string $geojsonPath
      *
-     * @return int
+     * @throws Exception
      */
-    public function importWithOgr2Ogr(string $dbName, string $tableName, string $geojsonPath): int {
-        if (!$this->ogr2ogrExists()) {
-            Log::critical('The ogr2ogr command is needed to import the geojson. The execution cannot continue');
-
-            return CommandAlias::FAILURE;
-        }
+    public function importWithOgr2Ogr(string $dbName, string $tableName, string $geojsonPath): void {
+        if (!$this->ogr2ogrExists())
+            throw new Exception('The ogr2ogr command is needed to import the geojson. The execution cannot continue');
 
         Log::info("Running ogr2ogr import");
         $command = "ogr2ogr -f PostgreSQL PG:\"dbname=$dbName\" $geojsonPath -nln $tableName";
         system($command);
 
-        if (!Schema::hasTable($tableName)) {
-            Log::critical('The ogr2ogr import went wrong. The import table could not be found');
-
-            return CommandAlias::FAILURE;
-        }
+        if (!Schema::hasTable($tableName))
+            throw new Exception('The ogr2ogr import went wrong. The import table could not be found');
 
         Log::info("Ogr2ogr import completed");
+    }
 
-        return CommandAlias::SUCCESS;
+    /**
+     * Import all the cadastral parcels from the support import table
+     *
+     * @param string $tableName the support import table name
+     *
+     * @throws Exception
+     */
+    public function importCadastralParcels(string $tableName): void {
+        try {
+            DB::statement("INSERT INTO cadastral_parcels (code, geometry)
+            SELECT
+                cadastral_parcel_id,
+                ST_Union(geometry)
+            FROM
+                (SELECT
+                    id,
+                    REPLACE(
+                        (parcel_cod::json->'NationalCadastralReference')::text,
+                        '\"',
+                        ''
+                    ) as cadastral_parcel_id,
+                    wkb_geometry as geometry
+                FROM $tableName) as cadastral_parcels_table
+            GROUP BY cadastral_parcels_table.cadastral_parcel_id;
+        ");
+        } catch (Exception $e) {
+            throw new Exception("The cadastral parcels could not be imported correctly. Error: " . $e->getMessage());
+        }
+    }
+
+    /**
+     * Import all the land uses of the imported cadastral parcels from the support import table
+     *
+     * @param string $tableName the support import table name
+     *
+     * @throws Exception
+     */
+    public function importLandUsesOfCadastralParcels(string $tableName): void {
+        try {
+            DB::statement("INSERT INTO cadastral_parcel_land_use
+                (cadastral_parcel_id, land_use_id, geometry, square_meter_surface)
+                SELECT
+                    cadastral_parcels.id as cadastral_parcel_id,
+                    COALESCE(land_uses.id, 11) as land_use_id,
+                    wkb_geometry as geometry,
+                    area_sub_p as square_meter_surface
+                FROM
+                    $tableName LEFT OUTER JOIN land_uses ON (
+                        $tableName.ucs2013 = land_uses.code
+                    ) LEFT OUTER JOIN cadastral_parcels ON (
+                        REPLACE(
+                            ($tableName.parcel_cod::json->'NationalCadastralReference')::text,
+                            '\"',
+                            ''
+                        ) = cadastral_parcels.code::text
+                    );
+        ");
+        } catch (Exception $e) {
+            throw new Exception("The sub cadastral parcels could not be imported correctly. Error: " . $e->getMessage());
+        }
     }
 
     /**
@@ -83,9 +138,9 @@ class ImportCadastralParcels extends Command {
      * @param string $tableName
      */
     public function deleteImportTable(string $tableName): void {
-        Log::info("Deleting import table");
+        Log::info("Deleting support import table");
         Schema::dropIfExists($tableName);
-        Log::info("Import table deleted");
+        Log::info("Support import table deleted");
     }
 
     /**
@@ -99,11 +154,30 @@ class ImportCadastralParcels extends Command {
         $dbName = config('database.connections.' . config('database.default') . '.database');
         $tableName = "cadastral_parcels_import_table_" . substr(str_shuffle(MD5(microtime())), 0, 5);
 
-        $result = $this->importWithOgr2Ogr($dbName, $tableName, $geojsonFullPath);
-        if ($result !== CommandAlias::SUCCESS)
-            return $result;
+        DB::beginTransaction();
 
-        $this->deleteImportTable($tableName);
+        try {
+            Log::info('Cleaning current cadastral parcels');
+            DB::table('cadastral_parcel_land_use')->truncate();
+            DB::table('cadastral_parcels')->truncate();
+
+            if (!Storage::disk('local')->exists($geojsonUri))
+                throw new Exception("The geojson file could not be found in $geojsonFullPath");
+
+            $this->importWithOgr2Ogr($dbName, $tableName, $geojsonFullPath);
+
+            $this->importCadastralParcels($tableName);
+            $this->importLandUsesOfCadastralParcels($tableName);
+
+            $this->deleteImportTable($tableName);
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::critical($e->getMessage());
+
+            return CommandAlias::FAILURE;
+        }
+
+        DB::commit();
 
         return CommandAlias::SUCCESS;
     }
