@@ -79,10 +79,13 @@ class ImportCadastralParcels extends Command {
      */
     public function importCadastralParcels(string $tableName): void {
         try {
-            DB::statement("INSERT INTO cadastral_parcels (code, geometry)
+            Log::info("Importing cadastral parcels");
+            DB::statement("INSERT INTO cadastral_parcels (code, geometry, created_at, updated_at)
             SELECT
                 cadastral_parcel_id,
-                ST_Union(geometry)
+                ST_Union(geometry),
+                NOW(),
+                NOW()
             FROM
                 (SELECT
                     id,
@@ -98,6 +101,7 @@ class ImportCadastralParcels extends Command {
         } catch (Exception $e) {
             throw new Exception("The cadastral parcels could not be imported correctly. Error: " . $e->getMessage());
         }
+        Log::info("Cadastral parcels import completed");
     }
 
     /**
@@ -109,13 +113,16 @@ class ImportCadastralParcels extends Command {
      */
     public function importLandUsesOfCadastralParcels(string $tableName): void {
         try {
+            Log::info("Importing land uses of cadastral parcels");
             DB::statement("INSERT INTO cadastral_parcel_land_use
-                (cadastral_parcel_id, land_use_id, geometry, square_meter_surface)
+                (cadastral_parcel_id, land_use_id, geometry, square_meter_surface, created_at, updated_at)
                 SELECT
                     cadastral_parcels.id as cadastral_parcel_id,
-                    COALESCE(land_uses.id, 11) as land_use_id,
+                    COALESCE(land_uses.id, other_land_use_id.id) as land_use_id,
                     wkb_geometry as geometry,
-                    area_sub_p as square_meter_surface
+                    area_sub_p as square_meter_surface,
+                    NOW(),
+                    NOW()
                 FROM
                     $tableName LEFT OUTER JOIN land_uses ON (
                         $tableName.ucs2013 = land_uses.code
@@ -125,22 +132,29 @@ class ImportCadastralParcels extends Command {
                             '\"',
                             ''
                         ) = cadastral_parcels.code::text
-                    );
+                    ),
+                    (SELECT id FROM land_uses WHERE code = '000') as other_land_use_id;
         ");
         } catch (Exception $e) {
             throw new Exception("The sub cadastral parcels could not be imported correctly. Error: " . $e->getMessage());
         }
+        Log::info("Land uses of cadastral parcels import completed");
     }
 
     /**
-     * Clean the database from the import table
-     *
-     * @param string $tableName
+     * Clean the database from the import table(s)
      */
-    public function deleteImportTable(string $tableName): void {
-        Log::info("Deleting support import table");
-        Schema::dropIfExists($tableName);
-        Log::info("Support import table deleted");
+    public function deleteImportTables(): void {
+        Log::info("Deleting support import table(s)");
+        $tables = DB::select("SELECT tablename
+            FROM pg_catalog.pg_tables
+            WHERE schemaname = 'public';
+        ");
+        foreach ($tables as $table) {
+            if (substr($table->tablename, 0, 31) == 'cadastral_parcels_import_table_')
+                Schema::dropIfExists($table->tablename);
+        }
+        Log::info("Support import table(s) deleted");
     }
 
     /**
@@ -168,14 +182,16 @@ class ImportCadastralParcels extends Command {
 
             $this->importCadastralParcels($tableName);
             $this->importLandUsesOfCadastralParcels($tableName);
-
-            $this->deleteImportTable($tableName);
         } catch (Exception $e) {
             DB::rollBack();
             Log::critical($e->getMessage());
 
+            $this->deleteImportTables();
+
             return CommandAlias::FAILURE;
         }
+
+        $this->deleteImportTables();
 
         DB::commit();
 
