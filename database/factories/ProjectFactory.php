@@ -2,7 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\Owner;
 use App\Models\Project;
+use App\Models\Research;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProjectFactory extends Factory {
@@ -14,14 +17,30 @@ class ProjectFactory extends Factory {
     protected $model = Project::class;
 
     /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure(): ProjectFactory {
+        return $this->afterCreating(function (Project $model) {
+            $ids = Project::limit(10)->get()->pluck('id');
+            $model->cadastralParcels()->sync($ids);
+            $ids = Owner::limit(10)->get()->pluck('id');
+            $model->owners()->sync($ids);
+        });
+    }
+
+    /**
      * Define the model's default state.
      *
      * @return array
      */
     public function definition(): array {
         return [
-            'title' => $this->faker->title,
-            'description' => $this->faker->text
+            'title' => $this->faker->sentence(3),
+            'description' => $this->faker->text(),
+            'research_id' => Research::inRandomOrder()->first()->id,
+            'user_id' => User::inRandomOrder()->first()->id
         ];
     }
 }

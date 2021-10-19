@@ -40,14 +40,14 @@ class Research extends Resource {
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'title';
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'name',
+        'title',
     ];
 
     /**
@@ -65,7 +65,10 @@ class Research extends Resource {
             Number::make('Number of cadastral parcels', function ($model) {
                 return count($model->cadastralParcels);
             }),
-            Text::make('Filters')->onlyOnDetail(),
+            Text::make('Filters', 'filters')->onlyOnDetail(),
+            Text::make('Municipalities', function () {
+                return '-';
+            })->onlyOnDetail(),
             BelongsToMany::make('Cadastral parcels', 'cadastralParcels')->onlyOnDetail(),
         ];
     }
