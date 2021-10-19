@@ -41,6 +41,8 @@ class ElasticServiceProvider extends ServiceProvider
      */
     public function query(string $body): array
     {
+        if (empty($body)) return [];
+
         $ch = curl_init(config('sisteco.elastic_url'));
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
         curl_setopt($ch, CURLOPT_USERPWD, config('sisteco.elastic_user') . ":" . config('sisteco.elastic_password'));

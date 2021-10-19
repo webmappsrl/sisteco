@@ -6,7 +6,8 @@ use App\Models\CadastralParcel;
 use App\Models\Research;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ResearchFactory extends Factory {
+class ResearchFactory extends Factory
+{
     /**
      * The name of the factory's corresponding model.
      *
@@ -19,7 +20,8 @@ class ResearchFactory extends Factory {
      *
      * @return $this
      */
-    public function configure(): ResearchFactory {
+    public function configure(): ResearchFactory
+    {
         return $this->afterCreating(function (Research $model) {
             $ids = CadastralParcel::inRandomOrder()->limit(10)->get()->pluck('id');
             $model->cadastralParcels()->sync($ids);
@@ -31,10 +33,12 @@ class ResearchFactory extends Factory {
      *
      * @return array
      */
-    public function definition(): array {
+    public function definition(): array
+    {
         return [
             'title' => $this->faker->sentence(3),
-            'description' => $this->faker->text()
+            'description' => $this->faker->text(),
+            'elastic_query' => ''
         ];
     }
 }
