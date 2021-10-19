@@ -9,7 +9,9 @@
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --config=node_modules/laravel-mix/setup/webpack.config.js",
         "build-nova-table": "cd nova-components/NovaTable && npm run dev",
-        "build-nova-table-prod": "cd nova-components/NovaTable && npm run prod"
+        "build-nova-table-prod": "cd nova-components/NovaTable && npm run prod",
+        "build-projectscoverage": "cd nova-components/Projectscoverage && npm run dev",
+        "build-projectscoverage-prod": "cd nova-components/Projectscoverage && npm run prod"
     },
     "devDependencies": {
         "axios": "^0.19",

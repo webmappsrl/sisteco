@@ -22,7 +22,8 @@
         "mstaack/laravel-postgis": "^5.2",
         "my_app/nova-table": "*",
         "spatie/db-dumper": "^2.21",
-        "ext-json": "*"
+        "ext-json": "*",
+        "sisteco/projectscoverage": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -61,6 +62,10 @@
         {
             "type": "path",
             "url": "./nova-components/NovaTable"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Projectscoverage"
         }
     ],
     "minimum-stability": "dev",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b9c7160a1a87ee38f996e4a548c84540",
+    "content-hash": "8f98517357cbb6b3efef3a5633740a9e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4307,6 +4307,42 @@
                 }
             ],
             "time": "2021-09-25T23:10:38+00:00"
+        },
+        {
+            "name": "sisteco/projectscoverage",
+            "version": "dev-develop",
+            "dist": {
+                "type": "path",
+                "url": "./nova-components/Projectscoverage",
+                "reference": "805eebec82a25b33a62820913c93d529a7324cfa"
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Sisteco\\Projectscoverage\\CardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sisteco\\Projectscoverage\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova card.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "spatie/db-dumper",
@@ -9565,5 +9601,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }

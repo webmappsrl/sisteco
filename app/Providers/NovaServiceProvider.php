@@ -2,18 +2,26 @@
 
 namespace App\Providers;
 
+use App\Models\Project;
+use App\Nova\Metrics\ProjectLandUsePartitionMetrics;
+use App\Nova\Metrics\TotalOwnersValueMetrics;
+use App\Nova\Metrics\TotalProjectsValueMetrics;
+use App\Nova\Metrics\TotalValueProjectsValueMetrics;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Sisteco\Projectscoverage\Projectscoverage;
 
-class NovaServiceProvider extends NovaApplicationServiceProvider {
+class NovaServiceProvider extends NovaApplicationServiceProvider
+{
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
-    public function boot() {
+    public function boot()
+    {
         parent::boot();
         //        Nova::style('sis_style', asset('../css/sis_style.css'));
     }
@@ -23,7 +31,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider {
      *
      * @return void
      */
-    protected function routes() {
+    protected function routes()
+    {
         Nova::routes()
             ->withAuthenticationRoutes()
             ->withPasswordResetRoutes()
@@ -37,7 +46,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider {
      *
      * @return void
      */
-    protected function gate() {
+    protected function gate()
+    {
         Gate::define('viewNova', function ($user) {
             return in_array($user->email, [
                 'team@webmapp.it',
@@ -56,9 +66,14 @@ class NovaServiceProvider extends NovaApplicationServiceProvider {
      *
      * @return array
      */
-    protected function cards() {
+    protected function cards()
+    {
         return [
-            new Help,
+            new TotalProjectsValueMetrics(),
+            new TotalOwnersValueMetrics(),
+            new TotalValueProjectsValueMetrics(),
+            new Projectscoverage(),
+            new ProjectLandUsePartitionMetrics()
         ];
     }
 
@@ -67,7 +82,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider {
      *
      * @return array
      */
-    protected function dashboards() {
+    protected function dashboards()
+    {
         return [];
     }
 
@@ -76,7 +92,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider {
      *
      * @return array
      */
-    public function tools() {
+    public function tools()
+    {
         return [];
     }
 
@@ -85,7 +102,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider {
      *
      * @return void
      */
-    public function register() {
+    public function register()
+    {
         //
     }
 }
