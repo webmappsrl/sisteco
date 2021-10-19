@@ -16,6 +16,25 @@ class Research extends Resource {
      * @var string
      */
     public static $model = \App\Models\Research::class;
+
+    /**
+     * Get the displayable label of the resource.
+     *
+     * @return string
+     */
+    public static function label(): string {
+        return __('Researches');
+    }
+
+    /**
+     * Get the group of the resource.
+     *
+     * @return string
+     */
+    public static function group(): string {
+        return __('Projects');
+    }
+
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
