@@ -66,9 +66,7 @@ class Research extends Resource {
                 return count($model->cadastralParcels);
             }),
             Text::make('Filters', 'filters')->onlyOnDetail(),
-            Text::make('Municipalities', function () {
-                return '-';
-            })->onlyOnDetail(),
+            Text::make('Municipalities')->onlyOnDetail(),
             BelongsToMany::make('Cadastral parcels', 'cadastralParcels')->onlyOnDetail(),
         ];
     }

@@ -3,16 +3,11 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Project extends Resource {
     /**
@@ -45,14 +40,14 @@ class Project extends Resource {
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'title';
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'name',
+        'title',
     ];
 
     /**

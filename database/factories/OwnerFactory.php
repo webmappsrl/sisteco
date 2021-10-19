@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\CadastralParcel;
 use App\Models\owner;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -12,6 +13,18 @@ class OwnerFactory extends Factory {
      * @var string
      */
     protected $model = owner::class;
+
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure(): OwnerFactory {
+        return $this->afterCreating(function (Owner $model) {
+            $ids = CadastralParcel::limit(10)->get()->pluck('id');
+            $model->cadastralParcels()->sync($ids);
+        });
+    }
 
     /**
      * Define the model's default state.

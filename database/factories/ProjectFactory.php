@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\CadastralParcel;
 use App\Models\Owner;
 use App\Models\Project;
 use App\Models\Research;
@@ -23,7 +24,7 @@ class ProjectFactory extends Factory {
      */
     public function configure(): ProjectFactory {
         return $this->afterCreating(function (Project $model) {
-            $ids = Project::limit(10)->get()->pluck('id');
+            $ids = CadastralParcel::limit(10)->get()->pluck('id');
             $model->cadastralParcels()->sync($ids);
             $ids = Owner::limit(10)->get()->pluck('id');
             $model->owners()->sync($ids);

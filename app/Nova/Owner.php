@@ -3,9 +3,15 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Http\Requests\NovaRequest;
+use Illuminate\Support\Facades\Log;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Panel;
 
+/**
+ * @property string $first_name
+ * @property string $last_name
+ */
 class Owner extends Resource {
     /**
      * The model the resource corresponds to.
@@ -35,35 +41,62 @@ class Owner extends Resource {
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
-     * @var string
+     *
+     * @return string
      */
-    public static $title = 'name';
+    public function title(): string {
+        return $this->first_name . " " . $this->last_name;
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'name',
+        'first_name',
+        'last_name',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return array
      */
-    public function fields(Request $request) {
+    public function fields(Request $request): array {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+            Text::make('Name', 'first_name')->onlyOnIndex(),
+            Text::make('Surname', 'last_name')->onlyOnIndex(),
+            Text::make('Email', 'email')->onlyOnIndex(),
+            Text::make('Phone', 'phone')->onlyOnIndex(),
+            Text::make('Fiscal code', 'fiscal_code')->onlyOnIndex(),
+            Panel::make('Personal details', [
+                Text::make('Name', 'first_name')->onlyOnDetail(),
+                Text::make('Surname', 'last_name')->onlyOnDetail(),
+                Text::make('Email', 'email')->onlyOnDetail(),
+                Text::make('Fiscal code', 'fiscal_code')->onlyOnDetail(),
+                Text::make('Vat number', 'vat_number')->onlyOnDetail(),
+                Text::make('Address', function (\App\Models\Owner $model) {
+                    return $model["addr:street"] . " " .
+                        $model["addr:housenumber"] . ", " .
+                        $model["addr:city"] . " " .
+                        $model["addr:postcode"] . " (" .
+                        strtoupper($model["addr:province"]) . "), " .
+                        $model["addr:locality"];
+                })->onlyOnDetail(),
+                Text::make('Phone', 'phone')->onlyOnDetail(),
+            ]),
+            BelongsToMany::make('Cadastral parcels', 'cadastralParcels')->onlyOnDetail(),
+            BelongsToMany::make('Projects', 'projects')->onlyOnDetail()
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return array
      */
@@ -74,7 +107,7 @@ class Owner extends Resource {
     /**
      * Get the filters available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return array
      */
@@ -85,7 +118,7 @@ class Owner extends Resource {
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return array
      */
@@ -96,7 +129,7 @@ class Owner extends Resource {
     /**
      * Get the actions available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return array
      */
