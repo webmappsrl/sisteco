@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder {
             ]);
 
             Artisan::call('sisteco:import_cadastral_parcels');
+            Artisan::call('sisteco:update_cadastral_parcels_estimated_value');
 
             $this->call([
                 OwnersSeeder::class,

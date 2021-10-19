@@ -5,24 +5,22 @@ namespace App\Nova\Metrics;
 use App\Models\Owner;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Metrics\ValueResult;
 
-class TotalOwnersValueMetrics extends Value
-{
-
-    public function name()
-    {
+class TotalOwnersValueMetrics extends Value {
+    public function name(): string {
         return 'Totale Proprietari';
     }
 
     /**
      * Calculate the value of the metric.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-     * @return mixed
+     * @param NovaRequest $request
+     *
+     * @return ValueResult
      */
-    public function calculate(NovaRequest $request)
-    {
-        return $this->count($request, Owner::class);
+    public function calculate(NovaRequest $request): ValueResult {
+        return $this->result(Owner::count());
     }
 
     /**
@@ -30,16 +28,15 @@ class TotalOwnersValueMetrics extends Value
      *
      * @return array
      */
-    public function ranges()
-    {
+    public function ranges(): array {
         return [
-            30 => __('30 Days'),
-            60 => __('60 Days'),
-            365 => __('365 Days'),
-            'TODAY' => __('Today'),
-            'MTD' => __('Month To Date'),
-            'QTD' => __('Quarter To Date'),
-            'YTD' => __('Year To Date'),
+            //            30 => __('30 Days'),
+            //            60 => __('60 Days'),
+            //            365 => __('365 Days'),
+            //            'TODAY' => __('Today'),
+            //            'MTD' => __('Month To Date'),
+            //            'QTD' => __('Quarter To Date'),
+            //            'YTD' => __('Year To Date'),
         ];
     }
 
@@ -48,8 +45,7 @@ class TotalOwnersValueMetrics extends Value
      *
      * @return  \DateTimeInterface|\DateInterval|float|int
      */
-    public function cacheFor()
-    {
+    public function cacheFor() {
         // return now()->addMinutes(5);
     }
 
@@ -58,8 +54,7 @@ class TotalOwnersValueMetrics extends Value
      *
      * @return string
      */
-    public function uriKey()
-    {
+    public function uriKey(): string {
         return 'total-owners-value-metrics';
     }
 }

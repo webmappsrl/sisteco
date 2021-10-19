@@ -25,4 +25,8 @@ class Project extends Model {
     public function research(): BelongsTo {
         return $this->belongsTo(Research::class);
     }
+
+    public function estimatedValue(): float {
+        return array_sum($this->cadastralParcels->pluck('estimated_value')->toArray());
+    }
 }

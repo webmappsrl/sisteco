@@ -21,7 +21,7 @@ class OwnerFactory extends Factory {
      */
     public function configure(): OwnerFactory {
         return $this->afterCreating(function (Owner $model) {
-            $ids = CadastralParcel::limit(10)->get()->pluck('id');
+            $ids = CadastralParcel::inRandomOrder()->limit(10)->get()->pluck('id');
             $model->cadastralParcels()->sync($ids);
         });
     }

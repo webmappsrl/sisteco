@@ -73,7 +73,7 @@ class Project extends Resource {
             })->onlyOnDetail(),
             Text::make('Municipalities')->onlyOnDetail(),
             Currency::make('Estimate (€)', function ($model) {
-                return 0;
+                return $model->estimatedValue();
             })->currency('EUR'),
             BelongsTo::make('Research', 'research', 'App\Nova\Research')->onlyOnDetail(),
             BelongsTo::make('Project author', 'creator', 'App\Nova\User')->onlyOnDetail(),

@@ -5,25 +5,22 @@ namespace App\Nova\Metrics;
 use App\Models\Project;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Metrics\ValueResult;
 
-class TotalProjectsValueMetrics extends Value
-{
-
-    public function name()
-    {
+class TotalProjectsValueMetrics extends Value {
+    public function name(): string {
         return 'Totale Progetti';
     }
-
 
     /**
      * Calculate the value of the metric.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
-     * @return mixed
+     * @param NovaRequest $request
+     *
+     * @return ValueResult
      */
-    public function calculate(NovaRequest $request)
-    {
-        return $this->count($request, Project::class);
+    public function calculate(NovaRequest $request): ValueResult {
+        return $this->result(Project::count());
     }
 
     /**
@@ -31,10 +28,9 @@ class TotalProjectsValueMetrics extends Value
      *
      * @return array
      */
-    public function ranges()
-    {
+    public function ranges(): array {
         return [
-            'ALL' => __('All time'),
+            //            'ALL' => __('All time'),
         ];
     }
 
@@ -43,8 +39,7 @@ class TotalProjectsValueMetrics extends Value
      *
      * @return  \DateTimeInterface|\DateInterval|float|int
      */
-    public function cacheFor()
-    {
+    public function cacheFor() {
         // return now()->addMinutes(5);
     }
 
@@ -53,8 +48,7 @@ class TotalProjectsValueMetrics extends Value
      *
      * @return string
      */
-    public function uriKey()
-    {
+    public function uriKey() {
         return 'total-projects-value-metrics';
     }
 }

@@ -21,7 +21,7 @@ class ResearchFactory extends Factory {
      */
     public function configure(): ResearchFactory {
         return $this->afterCreating(function (Research $model) {
-            $ids = CadastralParcel::limit(10)->get()->pluck('id');
+            $ids = CadastralParcel::inRandomOrder()->limit(10)->get()->pluck('id');
             $model->cadastralParcels()->sync($ids);
         });
     }

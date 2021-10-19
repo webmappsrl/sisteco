@@ -24,9 +24,9 @@ class ProjectFactory extends Factory {
      */
     public function configure(): ProjectFactory {
         return $this->afterCreating(function (Project $model) {
-            $ids = CadastralParcel::limit(10)->get()->pluck('id');
+            $ids = CadastralParcel::inRandomOrder()->limit(10)->get()->pluck('id');
             $model->cadastralParcels()->sync($ids);
-            $ids = Owner::limit(10)->get()->pluck('id');
+            $ids = Owner::inRandomOrder()->limit(10)->get()->pluck('id');
             $model->owners()->sync($ids);
         });
     }
