@@ -3,8 +3,7 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\Text;
 
 class CadastralParcel extends Resource {
     /**
@@ -37,33 +36,33 @@ class CadastralParcel extends Resource {
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'code';
     /**
      * The columns that should be searched.
      *
      * @var array
      */
     public static $search = [
-        'name',
+        'code',
     ];
 
     /**
      * Get the fields displayed by the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return array
      */
-    public function fields(Request $request) {
+    public function fields(Request $request): array {
         return [
-            ID::make(__('ID'), 'id')->sortable(),
+            Text::make(__('Cadastral code'), 'code')->sortable(),
         ];
     }
 
     /**
      * Get the cards available for the request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return array
      */
@@ -74,7 +73,7 @@ class CadastralParcel extends Resource {
     /**
      * Get the filters available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return array
      */
@@ -85,7 +84,7 @@ class CadastralParcel extends Resource {
     /**
      * Get the lenses available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return array
      */
@@ -96,7 +95,7 @@ class CadastralParcel extends Resource {
     /**
      * Get the actions available for the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
      * @return array
      */
