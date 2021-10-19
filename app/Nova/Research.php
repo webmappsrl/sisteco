@@ -61,6 +61,7 @@ class Research extends Resource {
         return [
             Text::make('Title'),
             Text::make('Description')->onlyOnDetail(),
+            Text::make('Active filters', 'filters')->onlyOnIndex(),
             Number::make('Number of cadastral parcels', function ($model) {
                 return count($model->cadastralParcels);
             }),

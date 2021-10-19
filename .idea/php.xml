@@ -129,7 +129,6 @@
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/promises" />
       <path value="$PROJECT_DIR$/vendor/gregoriohc/laravel-nova-theme-responsive" />
       <path value="$PROJECT_DIR$/vendor/dillingham/nova-button" />
-      <path value="$PROJECT_DIR$/vendor/dillingham/nova-minimal-theme" />
       <path value="$PROJECT_DIR$/vendor/swiftmailer/swiftmailer" />
       <path value="$PROJECT_DIR$/vendor/nunomaduro/collision" />
       <path value="$PROJECT_DIR$/vendor/guzzlehttp/guzzle" />

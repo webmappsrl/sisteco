@@ -12,7 +12,6 @@
         "bosnadev/database": "^0.21.0",
         "cloudcake/nova-fixed-bars": "^1.1",
         "dillingham/nova-button": "^1.0",
-        "dillingham/nova-minimal-theme": "^1.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5f0b8b130d8ab1da59ba430166a9b7e",
+    "content-hash": "b9c7160a1a87ee38f996e4a548c84540",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -465,51 +465,6 @@
                 "source": "https://github.com/dillingham/nova-button/tree/1.0.11"
             },
             "time": "2020-09-16T21:46:40+00:00"
-        },
-        {
-            "name": "dillingham/nova-minimal-theme",
-            "version": "1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dillingham/nova-minimal-theme.git",
-                "reference": "d6b79dafc2a66902719769cad054a1919e1c26b0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dillingham/nova-minimal-theme/zipball/d6b79dafc2a66902719769cad054a1919e1c26b0",
-                "reference": "d6b79dafc2a66902719769cad054a1919e1c26b0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "MinimalTheme\\ThemeServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "MinimalTheme\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A minimal Laravel Nova theme.",
-            "keywords": [
-                "laravel",
-                "nova"
-            ],
-            "support": {
-                "issues": "https://github.com/dillingham/nova-minimal-theme/issues",
-                "source": "https://github.com/dillingham/nova-minimal-theme/tree/1.0"
-            },
-            "time": "2019-04-27T21:36:47+00:00"
         },
         {
             "name": "doctrine/cache",
