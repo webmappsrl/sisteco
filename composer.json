@@ -23,7 +23,8 @@
         "my_app/nova-table": "*",
         "spatie/db-dumper": "^2.21",
         "ext-json": "*",
-        "sisteco/projectscoverage": "*"
+        "sisteco/projectscoverage": "*",
+        "ext-curl": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

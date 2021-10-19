@@ -43,4 +43,25 @@ class Research extends Model
         }
         return implode(',', $filters_array);
     }
+
+    /**
+     * It returns array of casdatral parcel identification code
+     *
+     * @param array $result
+     * @return array
+     */
+    public static function getCadastralParcelFromElasticResult(array $result): array
+    {
+        $parcels = [];
+        if (isset($result['hits'])
+            && isset($result['hits']['hits'])
+            && count($result['hits']['hits']) > 0) {
+            foreach ($result['hits']['hits'] as $hit) {
+                if (isset($hit['fields']['parcel_cod.NationalCadastralReference'])) {
+                    $parcels[] = $hit['fields']['parcel_cod.NationalCadastralReference'][0];
+                }
+            }
+        }
+        return array_unique($parcels);
+    }
 }
