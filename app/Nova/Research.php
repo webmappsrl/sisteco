@@ -23,7 +23,7 @@ class Research extends Resource {
      * @return string
      */
     public static function label(): string {
-        return __('Researches');
+        return 'Researches';
     }
 
     /**
@@ -32,7 +32,7 @@ class Research extends Resource {
      * @return string
      */
     public static function group(): string {
-        return __('Projects');
+        return 'Projects';
     }
 
     /**
