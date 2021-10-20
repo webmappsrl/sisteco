@@ -8,6 +8,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 
 class CreateProjectFromParcelsAction extends Action
 {
@@ -24,7 +26,9 @@ class CreateProjectFromParcelsAction extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        return Action::message('Not Yet implemented');
+        $title = $fields['title'];
+        $description = $fields['description'];
+        return Action::message("Not Yet implemented ($title) ($description)");
     }
 
     /**
@@ -34,6 +38,9 @@ class CreateProjectFromParcelsAction extends Action
      */
     public function fields()
     {
-        return [];
+        return [
+            Text::make('title')->required(),
+            Textarea::make('description')->required()->rows(10),
+        ];
     }
 }
