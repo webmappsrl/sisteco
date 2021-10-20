@@ -87,7 +87,7 @@ class Research extends Resource
                     return 'ND';
                 }
             }),
-            BelongsToMany::make('Cadastral parcels', 'cadastralParcels')->onlyOnDetail(),
+            BelongsToMany::make('Cadastral parcels', 'cadastralParcels')->searchable(),
         ];
     }
 
