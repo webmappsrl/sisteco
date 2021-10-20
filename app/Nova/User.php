@@ -22,7 +22,7 @@ class User extends Resource {
      * @return string
      */
     public static function label(): string {
-        return 'Operators';
+        return 'Operatori';
     }
 
     /**
@@ -31,7 +31,7 @@ class User extends Resource {
      * @return string
      */
     public static function group(): string {
-        return 'Operators';
+        return 'Operatori';
     }
 
     /**
@@ -60,7 +60,7 @@ class User extends Resource {
         return [
             Gravatar::make()->maxWidth(50),
 
-            Text::make('Name')
+            Text::make('Nome', 'name')
                 ->sortable()
                 ->rules('required', 'max:255'),
 

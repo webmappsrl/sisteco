@@ -3,7 +3,6 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
@@ -26,7 +25,7 @@ class Owner extends Resource {
      * @return string
      */
     public static function label(): string {
-        return 'Owners';
+        return 'Proprietari';
     }
 
     /**
@@ -67,18 +66,18 @@ class Owner extends Resource {
      */
     public function fields(Request $request): array {
         return [
-            Text::make('Name', 'first_name')->onlyOnIndex(),
-            Text::make('Surname', 'last_name')->onlyOnIndex(),
+            Text::make('Nome', 'first_name')->onlyOnIndex(),
+            Text::make('Cognome', 'last_name')->onlyOnIndex(),
             Text::make('Email', 'email')->onlyOnIndex(),
-            Text::make('Phone', 'phone')->onlyOnIndex(),
-            Text::make('Fiscal code', 'fiscal_code')->onlyOnIndex(),
-            Panel::make('Personal details', [
-                Text::make('Name', 'first_name')->onlyOnDetail(),
-                Text::make('Surname', 'last_name')->onlyOnDetail(),
+            Text::make('Telefono', 'phone')->onlyOnIndex(),
+            Text::make('Codice fiscale', 'fiscal_code')->onlyOnIndex(),
+            Panel::make('Dati anagrafici', [
+                Text::make('Nome', 'first_name')->onlyOnDetail(),
+                Text::make('Cognome', 'last_name')->onlyOnDetail(),
                 Text::make('Email', 'email')->onlyOnDetail(),
-                Text::make('Fiscal code', 'fiscal_code')->onlyOnDetail(),
-                Text::make('Vat number', 'vat_number')->onlyOnDetail(),
-                Text::make('Address', function (\App\Models\Owner $model) {
+                Text::make('Codice fiscale', 'fiscal_code')->onlyOnDetail(),
+                Text::make('Partita IVA', 'vat_number')->onlyOnDetail(),
+                Text::make('Indirizzo', function (\App\Models\Owner $model) {
                     return $model["addr:street"] . " " .
                         $model["addr:housenumber"] . ", " .
                         $model["addr:city"] . " " .
@@ -86,10 +85,10 @@ class Owner extends Resource {
                         strtoupper($model["addr:province"]) . "), " .
                         $model["addr:locality"];
                 })->onlyOnDetail(),
-                Text::make('Phone', 'phone')->onlyOnDetail(),
+                Text::make('Telefono', 'phone')->onlyOnDetail(),
             ]),
-            BelongsToMany::make('Cadastral parcels', 'cadastralParcels')->onlyOnDetail(),
-            BelongsToMany::make('Projects', 'projects')->onlyOnDetail()
+            BelongsToMany::make('Particelle catastali', 'cadastralParcels', 'App\Nova\CadastralParcel')->onlyOnDetail(),
+            BelongsToMany::make('Progetti', 'projects', 'App\Nova\Project')->onlyOnDetail()
         ];
     }
 
