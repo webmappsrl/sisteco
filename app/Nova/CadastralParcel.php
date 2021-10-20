@@ -24,7 +24,7 @@ class CadastralParcel extends Resource {
      * @return string
      */
     public static function label(): string {
-        return 'Cadastral parcels';
+        return 'Particelle catastali';
     }
 
     /**
