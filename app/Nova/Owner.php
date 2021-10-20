@@ -78,15 +78,15 @@ class Owner extends Resource {
                 ->onlyOnIndex(),
             Panel::make('Dati anagrafici', [
                 Text::make('Nome', 'first_name')
-                    ->onlyOnDetail(),
+                    ->hideFromIndex(),
                 Text::make('Cognome', 'last_name')
-                    ->onlyOnDetail(),
+                    ->hideFromIndex(),
                 Text::make('Email', 'email')
-                    ->onlyOnDetail(),
+                    ->hideFromIndex(),
                 Text::make('Codice fiscale', 'fiscal_code')
-                    ->onlyOnDetail(),
+                    ->hideFromIndex(),
                 Text::make('Partita IVA', 'vat_number')
-                    ->onlyOnDetail(),
+                    ->hideFromIndex(),
                 Text::make('Indirizzo', function (\App\Models\Owner $model) {
                     return $model["addr:street"] . " " .
                         $model["addr:housenumber"] . ", " .
@@ -95,9 +95,9 @@ class Owner extends Resource {
                         strtoupper($model["addr:province"]) . "), " .
                         $model["addr:locality"];
                 })
-                    ->onlyOnDetail(),
+                    ->hideFromIndex(),
                 Text::make('Telefono', 'phone')
-                    ->onlyOnDetail(),
+                    ->hideFromIndex(),
             ]),
             BelongsToMany::make('Particelle catastali', 'cadastralParcels', 'App\Nova\CadastralParcel')
                 ->onlyOnDetail()
