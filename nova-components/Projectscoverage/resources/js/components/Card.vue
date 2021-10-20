@@ -1,7 +1,6 @@
 <template>
-    <card class="flex flex-col items-center justify-center">
-        <div class="px-3 py-3">
-            <h1 class="text-center text-3xl text-80 font-light">Projectscoverage</h1>
+    <card class="flex flex-col items-center justify-center dashboard-map-container">
+        <div id="dashboard-map-image-container">
         </div>
     </card>
 </template>
@@ -22,3 +21,17 @@ export default {
     },
 }
 </script>
+<style>
+/*.dashboard-map-container {*/
+/*    height: 35vh;*/
+/*}*/
+
+#dashboard-map-image-container {
+    width: 100%;
+    height: 100%;
+    background-image: url("/storage/dashboard-map.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+</style>
