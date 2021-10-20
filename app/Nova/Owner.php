@@ -66,17 +66,27 @@ class Owner extends Resource {
      */
     public function fields(Request $request): array {
         return [
-            Text::make('Nome', 'first_name')->onlyOnIndex(),
-            Text::make('Cognome', 'last_name')->onlyOnIndex(),
-            Text::make('Email', 'email')->onlyOnIndex(),
-            Text::make('Telefono', 'phone')->onlyOnIndex(),
-            Text::make('Codice fiscale', 'fiscal_code')->onlyOnIndex(),
+            Text::make('Nome', 'first_name')
+                ->onlyOnIndex(),
+            Text::make('Cognome', 'last_name')
+                ->onlyOnIndex(),
+            Text::make('Email', 'email')
+                ->onlyOnIndex(),
+            Text::make('Telefono', 'phone')
+                ->onlyOnIndex(),
+            Text::make('Codice fiscale', 'fiscal_code')
+                ->onlyOnIndex(),
             Panel::make('Dati anagrafici', [
-                Text::make('Nome', 'first_name')->onlyOnDetail(),
-                Text::make('Cognome', 'last_name')->onlyOnDetail(),
-                Text::make('Email', 'email')->onlyOnDetail(),
-                Text::make('Codice fiscale', 'fiscal_code')->onlyOnDetail(),
-                Text::make('Partita IVA', 'vat_number')->onlyOnDetail(),
+                Text::make('Nome', 'first_name')
+                    ->onlyOnDetail(),
+                Text::make('Cognome', 'last_name')
+                    ->onlyOnDetail(),
+                Text::make('Email', 'email')
+                    ->onlyOnDetail(),
+                Text::make('Codice fiscale', 'fiscal_code')
+                    ->onlyOnDetail(),
+                Text::make('Partita IVA', 'vat_number')
+                    ->onlyOnDetail(),
                 Text::make('Indirizzo', function (\App\Models\Owner $model) {
                     return $model["addr:street"] . " " .
                         $model["addr:housenumber"] . ", " .
@@ -84,11 +94,16 @@ class Owner extends Resource {
                         $model["addr:postcode"] . " (" .
                         strtoupper($model["addr:province"]) . "), " .
                         $model["addr:locality"];
-                })->onlyOnDetail(),
-                Text::make('Telefono', 'phone')->onlyOnDetail(),
+                })
+                    ->onlyOnDetail(),
+                Text::make('Telefono', 'phone')
+                    ->onlyOnDetail(),
             ]),
-            BelongsToMany::make('Particelle catastali', 'cadastralParcels', 'App\Nova\CadastralParcel')->onlyOnDetail(),
-            BelongsToMany::make('Progetti', 'projects', 'App\Nova\Project')->onlyOnDetail()
+            BelongsToMany::make('Particelle catastali', 'cadastralParcels', 'App\Nova\CadastralParcel')
+                ->onlyOnDetail()
+                ->searchable(),
+            BelongsToMany::make('Progetti', 'projects', 'App\Nova\Project')
+                ->onlyOnDetail()
         ];
     }
 
