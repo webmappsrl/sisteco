@@ -2,7 +2,10 @@
 
 namespace App\Nova;
 
+use App\Models\Municipality;
+use App\Nova\Actions\CreateProjectFromParcelsAction;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
 
 class CadastralParcel extends Resource
@@ -62,6 +65,31 @@ class CadastralParcel extends Resource
     {
         return [
             Text::make(__('Cadastral code'), 'code')->sortable(),
+            Text::make('Comune', function ($model) {
+                if ($model->municipality) {
+                    return $model->municipality->name;
+                } else {
+                    return '-';
+                }
+            }),
+            Text::make('Proprietari', function ($parcel) {
+                if ($parcel->owners->count() > 0) {
+                    $owners = [];
+                    foreach ($parcel->owners as $owner) {
+                        if ($owner->last_name) {
+                            $owners[] = $owner->last_name;
+                        }
+                    }
+                    if (count($owners) > 0) {
+                        return implode(',', $owners);
+                    } else {
+                        return '-';
+                    }
+                }
+            }),
+            Text::make('Stima', function ($parcel) {
+                return number_format($parcel->estimated_value, 2, ',', '.') . ' €';
+            }),
         ];
     }
 
@@ -110,6 +138,12 @@ class CadastralParcel extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new CreateProjectFromParcelsAction())
+                ->canRun(function ($request) {
+                    return true;
+                })
+                ->onlyOnIndex(),
+        ];
     }
 }
