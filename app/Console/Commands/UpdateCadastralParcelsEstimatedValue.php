@@ -3,11 +3,13 @@
 namespace App\Console\Commands;
 
 use App\Models\CadastralParcel;
+use App\Models\Municipality;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Command\Command as CommandAlias;
 
-class UpdateCadastralParcelsEstimatedValue extends Command {
+class UpdateCadastralParcelsEstimatedValue extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -26,7 +28,8 @@ class UpdateCadastralParcelsEstimatedValue extends Command {
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -35,21 +38,26 @@ class UpdateCadastralParcelsEstimatedValue extends Command {
      *
      * @return int
      */
-    public function handle(): int {
+    public function handle(): int
+    {
         $start = 0;
         $step = 10000;
 
         Log::info("Starting setting random values to the estimated value of the cadastral parcels");
-        while ($start < CadastralParcel::count()) {
+        do {
             $cadastralParcels = CadastralParcel::skip($start)->take($step)->get();
             foreach ($cadastralParcels as $cadastralParcel) {
                 $cadastralParcel->estimated_value = rand(10, 10000);
+                $mun = Municipality::where('code', explode('_', $cadastralParcel->code)[0])->first();
+                if (!is_null($mun)) {
+                    $cadastralParcel->municipality_id = $mun->id;
+                }
                 $cadastralParcel->save();
             }
 
             $start += count($cadastralParcels);
             Log::info("Estimated value set to $start cadastral parcels");
-        }
+        } while ($start < CadastralParcel::count());
 
         return CommandAlias::SUCCESS;
     }

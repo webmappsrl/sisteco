@@ -65,14 +65,26 @@ class Research extends Resource
     {
         return [
             Text::make('Title'),
-            Textarea::make('Description')->hideFromIndex()->alwaysShow(),
+            Textarea::make('Descrizione', 'description')->hideFromIndex()->alwaysShow(),
             Textarea::make('Elastic Query', 'elastic_query')->hideFromIndex(),
-            Text::make('Active filters', 'filters')->onlyOnIndex(),
-            Number::make('Number of cadastral parcels', function ($model) {
+            Text::make('Filtri attivi', 'filters')->showOnIndex()->showOnDetail()->hideWhenCreating()->hideWhenUpdating(),
+            Number::make('Numero di particelle catastali', function ($model) {
                 return count($model->cadastralParcels);
             }),
-            Text::make('Filters', 'filters')->onlyOnDetail(),
-            Text::make('Municipalities')->onlyOnDetail(),
+            Text::make('Comuni', function ($model) {
+                if ($model->cadastralParcels->count() > 0) {
+                    $municipalities = [];
+                    foreach ($model->cadastralParcels as $parcel) {
+                        if ($parcel->municipality) {
+                            $municipalities[] = $parcel->municipality->name;
+                        }
+                    }
+                    $municipalities = array_unique($municipalities);
+                    return implode(',', $municipalities);
+                } else {
+                    return 'ND';
+                }
+            }),
             BelongsToMany::make('Cadastral parcels', 'cadastralParcels')->onlyOnDetail(),
         ];
     }
