@@ -10,8 +10,7 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Research extends Resource
-{
+class Research extends Resource {
     /**
      * The model the resource corresponds to.
      *
@@ -24,9 +23,8 @@ class Research extends Resource
      *
      * @return string
      */
-    public static function label(): string
-    {
-        return 'Researches';
+    public static function label(): string {
+        return 'Ricerche';
     }
 
     /**
@@ -34,9 +32,8 @@ class Research extends Resource
      *
      * @return string
      */
-    public static function group(): string
-    {
-        return 'Projects';
+    public static function group(): string {
+        return 'Progetti';
     }
 
     /**
@@ -61,8 +58,7 @@ class Research extends Resource
      *
      * @return array
      */
-    public function fields(Request $request): array
-    {
+    public function fields(Request $request): array {
         return [
             Text::make('Titolo', 'title'),
             Textarea::make('Descrizione', 'description')->hideFromIndex()->alwaysShow(),
@@ -82,12 +78,13 @@ class Research extends Resource
                         }
                     }
                     $municipalities = array_unique($municipalities);
-                    return implode(',', $municipalities);
+
+                    return implode(', ', $municipalities);
                 } else {
                     return 'ND';
                 }
             }),
-            BelongsToMany::make('Cadastral parcels', 'cadastralParcels')->searchable(),
+            BelongsToMany::make('Particelle catastali', 'cadastralParcels', 'App\Nova\CadastralParcel')->searchable(),
         ];
     }
 
@@ -98,8 +95,7 @@ class Research extends Resource
      *
      * @return array
      */
-    public function cards(Request $request)
-    {
+    public function cards(Request $request) {
         return [];
     }
 
@@ -110,8 +106,7 @@ class Research extends Resource
      *
      * @return array
      */
-    public function filters(Request $request)
-    {
+    public function filters(Request $request) {
         return [];
     }
 
@@ -122,8 +117,7 @@ class Research extends Resource
      *
      * @return array
      */
-    public function lenses(Request $request)
-    {
+    public function lenses(Request $request) {
         return [];
     }
 
@@ -134,8 +128,7 @@ class Research extends Resource
      *
      * @return array
      */
-    public function actions(Request $request)
-    {
+    public function actions(Request $request) {
         return [];
     }
 }

@@ -23,7 +23,7 @@ class Project extends Resource {
      * @return string
      */
     public static function label(): string {
-        return 'Projects';
+        return 'Progetti';
     }
 
     /**
@@ -32,7 +32,7 @@ class Project extends Resource {
      * @return string
      */
     public static function group(): string {
-        return 'Projects';
+        return 'Progetti';
     }
 
     /**
@@ -59,11 +59,11 @@ class Project extends Resource {
      */
     public function fields(Request $request): array {
         return [
-            Text::make('Project name', 'title'),
-            Text::make('Description', 'description')->onlyOnDetail(),
-            BelongsTo::make('Project author', 'creator', 'App\Nova\User')->onlyOnIndex(),
-            Date::make('Creation date', 'created_at')->onlyOnIndex(),
-            Text::make('Owners', function (\App\Models\Project $model) {
+            Text::make('Nome progetto', 'title'),
+            Text::make('Descrizione', 'description')->onlyOnDetail(),
+            BelongsTo::make('Autori progetto', 'creator', 'App\Nova\User')->onlyOnIndex(),
+            Date::make('Data creatione', 'created_at')->onlyOnIndex(),
+            Text::make('Proprietari', function (\App\Models\Project $model) {
                 $names = $model->owners->pluck('first_name', 'last_name')->toArray();
                 array_walk($names, function ($value, $key) {
                     return "$key $value";
@@ -71,13 +71,13 @@ class Project extends Resource {
 
                 return implode(', ', $names);
             })->onlyOnDetail(),
-            Text::make('Municipalities')->onlyOnDetail(),
-            Currency::make('Estimate (€)', function ($model) {
+            Text::make('Comuni')->onlyOnDetail(),
+            Currency::make('Stima (€)', function ($model) {
                 return $model->estimatedValue();
             })->currency('EUR'),
-            BelongsTo::make('Research', 'research', 'App\Nova\Research')->onlyOnDetail(),
-            BelongsTo::make('Project author', 'creator', 'App\Nova\User')->onlyOnDetail(),
-            BelongsToMany::make('Cadastral parcels', 'cadastralParcels')->onlyOnDetail(),
+            BelongsTo::make('Ricerca', 'research', 'App\Nova\Research')->onlyOnDetail(),
+            BelongsTo::make('Autori progetto', 'creator', 'App\Nova\User')->onlyOnDetail(),
+            BelongsToMany::make('Particelle catastali', 'cadastralParcels', 'App\Nova\CadastralParcel')->onlyOnDetail(),
         ];
     }
 

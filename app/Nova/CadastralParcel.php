@@ -6,11 +6,10 @@ use App\Models\Municipality;
 use App\Nova\Actions\CreateProjectFromParcelsAction;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
 
-class CadastralParcel extends Resource
-{
-
+class CadastralParcel extends Resource {
     public static $perPageViaRelationship = 20;
     /**
      * The model the resource corresponds to.
@@ -24,8 +23,7 @@ class CadastralParcel extends Resource
      *
      * @return string
      */
-    public static function label(): string
-    {
+    public static function label(): string {
         return 'Cadastral parcels';
     }
 
@@ -34,8 +32,7 @@ class CadastralParcel extends Resource
      *
      * @return string
      */
-    public static function group(): string
-    {
+    public static function group(): string {
         return 'CRM';
     }
 
@@ -61,10 +58,9 @@ class CadastralParcel extends Resource
      *
      * @return array
      */
-    public function fields(Request $request): array
-    {
+    public function fields(Request $request): array {
         return [
-            Text::make(__('Cadastral code'), 'code')->sortable(),
+            Text::make(__('Codice catastale'), 'code')->sortable(),
             Text::make('Comune', function ($model) {
                 if ($model->municipality) {
                     return $model->municipality->name;
@@ -87,9 +83,9 @@ class CadastralParcel extends Resource
                     }
                 }
             }),
-            Text::make('Stima', function ($parcel) {
-                return number_format($parcel->estimated_value, 2, ',', '.') . ' €';
-            }),
+            Currency::make('Stima', function ($model) {
+                return $model->estimated_value;
+            })->currency('EUR'),
         ];
     }
 
@@ -100,8 +96,7 @@ class CadastralParcel extends Resource
      *
      * @return array
      */
-    public function cards(Request $request)
-    {
+    public function cards(Request $request) {
         return [];
     }
 
@@ -112,8 +107,7 @@ class CadastralParcel extends Resource
      *
      * @return array
      */
-    public function filters(Request $request)
-    {
+    public function filters(Request $request) {
         return [];
     }
 
@@ -124,8 +118,7 @@ class CadastralParcel extends Resource
      *
      * @return array
      */
-    public function lenses(Request $request)
-    {
+    public function lenses(Request $request) {
         return [];
     }
 
@@ -136,8 +129,7 @@ class CadastralParcel extends Resource
      *
      * @return array
      */
-    public function actions(Request $request)
-    {
+    public function actions(Request $request) {
         return [
             (new CreateProjectFromParcelsAction())
                 ->canRun(function ($request) {
