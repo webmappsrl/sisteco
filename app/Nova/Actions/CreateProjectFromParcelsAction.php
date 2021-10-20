@@ -3,43 +3,45 @@
 namespace App\Nova\Actions;
 
 use App\Models\Project;
-use App\Models\User;
+use App\Models\Research;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Searchable;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 
-class CreateProjectFromParcelsAction extends Action
-{
+class CreateProjectFromParcelsAction extends Action {
     public $name = 'Crea Progetto';
-
+    private $researchId;
     use InteractsWithQueue, Queueable;
+
+    public function __construct() {
+    }
 
     /**
      * Perform the action on the given models.
      *
-     * @param \Laravel\Nova\Fields\ActionFields $fields
-     * @param \Illuminate\Support\Collection $models
-     * @return mixed
+     * @param ActionFields $fields
+     * @param Collection   $models
+     *
+     * @return array|string[]
      */
-    public function handle(ActionFields $fields, Collection $models)
-    {
-        $title = $fields['title'];
-        $description = $fields['description'];
-        $p = new Project();
-        $p->title = $fields['title'];
-        $p->description = $fields['description'];
-        $p->user_id = auth()->user()->id;
-        $p->research_id = 1;
-        $p->save();
+    public function handle(ActionFields $fields, Collection $models): array {
+        $project = new Project();
+        $project->title = $fields['title'];
+        $project->description = $fields['description'];
+        $project->user_id = auth()->user()->id;
+        $project->research_id = $fields['research'] || $this->researchId;
+        $project->save();
         foreach ($models as $parcel) {
-            $p->cadastralParcels()->attach($parcel->id);
+            $project->cadastralParcels()->attach($parcel->id);
         }
+
         return Action::message("Project created!");
     }
 
@@ -48,11 +50,21 @@ class CreateProjectFromParcelsAction extends Action
      *
      * @return array
      */
-    public function fields()
-    {
-        return [
-            Text::make('title')->required(),
-            Textarea::make('description')->required()->rows(10),
+    public function fields(): array {
+        $fields = [
+            Text::make('Titolo', 'title')->required(),
+            Textarea::make('Descrizione', 'description')->required()->rows(10),
         ];
+
+        if (request()->viaResource === 'research')
+            $this->researchId = intval(request()->viaResourceId);
+        else {
+            $fields[] = Select::make('Ricerca', 'research')
+                ->searchable()
+                ->options(Research::all()->pluck('title', 'id'))
+                ->required();
+        }
+
+        return $fields;
     }
 }
