@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Municipality;
+use App\Nova\Actions\CreateProjectFromParcelsAction;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Text;
@@ -137,6 +138,12 @@ class CadastralParcel extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new CreateProjectFromParcelsAction())
+                ->canRun(function ($request) {
+                    return true;
+                })
+                ->onlyOnIndex(),
+        ];
     }
 }
