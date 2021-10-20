@@ -56,7 +56,7 @@ class OwnerPolicy {
      * @return bool
      */
     public function attachAnyCadastralParcel(User $user, Owner $model): bool {
-        return false;
+        return true;
     }
 
     /**
@@ -68,7 +68,7 @@ class OwnerPolicy {
      * @return bool
      */
     public function detachAnyCadastralParcel(User $user, Owner $model): bool {
-        return false;
+        return true;
     }
 
     /**
