@@ -2,12 +2,17 @@
 
 namespace App\Nova\Actions;
 
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 
 class CreateProjectFromParcelsAction extends Action
 {
@@ -24,7 +29,18 @@ class CreateProjectFromParcelsAction extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        return Action::message('Not Yet implemented');
+        $title = $fields['title'];
+        $description = $fields['description'];
+        $p = new Project();
+        $p->title = $fields['title'];
+        $p->description = $fields['description'];
+        $p->user_id = auth()->user()->id;
+        $p->research_id = 1;
+        $p->save();
+        foreach ($models as $parcel) {
+            $p->cadastralParcels()->attach($parcel->id);
+        }
+        return Action::message("Project created!");
     }
 
     /**
@@ -34,6 +50,9 @@ class CreateProjectFromParcelsAction extends Action
      */
     public function fields()
     {
-        return [];
+        return [
+            Text::make('title')->required(),
+            Textarea::make('description')->required()->rows(10),
+        ];
     }
 }

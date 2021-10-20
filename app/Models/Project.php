@@ -7,26 +7,36 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Project extends Model {
+class Project extends Model
+{
     use HasFactory;
 
-    public function owners(): BelongsToMany {
+    protected $fillable = [
+        'title', 'description'
+    ];
+
+    public function owners(): BelongsToMany
+    {
         return $this->belongsToMany(Owner::class);
     }
 
-    public function cadastralParcels(): BelongsToMany {
+    public function cadastralParcels(): BelongsToMany
+    {
         return $this->belongsToMany(CadastralParcel::class);
     }
 
-    public function creator(): BelongsTo {
+    public function creator(): BelongsTo
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function research(): BelongsTo {
+    public function research(): BelongsTo
+    {
         return $this->belongsTo(Research::class);
     }
 
-    public function estimatedValue(): float {
+    public function estimatedValue(): float
+    {
         return array_sum($this->cadastralParcels->pluck('estimated_value')->toArray());
     }
 }
