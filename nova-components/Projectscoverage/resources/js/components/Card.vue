@@ -29,7 +29,7 @@ export default {
 #dashboard-map-image-container {
     width: 100%;
     height: 100%;
-    background-image: url("/storage/dashboard-map.png");
+    background-image: url("/images/dashboard-map.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
