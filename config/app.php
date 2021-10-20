@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'version' => '0.0.3',
+    'version' => '0.0.4',
 
     /*
     |--------------------------------------------------------------------------
@@ -187,6 +187,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\NovaServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        \App\Providers\ElasticServiceProvider::class,
 
     ],
 

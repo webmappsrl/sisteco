@@ -12,7 +12,6 @@
         "bosnadev/database": "^0.21.0",
         "cloudcake/nova-fixed-bars": "^1.1",
         "dillingham/nova-button": "^1.0",
-        "dillingham/nova-minimal-theme": "^1.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
@@ -22,7 +21,10 @@
         "m-a-k-o/nova-custom-table-card": "^3.0",
         "mstaack/laravel-postgis": "^5.2",
         "my_app/nova-table": "*",
-        "spatie/db-dumper": "^2.21"
+        "spatie/db-dumper": "^2.21",
+        "ext-json": "*",
+        "sisteco/projectscoverage": "*",
+        "ext-curl": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
@@ -61,6 +63,10 @@
         {
             "type": "path",
             "url": "./nova-components/NovaTable"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Projectscoverage"
         }
     ],
     "minimum-stability": "dev",

@@ -52,5 +52,9 @@ class LandUsesSeeder extends Seeder {
             'code' => '334',
             'name' => 'Aree percorse da incendi'
         ]);
+        LandUse::factory()->create([
+            'code' => '000',
+            'name' => 'Altro'
+        ]);
     }
 }

@@ -14,9 +14,13 @@ class CreateProjectsTable extends Migration {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->text('kibana_query')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->text('kibana_query');
+            $table->unsignedBigInteger('research_id');
+            $table->foreign('research_id')->references('id')->on('researches');
+            $table->string('title');
+            $table->text('description');
         });
     }
 

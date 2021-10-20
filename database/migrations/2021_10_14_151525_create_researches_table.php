@@ -16,6 +16,7 @@ class CreateResearchesTable extends Migration {
             $table->timestamps();
             $table->string('title');
             $table->text('description');
+            $table->text('filters')->nullable();
         });
     }
 

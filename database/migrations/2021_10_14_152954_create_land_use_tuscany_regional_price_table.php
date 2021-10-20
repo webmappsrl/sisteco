@@ -18,6 +18,7 @@ class CreateLandUseTuscanyRegionalPriceTable extends Migration {
             $table->foreign('land_use_id')->references('id')->on('land_uses');
             $table->unsignedBigInteger('tuscany_regional_price_id');
             $table->foreign('tuscany_regional_price_id')->references('id')->on('tuscany_regional_prices');
+            $table->unique(['land_use_id', 'tuscany_regional_price_id']);
         });
     }
 

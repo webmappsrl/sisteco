@@ -16,6 +16,7 @@ class CreateCadastralParcelsTable extends Migration {
             $table->timestamps();
             $table->string('code')->unique();
             $table->geometry('geometry');
+            $table->float('estimated_value')->default(0);
         });
     }
 

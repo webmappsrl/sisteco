@@ -18,6 +18,7 @@ class CreateCadastralParcelOwnerTable extends Migration {
             $table->foreign('cadastral_parcel_id')->references('id')->on('cadastral_parcels');
             $table->unsignedBigInteger('owner_id');
             $table->foreign('owner_id')->references('id')->on('owners');
+            $table->unique(['cadastral_parcel_id', 'owner_id']);
         });
     }
 
