@@ -14,7 +14,6 @@ class Research extends Model
     protected $table = 'researches';
 
     protected $fillable = [
-        'filters'
     ];
 
     public function cadastralParcels(): BelongsToMany

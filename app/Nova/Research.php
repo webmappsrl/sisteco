@@ -64,10 +64,12 @@ class Research extends Resource
     public function fields(Request $request): array
     {
         return [
-            Text::make('Title'),
+            Text::make('Titolo', 'title'),
             Textarea::make('Descrizione', 'description')->hideFromIndex()->alwaysShow(),
             Textarea::make('Elastic Query', 'elastic_query')->hideFromIndex(),
-            Text::make('Filtri attivi', 'filters')->showOnIndex()->showOnDetail()->hideWhenCreating()->hideWhenUpdating(),
+            Text::make('Filtri attivi', function ($model) {
+                return \App\Models\Research::getFiltersStringFromElasticQuery($model->elastic_query);
+            })->showOnIndex()->showOnDetail()->hideWhenCreating()->hideWhenUpdating(),
             Number::make('Numero di particelle catastali', function ($model) {
                 return count($model->cadastralParcels);
             }),

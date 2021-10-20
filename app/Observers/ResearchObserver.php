@@ -9,24 +9,25 @@ use Illuminate\Support\Facades\Log;
 
 class ResearchObserver
 {
+
     public function created(Research $research)
     {
-        $this->updateFiltersAndParcels($research);
+        $this->setParcels($research);
     }
 
     public function updating(Research $research)
     {
-        $this->updateFiltersAndParcels($research);
+        $this->setParcels($research);
     }
 
-    private function updateFiltersAndParcels(Research $research)
+    private function setParcels(Research $research)
     {
-        $research->filters = Research::getFiltersStringFromElasticQuery($research->elastic_query);
 
         // UPDATE PARCELS from string (elastic query)
         $elastic = app(ElasticServiceProvider::class);
         $parcels = Research::getCadastralParcelFromElasticResult($elastic->query($research->elastic_query));
         if (count($parcels) > 0) {
+            $research->cadastralParcels()->detach();
             foreach ($parcels as $parcel) {
                 $parcel_obj = CadastralParcel::where('code', $parcel)->first();
                 if (!is_null($parcel_obj)) {
