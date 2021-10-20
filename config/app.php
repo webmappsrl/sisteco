@@ -188,6 +188,8 @@ return [
         App\Providers\NovaServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        \App\Providers\ElasticServiceProvider::class,
+
     ],
 
     /*

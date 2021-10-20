@@ -5,7 +5,10 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 
-class CadastralParcel extends Resource {
+class CadastralParcel extends Resource
+{
+
+    public static $perPageViaRelationship = 20;
     /**
      * The model the resource corresponds to.
      *
@@ -18,7 +21,8 @@ class CadastralParcel extends Resource {
      *
      * @return string
      */
-    public static function label(): string {
+    public static function label(): string
+    {
         return 'Cadastral parcels';
     }
 
@@ -27,7 +31,8 @@ class CadastralParcel extends Resource {
      *
      * @return string
      */
-    public static function group(): string {
+    public static function group(): string
+    {
         return 'CRM';
     }
 
@@ -53,7 +58,8 @@ class CadastralParcel extends Resource {
      *
      * @return array
      */
-    public function fields(Request $request): array {
+    public function fields(Request $request): array
+    {
         return [
             Text::make(__('Cadastral code'), 'code')->sortable(),
         ];
@@ -66,7 +72,8 @@ class CadastralParcel extends Resource {
      *
      * @return array
      */
-    public function cards(Request $request) {
+    public function cards(Request $request)
+    {
         return [];
     }
 
@@ -77,7 +84,8 @@ class CadastralParcel extends Resource {
      *
      * @return array
      */
-    public function filters(Request $request) {
+    public function filters(Request $request)
+    {
         return [];
     }
 
@@ -88,7 +96,8 @@ class CadastralParcel extends Resource {
      *
      * @return array
      */
-    public function lenses(Request $request) {
+    public function lenses(Request $request)
+    {
         return [];
     }
 
@@ -99,7 +108,8 @@ class CadastralParcel extends Resource {
      *
      * @return array
      */
-    public function actions(Request $request) {
+    public function actions(Request $request)
+    {
         return [];
     }
 }

@@ -7,9 +7,11 @@ use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Research extends Resource {
+class Research extends Resource
+{
     /**
      * The model the resource corresponds to.
      *
@@ -22,7 +24,8 @@ class Research extends Resource {
      *
      * @return string
      */
-    public static function label(): string {
+    public static function label(): string
+    {
         return 'Researches';
     }
 
@@ -31,7 +34,8 @@ class Research extends Resource {
      *
      * @return string
      */
-    public static function group(): string {
+    public static function group(): string
+    {
         return 'Projects';
     }
 
@@ -57,16 +61,30 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function fields(Request $request): array {
+    public function fields(Request $request): array
+    {
         return [
             Text::make('Title'),
-            Text::make('Description')->onlyOnDetail(),
-            Text::make('Active filters', 'filters')->onlyOnIndex(),
-            Number::make('Number of cadastral parcels', function ($model) {
+            Textarea::make('Descrizione', 'description')->hideFromIndex()->alwaysShow(),
+            Textarea::make('Elastic Query', 'elastic_query')->hideFromIndex(),
+            Text::make('Filtri attivi', 'filters')->showOnIndex()->showOnDetail()->hideWhenCreating()->hideWhenUpdating(),
+            Number::make('Numero di particelle catastali', function ($model) {
                 return count($model->cadastralParcels);
             }),
-            Text::make('Filters', 'filters')->onlyOnDetail(),
-            Text::make('Municipalities')->onlyOnDetail(),
+            Text::make('Comuni', function ($model) {
+                if ($model->cadastralParcels->count() > 0) {
+                    $municipalities = [];
+                    foreach ($model->cadastralParcels as $parcel) {
+                        if ($parcel->municipality) {
+                            $municipalities[] = $parcel->municipality->name;
+                        }
+                    }
+                    $municipalities = array_unique($municipalities);
+                    return implode(',', $municipalities);
+                } else {
+                    return 'ND';
+                }
+            }),
             BelongsToMany::make('Cadastral parcels', 'cadastralParcels')->onlyOnDetail(),
         ];
     }
@@ -78,7 +96,8 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function cards(Request $request) {
+    public function cards(Request $request)
+    {
         return [];
     }
 
@@ -89,7 +108,8 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function filters(Request $request) {
+    public function filters(Request $request)
+    {
         return [];
     }
 
@@ -100,7 +120,8 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function lenses(Request $request) {
+    public function lenses(Request $request)
+    {
         return [];
     }
 
@@ -111,7 +132,8 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function actions(Request $request) {
+    public function actions(Request $request)
+    {
         return [];
     }
 }
