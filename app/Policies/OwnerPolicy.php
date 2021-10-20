@@ -28,11 +28,11 @@ class OwnerPolicy {
     }
 
     public function create(User $user): bool {
-        return false;
+        return true;
     }
 
     public function update(User $user, Owner $model): bool {
-        return false;
+        return true;
     }
 
     public function delete(User $user, Owner $model): bool {
