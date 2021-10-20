@@ -50,18 +50,22 @@ class ImportCadastralParcels extends Command {
     /**
      * Import the geojson in the database
      *
+     * @param string $dbHost
+     * @param string $dbPort
      * @param string $dbName
+     * @param string $dbUser
+     * @param string $dbPassword
      * @param string $tableName
      * @param string $geojsonPath
      *
      * @throws Exception
      */
-    public function importWithOgr2Ogr(string $dbName, string $tableName, string $geojsonPath): void {
+    public function importWithOgr2Ogr(string $dbHost, string $dbPort, string $dbName, string $dbUser, string $dbPassword, string $tableName, string $geojsonPath): void {
         if (!$this->ogr2ogrExists())
             throw new Exception('The ogr2ogr command is needed to import the geojson. The execution cannot continue');
 
         Log::info("Running ogr2ogr import");
-        $command = "ogr2ogr -f PostgreSQL PG:\"dbname=$dbName\" $geojsonPath -nln $tableName";
+        $command = "ogr2ogr -f PostgreSQL PG:\"dbname='$dbName' host='$dbHost' port='$dbPort' user='$dbUser' password='$dbPassword'\" $geojsonPath -nln $tableName";
         system($command);
 
         if (!Schema::hasTable($tableName))
@@ -165,7 +169,11 @@ class ImportCadastralParcels extends Command {
     public function handle(): int {
         $geojsonUri = $this->option('geojson');
         $geojsonFullPath = Storage::disk('local')->path($geojsonUri);
+        $dbHost = config('database.connections.' . config('database.default') . '.host');
+        $dbPort = config('database.connections.' . config('database.default') . '.port');
         $dbName = config('database.connections.' . config('database.default') . '.database');
+        $dbUser = config('database.connections.' . config('database.default') . '.username');
+        $dbPassword = config('database.connections.' . config('database.default') . '.password');
         $tableName = "cadastral_parcels_import_table_" . substr(str_shuffle(MD5(microtime())), 0, 5);
 
         DB::beginTransaction();
@@ -178,7 +186,7 @@ class ImportCadastralParcels extends Command {
             if (!Storage::disk('local')->exists($geojsonUri))
                 throw new Exception("The geojson file could not be found in $geojsonFullPath");
 
-            $this->importWithOgr2Ogr($dbName, $tableName, $geojsonFullPath);
+            $this->importWithOgr2Ogr($dbHost, $dbPort, $dbName, $dbUser, $dbPassword, $tableName, $geojsonFullPath);
 
             $this->importCadastralParcels($tableName);
             $this->importLandUsesOfCadastralParcels($tableName);
