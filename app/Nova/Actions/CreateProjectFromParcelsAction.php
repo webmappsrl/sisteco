@@ -36,7 +36,7 @@ class CreateProjectFromParcelsAction extends Action {
         $project->title = $fields['title'];
         $project->description = $fields['description'];
         $project->user_id = auth()->user()->id;
-        $project->research_id = $fields['research'] || $this->researchId;
+        $project->research_id = $fields['research'] ?? $this->researchId;
         $project->save();
         foreach ($models as $parcel) {
             $project->cadastralParcels()->attach($parcel->id);
