@@ -64,12 +64,13 @@ class Project extends Resource {
             BelongsTo::make('Autori progetto', 'creator', 'App\Nova\User')->onlyOnIndex(),
             Date::make('Data creatione', 'created_at')->onlyOnIndex(),
             Text::make('Proprietari', function (\App\Models\Project $model) {
-                $names = $model->owners->pluck('first_name', 'last_name')->toArray();
-                array_walk($names, function ($value, $key) {
-                    return "$key $value";
-                });
-
-                return implode(', ', $names);
+                return '';
+                //                $names = $model->owners->pluck('first_name', 'last_name')->toArray();
+                //                array_walk($names, function ($value, $key) {
+                //                    return "$key $value";
+                //                });
+                //
+                //                return implode(', ', $names);
             })->onlyOnDetail(),
             Text::make('Comuni')->onlyOnDetail(),
             Currency::make('Stima (€)', function ($model) {

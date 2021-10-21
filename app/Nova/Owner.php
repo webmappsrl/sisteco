@@ -122,8 +122,8 @@ class Owner extends Resource {
             BelongsToMany::make('Particelle catastali', 'cadastralParcels', 'App\Nova\CadastralParcel')
                 ->onlyOnDetail()
                 ->searchable(),
-            BelongsToMany::make('Progetti', 'projects', 'App\Nova\Project')
-                ->onlyOnDetail()
+            //            BelongsToMany::make('Progetti', 'projects', 'App\Nova\Project')
+            //                ->onlyOnDetail()
         ];
     }
 
