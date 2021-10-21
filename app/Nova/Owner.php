@@ -104,7 +104,7 @@ class Owner extends Resource {
                 Text::make('Telefono', 'phone')
                     ->required()
                     ->hideFromIndex(),
-                Text::make('Nome azienda', 'company_name')
+                Text::make('Nome azienda', 'business_name')
                     ->onlyOnForms(),
                 Text::make('Via', 'addr:street')
                     ->onlyOnForms(),
