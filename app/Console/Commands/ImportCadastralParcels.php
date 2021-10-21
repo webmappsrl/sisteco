@@ -84,10 +84,20 @@ class ImportCadastralParcels extends Command {
     public function importCadastralParcels(string $tableName): void {
         try {
             Log::info("Importing cadastral parcels");
-            DB::statement("INSERT INTO cadastral_parcels (code, geometry, created_at, updated_at)
+            DB::statement("INSERT INTO cadastral_parcels (
+                code,
+                geometry,
+                average_slope,
+                meter_min_distance_path,
+                meter_min_distance_road,
+                created_at,
+                updated_at)
             SELECT
                 cadastral_parcel_id,
                 ST_Union(geometry),
+                MAX(average_slope),
+                MAX(meter_min_distance_path),
+                MAX(meter_min_distance_road),
                 NOW(),
                 NOW()
             FROM
@@ -98,7 +108,10 @@ class ImportCadastralParcels extends Command {
                         '\"',
                         ''
                     ) as cadastral_parcel_id,
-                    wkb_geometry as geometry
+                    wkb_geometry as geometry,
+                    average_sl as average_slope,
+                    min_path_d as meter_min_distance_path,
+                    min_road_d as meter_min_distance_road
                 FROM $tableName) as cadastral_parcels_table
             GROUP BY cadastral_parcels_table.cadastral_parcel_id;
         ");
@@ -119,12 +132,17 @@ class ImportCadastralParcels extends Command {
         try {
             Log::info("Importing land uses of cadastral parcels");
             DB::statement("INSERT INTO cadastral_parcel_land_use
-                (cadastral_parcel_id, land_use_id, geometry, square_meter_surface, created_at, updated_at)
+                (cadastral_parcel_id,
+                 land_use_id,
+                 geometry,
+                 square_meter_surface,
+                 created_at,
+                 updated_at)
                 SELECT
-                    cadastral_parcels.id as cadastral_parcel_id,
-                    COALESCE(land_uses.id, other_land_use_id.id) as land_use_id,
-                    wkb_geometry as geometry,
-                    area_sub_p as square_meter_surface,
+                    cadastral_parcels.id,
+                    COALESCE(land_uses.id, other_land_use_id.id),
+                    wkb_geometry,
+                    area_sub_p,
                     NOW(),
                     NOW()
                 FROM

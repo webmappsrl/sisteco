@@ -17,6 +17,9 @@ class CreateCadastralParcelsTable extends Migration {
             $table->string('code')->unique();
             $table->geometry('geometry');
             $table->float('estimated_value')->default(0);
+            $table->float('average_slope')->default(0);
+            $table->float('meter_min_distance_path')->default(0);
+            $table->float('meter_min_distance_road')->default(0);
         });
     }
 
