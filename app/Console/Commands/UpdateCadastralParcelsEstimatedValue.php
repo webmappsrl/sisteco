@@ -43,7 +43,6 @@ class UpdateCadastralParcelsEstimatedValue extends Command {
         Log::info("Starting setting random values to the estimated value of the cadastral parcels");
         do {
             $cadastralParcels = CadastralParcel::orderBy('id')->skip($start)->take($step)->get();
-            Log::info($cadastralParcels->pluck('id')->toArray());
             foreach ($cadastralParcels as $cadastralParcel) {
                 $cadastralParcel->estimated_value = rand(10, 10000);
                 $mun = Municipality::where('code', explode('_', $cadastralParcel->code)[0])->first();
