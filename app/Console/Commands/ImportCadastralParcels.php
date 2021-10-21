@@ -90,6 +90,7 @@ class ImportCadastralParcels extends Command {
                 average_slope,
                 meter_min_distance_path,
                 meter_min_distance_road,
+                square_meter_surface,
                 created_at,
                 updated_at)
             SELECT
@@ -98,6 +99,7 @@ class ImportCadastralParcels extends Command {
                 MAX(average_slope),
                 MAX(meter_min_distance_path),
                 MAX(meter_min_distance_road),
+                SUM(square_meter_surface),
                 NOW(),
                 NOW()
             FROM
@@ -111,7 +113,8 @@ class ImportCadastralParcels extends Command {
                     wkb_geometry as geometry,
                     average_sl as average_slope,
                     min_path_d as meter_min_distance_path,
-                    min_road_d as meter_min_distance_road
+                    min_road_d as meter_min_distance_road,
+                    area_sub_p as square_meter_surface
                 FROM $tableName) as cadastral_parcels_table
             GROUP BY cadastral_parcels_table.cadastral_parcel_id;
         ");

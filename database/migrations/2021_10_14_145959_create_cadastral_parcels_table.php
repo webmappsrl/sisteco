@@ -20,6 +20,7 @@ class CreateCadastralParcelsTable extends Migration {
             $table->float('average_slope')->default(0);
             $table->float('meter_min_distance_path')->default(0);
             $table->float('meter_min_distance_road')->default(0);
+            $table->float('square_meter_surface')->default(0);
         });
     }
 
