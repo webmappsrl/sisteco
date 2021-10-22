@@ -18,7 +18,7 @@ class CadastralParcel extends Model {
     }
 
     public function landUses(): BelongsToMany {
-        return $this->belongsToMany(LandUse::class);
+        return $this->belongsToMany(LandUse::class)->withPivot('square_meter_surface');
     }
 
     public function projects(): BelongsToMany {

@@ -6,22 +6,19 @@ use App\Models\Project;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
 
-class ProjectLandUsePartitionMetrics extends Partition
-{
-
-    public function name()
-    {
+class ProjectLandUsePartitionMetrics extends Partition {
+    public function name(): string {
         return 'Copertura del suolo coinvolta nei progetti';
     }
 
     /**
      * Calculate the value of the metric.
      *
-     * @param \Laravel\Nova\Http\Requests\NovaRequest $request
+     * @param NovaRequest $request
+     *
      * @return mixed
      */
-    public function calculate(NovaRequest $request)
-    {
+    public function calculate(NovaRequest $request) {
         return $this->count($request, Project::class, 'title');
     }
 
@@ -30,8 +27,7 @@ class ProjectLandUsePartitionMetrics extends Partition
      *
      * @return  \DateTimeInterface|\DateInterval|float|int
      */
-    public function cacheFor()
-    {
+    public function cacheFor() {
         // return now()->addMinutes(5);
     }
 
@@ -40,8 +36,7 @@ class ProjectLandUsePartitionMetrics extends Partition
      *
      * @return string
      */
-    public function uriKey()
-    {
+    public function uriKey() {
         return 'project-land-use-partition-metrics';
     }
 }

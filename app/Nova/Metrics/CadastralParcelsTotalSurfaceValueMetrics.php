@@ -2,15 +2,16 @@
 
 namespace App\Nova\Metrics;
 
+use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 use Laravel\Nova\Metrics\ValueResult;
 
-class NumberOfCadastralParcels extends Value {
+class CadastralParcelsTotalSurfaceValueMetrics extends Value {
     private $model;
 
     public function name(): string {
-        return 'Numero di particelle catastali';
+        return 'Superficie totale delle particelle catastali';
     }
 
     /**
@@ -21,7 +22,9 @@ class NumberOfCadastralParcels extends Value {
      * @return ValueResult
      */
     public function calculate(NovaRequest $request): ValueResult {
-        return $this->result(count($this->model->cadastralParcels));
+        $totalSurface = array_sum($this->model->cadastralParcels->pluck('square_meter_surface')->toArray());
+
+        return $this->result(round($totalSurface / 10000, 4))->suffix('ha');
     }
 
     /**
@@ -39,6 +42,7 @@ class NumberOfCadastralParcels extends Value {
      * @return  \DateTimeInterface|\DateInterval|float|int
      */
     public function cacheFor() {
+        // return now()->addMinutes(5);
     }
 
     /**
@@ -46,8 +50,8 @@ class NumberOfCadastralParcels extends Value {
      *
      * @return string
      */
-    public function uriKey() {
-        return 'number-of-cadastral-parcels';
+    public function uriKey(): string {
+        return 'cadastral-parcels-total-surface';
     }
 
     /**
@@ -57,7 +61,7 @@ class NumberOfCadastralParcels extends Value {
      *
      * @return $this
      */
-    public function model($model): NumberOfCadastralParcels {
+    public function model($model): CadastralParcelsTotalSurfaceValueMetrics {
         $this->model = $model;
 
         return $this;
