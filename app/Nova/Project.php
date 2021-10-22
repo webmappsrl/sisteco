@@ -2,7 +2,9 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\NumberOfCadastralParcels;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Currency;
@@ -89,8 +91,10 @@ class Project extends Resource {
      *
      * @return array
      */
-    public function cards(Request $request) {
-        return [];
+    public function cards(Request $request): array {
+        return [
+            (new NumberOfCadastralParcels)->model(\App\Models\Project::find($request->resourceId))->onlyOnDetail()
+        ];
     }
 
     /**
