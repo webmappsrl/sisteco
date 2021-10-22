@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\CadastralParcelsTotalSurface;
 use App\Nova\Metrics\NumberOfCadastralParcels;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -93,7 +94,8 @@ class Project extends Resource {
      */
     public function cards(Request $request): array {
         return [
-            (new NumberOfCadastralParcels)->model(\App\Models\Project::find($request->resourceId))->onlyOnDetail()
+            (new NumberOfCadastralParcels)->model(\App\Models\Project::find($request->resourceId))->onlyOnDetail(),
+            (new CadastralParcelsTotalSurface)->model(\App\Models\Project::find($request->resourceId))->onlyOnDetail()
         ];
     }
 
