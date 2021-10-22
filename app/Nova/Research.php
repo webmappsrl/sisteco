@@ -2,6 +2,9 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\CadastralParcelsTotalSurfaceValueMetrics;
+use App\Nova\Metrics\LandUseOfCadastralParcelsPartitionMetrics;
+use App\Nova\Metrics\NumberOfCadastralParcelsValueMetrics;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\ID;
@@ -95,8 +98,19 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function cards(Request $request) {
-        return [];
+    public function cards(Request $request): array {
+        $cards = [];
+
+        if (isset($request->resourceId)) {
+            $model = \App\Models\Research::find($request->resourceId);
+            $cards = [
+                (new NumberOfCadastralParcelsValueMetrics)->model($model)->onlyOnDetail(),
+                (new CadastralParcelsTotalSurfaceValueMetrics)->model($model)->onlyOnDetail(),
+                (new LandUseOfCadastralParcelsPartitionMetrics)->model($model)->onlyOnDetail()
+            ];
+        }
+
+        return $cards;
     }
 
     /**
