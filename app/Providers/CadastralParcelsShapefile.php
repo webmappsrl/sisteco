@@ -2,8 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Research;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,14 +27,13 @@ class CadastralParcelsShapefile extends ServiceProvider {
     }
 
     /**
-     * Create a shapefile with the cadastral parcels included in the researches
+     * Create a shapefile with the cadastral parcels included in the models collection
      *
-     * @param array $ids the researches ids
+     * @param Collection $models the researches ids
      *
      * @return string with the path of the generated shapefile
      */
-    public function createResearchesShapefile(array $ids): string {
-        $models = Research::whereIn('id', $ids)->get();
+    public function createShapefileFromModelsCollection(Collection $models): string {
         $names = [];
 
         $cadastralParcelsIds = [];
