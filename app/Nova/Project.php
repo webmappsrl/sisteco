@@ -2,11 +2,12 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\DownloadCadastralParcelsExcel;
+use App\Nova\Actions\DownloadCadastralParcelsShapefile;
 use App\Nova\Metrics\CadastralParcelsTotalSurfaceValueMetrics;
 use App\Nova\Metrics\LandUseOfCadastralParcelsPartitionMetrics;
 use App\Nova\Metrics\NumberOfCadastralParcelsValueMetrics;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Currency;
@@ -115,7 +116,7 @@ class Project extends Resource {
      *
      * @return array
      */
-    public function filters(Request $request) {
+    public function filters(Request $request): array {
         return [];
     }
 
@@ -126,7 +127,7 @@ class Project extends Resource {
      *
      * @return array
      */
-    public function lenses(Request $request) {
+    public function lenses(Request $request): array {
         return [];
     }
 
@@ -137,7 +138,10 @@ class Project extends Resource {
      *
      * @return array
      */
-    public function actions(Request $request) {
-        return [];
+    public function actions(Request $request): array {
+        return [
+            new DownloadCadastralParcelsShapefile,
+            new DownloadCadastralParcelsExcel
+        ];
     }
 }
