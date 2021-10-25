@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CadastralParcelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::name('api.')->group(function () {
+    Route::middleware('auth:api')->get('/user', function (Request $request) {
+        return $request->user();
+    })->name('user');
+
+    //    Route::prefix('cadastral-parcels')->name('cadastral_parcels.')->group(function () {
+    //        Route::prefix('researches')->name('researches.')->group(function () {
+    //            Route::post('/shapefile', [CadastralParcelController::class, 'researchesShapefile'])->name('shapefile');
+    //        });
+    //    });
 });

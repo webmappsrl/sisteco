@@ -189,6 +189,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         \App\Providers\ElasticServiceProvider::class,
+        \App\Providers\CadastralParcelsShapefile::class
 
     ],
 
