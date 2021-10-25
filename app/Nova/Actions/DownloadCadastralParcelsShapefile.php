@@ -17,6 +17,15 @@ class DownloadCadastralParcelsShapefile extends Action {
     use InteractsWithQueue, Queueable;
 
     /**
+     * Define the action name
+     *
+     * @return string
+     */
+    public function name(): string {
+        return 'Esporta shapefile (.zip) delle particelle catastali';
+    }
+
+    /**
      * Perform the action on the given models.
      *
      * @param ActionFields $fields

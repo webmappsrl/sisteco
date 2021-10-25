@@ -9,6 +9,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "ext-curl": "*",
+        "ext-json": "*",
         "bosnadev/database": "^0.21.0",
         "cloudcake/nova-fixed-bars": "^1.1",
         "dillingham/nova-button": "^1.0",
@@ -19,12 +21,11 @@
         "laravel/nova": "*",
         "laravel/tinker": "^2.5",
         "m-a-k-o/nova-custom-table-card": "^3.0",
+        "maatwebsite/excel": "^3.1",
         "mstaack/laravel-postgis": "^5.2",
         "my_app/nova-table": "*",
-        "spatie/db-dumper": "^2.21",
-        "ext-json": "*",
         "sisteco/projectscoverage": "*",
-        "ext-curl": "*"
+        "spatie/db-dumper": "^2.21"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

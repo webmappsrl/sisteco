@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\DownloadCadastralParcelsExcel;
 use App\Nova\Actions\DownloadCadastralParcelsShapefile;
 use App\Nova\Metrics\CadastralParcelsTotalSurfaceValueMetrics;
 use App\Nova\Metrics\LandUseOfCadastralParcelsPartitionMetrics;
@@ -143,7 +144,8 @@ class Research extends Resource {
      */
     public function actions(Request $request): array {
         return [
-            new DownloadCadastralParcelsShapefile
+            new DownloadCadastralParcelsShapefile,
+            new DownloadCadastralParcelsExcel
         ];
     }
 }
