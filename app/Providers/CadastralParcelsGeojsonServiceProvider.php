@@ -3,10 +3,8 @@
 namespace App\Providers;
 
 use App\Models\CadastralParcel;
-use App\Models\Research;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 

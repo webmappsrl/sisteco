@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\DownloadCadastralParcelsCsv;
 use App\Nova\Actions\DownloadCadastralParcelsExcel;
 use App\Nova\Actions\DownloadCadastralParcelsGeojson;
 use App\Nova\Actions\DownloadCadastralParcelsShapefile;
@@ -147,7 +148,8 @@ class Research extends Resource {
         return [
             new DownloadCadastralParcelsShapefile,
             new DownloadCadastralParcelsExcel,
-            new DownloadCadastralParcelsGeojson
+            new DownloadCadastralParcelsGeojson,
+            new DownloadCadastralParcelsCsv
         ];
     }
 }

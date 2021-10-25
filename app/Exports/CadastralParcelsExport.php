@@ -5,8 +5,9 @@ namespace App\Exports;
 use App\Models\CadastralParcel;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class CadastralParcelsExport implements FromCollection {
+class CadastralParcelsExport implements FromCollection, WithHeadings {
     protected $ids;
 
     public function __construct(array $ids) {
@@ -22,14 +23,6 @@ class CadastralParcelsExport implements FromCollection {
         $parcels = CadastralParcel::whereIn('id', $this->ids)->get();
         $collection = new Collection();
 
-        $collection->add([
-            'Codice catasto',
-            'Superficie (ha)',
-            'Comune',
-            //            'Provincia',
-            //            'Regione'
-        ]);
-
         foreach ($parcels as $parcel) {
             $row = [
                 $parcel->code,
@@ -41,5 +34,20 @@ class CadastralParcelsExport implements FromCollection {
         }
 
         return $collection;
+    }
+
+    /**
+     * Set the export headings
+     *
+     * @return array
+     */
+    public function headings(): array {
+        return [
+            'Codice catasto',
+            'Superficie (ha)',
+            'Comune',
+            //            'Provincia',
+            //            'Regione'
+        ];
     }
 }

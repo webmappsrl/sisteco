@@ -3,12 +3,10 @@
 namespace App\Nova\Actions;
 
 use App\Providers\CadastralParcelsGeojsonServiceProvider;
-use App\Providers\CadastralParcelsShapefileServiceProvider;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
