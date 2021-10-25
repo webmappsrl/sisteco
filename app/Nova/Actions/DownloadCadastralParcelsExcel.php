@@ -44,6 +44,7 @@ class DownloadCadastralParcelsExcel extends Action {
         $filename = count($names) === 1
             ? 'Export ' . $names[0]
             : 'Export ' . implode(', ', $names);
+        if (strlen($filename) > 50) $filename = substr($filename, 0, 47) . ' etc';
 
         $publicPath = "exports/excel/$filename.xlsx";
         Excel::store(new CadastralParcelsExport($ids), $publicPath, 'public');

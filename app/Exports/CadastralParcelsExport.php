@@ -26,14 +26,15 @@ class CadastralParcelsExport implements FromCollection {
             'Codice catasto',
             'Superficie (ha)',
             'Comune',
-            'Provincia',
-            'Regione'
+            //            'Provincia',
+            //            'Regione'
         ]);
 
         foreach ($parcels as $parcel) {
             $row = [
                 $parcel->code,
-                round($parcel->square_meter_surface / 10000, 4)
+                round($parcel->square_meter_surface / 10000, 4),
+                $parcel->municipality->name
             ];
 
             $collection->add($row);

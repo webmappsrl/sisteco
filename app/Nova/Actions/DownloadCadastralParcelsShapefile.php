@@ -2,14 +2,13 @@
 
 namespace App\Nova\Actions;
 
-use App\Http\Controllers\CadastralParcelController;
 use App\Providers\CadastralParcelsShapefile;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 
@@ -31,15 +30,16 @@ class DownloadCadastralParcelsShapefile extends Action {
      * @param ActionFields $fields
      * @param Collection   $models
      *
-     * @return mixed
+     * @return array|string[]
      */
-    public function handle(ActionFields $fields, Collection $models) {
+    public function handle(ActionFields $fields, Collection $models): array {
         $service = App::make(CadastralParcelsShapefile::class);
-        $response = $service->downloadResearchesShapefile($models->pluck('id')->toArray());
-        Log::info($response);
+        $shapefilePath = $service->createResearchesShapefile($models->pluck('id')->toArray());
 
-        // TODO: check for response status
-        return Action::message('File downloaded successfully');
+        $filename = explode('/', $shapefilePath);
+        $filename = end($filename);
+
+        return Action::download(Storage::disk('public')->url($shapefilePath), $filename);
     }
 
     /**
