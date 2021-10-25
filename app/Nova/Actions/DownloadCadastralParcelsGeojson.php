@@ -2,6 +2,7 @@
 
 namespace App\Nova\Actions;
 
+use App\Providers\CadastralParcelsGeojsonServiceProvider;
 use App\Providers\CadastralParcelsShapefileServiceProvider;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 
-class DownloadCadastralParcelsShapefile extends Action {
+class DownloadCadastralParcelsGeojson extends Action {
     use InteractsWithQueue, Queueable;
 
     /**
@@ -21,7 +22,7 @@ class DownloadCadastralParcelsShapefile extends Action {
      * @return string
      */
     public function name(): string {
-        return 'Esporta shapefile (.zip) delle particelle catastali';
+        return 'Esporta geojson (.geojson) delle particelle catastali';
     }
 
     /**
@@ -33,13 +34,13 @@ class DownloadCadastralParcelsShapefile extends Action {
      * @return array|string[]
      */
     public function handle(ActionFields $fields, Collection $models): array {
-        $service = App::make(CadastralParcelsShapefileServiceProvider::class);
-        $shapefilePath = $service->createShapefileFromModelsCollection($models);
+        $service = App::make(CadastralParcelsGeojsonServiceProvider::class);
+        $geojsonPath = $service->createGeojsonFromModelsCollection($models);
 
-        $filename = explode('/', $shapefilePath);
+        $filename = explode('/', $geojsonPath);
         $filename = end($filename);
 
-        return Action::download(Storage::disk('public')->url($shapefilePath), $filename);
+        return Action::download(Storage::disk('public')->url($geojsonPath), $filename);
     }
 
     /**

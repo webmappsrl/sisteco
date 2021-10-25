@@ -188,8 +188,9 @@ return [
         App\Providers\NovaServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        \App\Providers\ElasticServiceProvider::class,
-        \App\Providers\CadastralParcelsShapefile::class
+        App\Providers\ElasticServiceProvider::class,
+        App\Providers\CadastralParcelsShapefileServiceProvider::class,
+        App\Providers\CadastralParcelsGeojsonServiceProvider::class
 
     ],
 

@@ -6,15 +6,15 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
 
-class CadastralParcelsShapefile extends ServiceProvider {
+class CadastralParcelsShapefileServiceProvider extends ServiceProvider {
     /**
      * Register services.
      *
      * @return void
      */
     public function register(): void {
-        $this->app->bind(CadastralParcelsShapefile::class, function ($app) {
-            return new CadastralParcelsShapefile($app);
+        $this->app->bind(CadastralParcelsShapefileServiceProvider::class, function ($app) {
+            return new CadastralParcelsShapefileServiceProvider($app);
         });
     }
 
@@ -29,7 +29,7 @@ class CadastralParcelsShapefile extends ServiceProvider {
     /**
      * Create a shapefile with the cadastral parcels included in the models collection
      *
-     * @param Collection $models the researches ids
+     * @param Collection $models the collection of models
      *
      * @return string with the path of the generated shapefile
      */
