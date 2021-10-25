@@ -24,7 +24,10 @@ class CadastralParcelsTotalSurfaceValueMetrics extends Value {
     public function calculate(NovaRequest $request): ValueResult {
         $totalSurface = array_sum($this->model->cadastralParcels->pluck('square_meter_surface')->toArray());
 
-        return $this->result(round($totalSurface / 10000, 4))->suffix('ha');
+        return $this->result(round($totalSurface / 10000, 4))
+            ->format("0[.]0000")
+            ->suffix('ha')
+            ->withoutSuffixInflection();
     }
 
     /**
