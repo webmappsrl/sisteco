@@ -2,18 +2,24 @@
 
 namespace App\Exports\Sheets;
 
+use App\Models\CadastralParcel;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithTitle;
 
 class CadastralParcelXLSCostsExportSecondYearSheet implements FromCollection, WithTitle
 {
+    private $parcel_id;
+
+    public function __construct($parcel_id)
+    {
+        $this->parcel_id = $parcel_id;
+    }
+
     public function collection()
     {
-        $c = new Collection();
-        $c->add([1, 2, 3]);
-        $c->add([1, 2, 3]);
-        return $c;
+        $p = CadastralParcel::find($this->parcel_id);
+        return $p->getCostsByYear(2);
     }
 
     /**

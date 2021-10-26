@@ -64,48 +64,90 @@ class CadastralParcel extends Model
      */
     public function getCostsByYear(int $year): Collection
     {
-        // TOTALE ANNO 1				€ 12.402,00
 
-        $c = new Collection();
-        $tot = 0;
+        if ($year == 1) {
+            $c = new Collection();
+            $tot = 0;
 
-        // Header
-        $row = ['Voce di Costo', 'U.M.', 'Quantità', 'Costo Un. €', 'Costo Tot. €'];
-        $c->add($row);
+            // Header
+            $row = ['Voce di Costo', 'U.M.', 'Quantità', 'Costo Un. €', 'Costo Tot. €'];
+            $c->add($row);
 
-        // Taglio raso Conifere
-        $cost = $this->getSurfaceByUcs(312) / 10000 * 5870;
-        $tot += $cost;
-        $row = [
-            'Taglio raso fascia di conifere adiacente alla strada (ucs2013: 312)',
-            'ha',
-            number_format($this->getSurfaceByUcs(312) / 10000, 4, ',', '.'),
-            '5.870,00 €/ha',
-            number_format($cost, 2, ',', '.')
-        ];
-        $c->add($row);
+            // Taglio raso Conifere
+            $cost = $this->getSurfaceByUcs(312) / 10000 * 5870;
+            $tot += $cost;
+            $row = [
+                'Taglio raso fascia di conifere adiacente alla strada (ucs2013: 312)',
+                'ha',
+                number_format($this->getSurfaceByUcs(312) / 10000, 4, ',', '.'),
+                '5.870,00 €/ha',
+                number_format($cost, 2, ',', '.')
+            ];
+            $c->add($row);
 
-        // Diradamento di conifere
-        $cost = $this->getSurfaceByUcs(312) / 10000 * 5920;
-        $tot += $cost;
-        $row = [
-            'Diradamento di conifere comprensivo di abbattimento e accatastamento in loco del abbattimento e accatastamento in loco del materiale di risulta (ucs2013: 312)',
-            'ha',
-            number_format($this->getSurfaceByUcs(312) / 10000, 4, ',', '.'),
-            '5.920,00 €/ha',
-            number_format($cost, 2, ',', '.')
-        ];
-        $c->add($row);
+            // Diradamento di conifere
+            $cost = $this->getSurfaceByUcs(312) / 10000 * 5920;
+            $tot += $cost;
+            $row = [
+                'Diradamento di conifere comprensivo di abbattimento e accatastamento in loco del abbattimento e accatastamento in loco del materiale di risulta (ucs2013: 312)',
+                'ha',
+                number_format($this->getSurfaceByUcs(312) / 10000, 4, ',', '.'),
+                '5.920,00 €/ha',
+                number_format($cost, 2, ',', '.')
+            ];
+            $c->add($row);
 
-        // TOTALE
-        $row = [
-            'TOTALE Anno1',
-            '',
-            '',
-            '',
-            number_format($tot, 2, ',', '.')
-        ];
-        $c->add($row);
+            // TOTALE
+            $row = [
+                'TOTALE Anno1',
+                '',
+                '',
+                '',
+                number_format($tot, 2, ',', '.')
+            ];
+            $c->add($row);
+        } else {
+            $c = new Collection();
+            $tot = 0;
+
+            // Header
+            $row = ['Voce di Costo', 'U.M.', 'Quantità', 'Costo Un. €', 'Costo Tot. €'];
+            $c->add($row);
+
+            // Taglio raso Conifere
+            $cost = 0;
+            $tot += $cost;
+            $row = [
+                'Taglio raso fascia di conifere adiacente alla strada (ucs2013: 312)',
+                'ha',
+                '0,0',
+                '5.870,00 €/ha',
+                number_format($cost, 2, ',', '.')
+            ];
+            $c->add($row);
+
+            // Diradamento di conifere
+            $cost = 0;
+            $tot += $cost;
+            $row = [
+                'Diradamento di conifere comprensivo di abbattimento e accatastamento in loco del abbattimento e accatastamento in loco del materiale di risulta (ucs2013: 312)',
+                'ha',
+                '0,0',
+                '5.920,00 €/ha',
+                number_format($cost, 2, ',', '.')
+            ];
+            $c->add($row);
+
+            // TOTALE
+            $row = [
+                'TOTALE Anno1',
+                '',
+                '',
+                '',
+                number_format($tot, 2, ',', '.')
+            ];
+            $c->add($row);
+        }
 
 
         return $c;

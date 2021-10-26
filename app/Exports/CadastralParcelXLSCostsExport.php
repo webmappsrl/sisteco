@@ -24,10 +24,10 @@ class CadastralParcelXLSCostsExport implements WithMultipleSheets
         return [
             new CadastralParcelXLSCostsExportResumeSheet($this->parcel_id),
             new CadastralParcelXLSCostsExportFirstYearSheet($this->parcel_id),
-            new CadastralParcelXLSCostsExportSecondYearSheet(),
-            new CadastralParcelXLSCostsExportThirdYearSheet(),
-            new CadastralParcelXLSCostsExportFourthYearSheet(),
-            new CadastralParcelXLSCostsExportFifthYearSheet(),
+            new CadastralParcelXLSCostsExportSecondYearSheet($this->parcel_id),
+            new CadastralParcelXLSCostsExportThirdYearSheet($this->parcel_id),
+            new CadastralParcelXLSCostsExportFourthYearSheet($this->parcel_id),
+            new CadastralParcelXLSCostsExportFifthYearSheet($this->parcel_id),
         ];
     }
 }
