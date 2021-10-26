@@ -14,7 +14,7 @@ class Owner extends Model {
         return $this->belongsToMany(CadastralParcel::class);
     }
 
-    public function projects(): BelongsToMany {
-        return $this->belongsToMany(Project::class);
-    }
+    //    public function projects(): BelongsToMany {
+    //        return $this->belongsToMany(Project::class);
+    //    }
 }

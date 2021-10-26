@@ -2,6 +2,13 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\DownloadCadastralParcelsCsv;
+use App\Nova\Actions\DownloadCadastralParcelsExcel;
+use App\Nova\Actions\DownloadCadastralParcelsGeojson;
+use App\Nova\Actions\DownloadCadastralParcelsShapefile;
+use App\Nova\Metrics\CadastralParcelsTotalSurfaceValueMetrics;
+use App\Nova\Metrics\LandUseOfCadastralParcelsPartitionMetrics;
+use App\Nova\Metrics\NumberOfCadastralParcelsValueMetrics;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\BelongsToMany;
@@ -64,12 +71,13 @@ class Project extends Resource {
             BelongsTo::make('Autori progetto', 'creator', 'App\Nova\User')->onlyOnIndex(),
             Date::make('Data creatione', 'created_at')->onlyOnIndex(),
             Text::make('Proprietari', function (\App\Models\Project $model) {
-                $names = $model->owners->pluck('first_name', 'last_name')->toArray();
-                array_walk($names, function ($value, $key) {
-                    return "$key $value";
-                });
-
-                return implode(', ', $names);
+                return '';
+                //                $names = $model->owners->pluck('first_name', 'last_name')->toArray();
+                //                array_walk($names, function ($value, $key) {
+                //                    return "$key $value";
+                //                });
+                //
+                //                return implode(', ', $names);
             })->onlyOnDetail(),
             Text::make('Comuni')->onlyOnDetail(),
             Currency::make('Stima (€)', function ($model) {
@@ -88,8 +96,19 @@ class Project extends Resource {
      *
      * @return array
      */
-    public function cards(Request $request) {
-        return [];
+    public function cards(Request $request): array {
+        $cards = [];
+
+        if (isset($request->resourceId)) {
+            $model = \App\Models\Project::find($request->resourceId);
+            $cards = [
+                (new NumberOfCadastralParcelsValueMetrics)->model($model)->onlyOnDetail(),
+                (new CadastralParcelsTotalSurfaceValueMetrics)->model($model)->onlyOnDetail(),
+                (new LandUseOfCadastralParcelsPartitionMetrics)->model($model)->onlyOnDetail()
+            ];
+        }
+
+        return $cards;
     }
 
     /**
@@ -99,7 +118,7 @@ class Project extends Resource {
      *
      * @return array
      */
-    public function filters(Request $request) {
+    public function filters(Request $request): array {
         return [];
     }
 
@@ -110,7 +129,7 @@ class Project extends Resource {
      *
      * @return array
      */
-    public function lenses(Request $request) {
+    public function lenses(Request $request): array {
         return [];
     }
 
@@ -121,7 +140,12 @@ class Project extends Resource {
      *
      * @return array
      */
-    public function actions(Request $request) {
-        return [];
+    public function actions(Request $request): array {
+        return [
+            new DownloadCadastralParcelsShapefile,
+            new DownloadCadastralParcelsExcel,
+            new DownloadCadastralParcelsGeojson,
+            new DownloadCadastralParcelsCsv
+        ];
     }
 }

@@ -11,7 +11,7 @@ return [
     |
     */
 
-    'version' => '0.0.6',
+    'version' => '0.0.7',
 
     /*
     |--------------------------------------------------------------------------
@@ -91,7 +91,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'it',
 
     /*
     |--------------------------------------------------------------------------
@@ -104,7 +104,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'it',
 
     /*
     |--------------------------------------------------------------------------
@@ -117,7 +117,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'it_IT',
 
     /*
     |--------------------------------------------------------------------------
@@ -188,7 +188,9 @@ return [
         App\Providers\NovaServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        \App\Providers\ElasticServiceProvider::class,
+        App\Providers\ElasticServiceProvider::class,
+        App\Providers\CadastralParcelsShapefileServiceProvider::class,
+        App\Providers\CadastralParcelsGeojsonServiceProvider::class
 
     ],
 

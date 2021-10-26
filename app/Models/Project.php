@@ -19,10 +19,9 @@ class Project extends Model {
     protected $fillable = [
         'title', 'description'
     ];
-
-    public function owners(): BelongsToMany {
-        return $this->belongsToMany(Owner::class);
-    }
+    //    public function owners(): BelongsToMany {
+    //        return $this->belongsToMany(Owner::class);
+    //    }
 
     public function cadastralParcels(): BelongsToMany {
         return $this->belongsToMany(CadastralParcel::class);

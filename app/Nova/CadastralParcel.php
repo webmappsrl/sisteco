@@ -2,14 +2,14 @@
 
 namespace App\Nova;
 
-use App\Models\Municipality;
+use App\Nova\Actions\CadastralParcelDownloadXLSCosts;
 use App\Nova\Actions\CreateProjectFromParcelsAction;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
 
-class CadastralParcel extends Resource {
+class CadastralParcel extends Resource
+{
     public static $perPageViaRelationship = 20;
     /**
      * The model the resource corresponds to.
@@ -23,7 +23,8 @@ class CadastralParcel extends Resource {
      *
      * @return string
      */
-    public static function label(): string {
+    public static function label(): string
+    {
         return 'Particelle catastali';
     }
 
@@ -32,7 +33,8 @@ class CadastralParcel extends Resource {
      *
      * @return string
      */
-    public static function group(): string {
+    public static function group(): string
+    {
         return 'CRM';
     }
 
@@ -58,7 +60,8 @@ class CadastralParcel extends Resource {
      *
      * @return array
      */
-    public function fields(Request $request): array {
+    public function fields(Request $request): array
+    {
         return [
             Text::make(__('Codice catastale'), 'code')->sortable(),
             Text::make('Comune', function ($model) {
@@ -86,6 +89,18 @@ class CadastralParcel extends Resource {
             Currency::make('Stima', function ($model) {
                 return $model->estimated_value;
             })->currency('EUR'),
+            Text::make('Pendenza media (º)', 'average_slope', function (string $slope) {
+                return str_replace('.', ',', round($slope, 2));
+            })->onlyOnDetail(),
+            Text::make('Distanza minima sentiero (m)', 'meter_min_distance_path', function (string $distance) {
+                return intval($distance) . ' m';
+            })->onlyOnDetail(),
+            Text::make('Distanza minima strada (m)', 'meter_min_distance_road', function (string $distance) {
+                return intval($distance) . ' m';
+            })->onlyOnDetail(),
+            Text::make('Area (ettari)', 'square_meter_surface', function (string $surface) {
+                return str_replace('.', ',', round($surface / 10000, 4)) . ' ha';
+            })->sortable()
         ];
     }
 
@@ -96,7 +111,8 @@ class CadastralParcel extends Resource {
      *
      * @return array
      */
-    public function cards(Request $request) {
+    public function cards(Request $request)
+    {
         return [];
     }
 
@@ -107,7 +123,8 @@ class CadastralParcel extends Resource {
      *
      * @return array
      */
-    public function filters(Request $request) {
+    public function filters(Request $request)
+    {
         return [];
     }
 
@@ -118,7 +135,8 @@ class CadastralParcel extends Resource {
      *
      * @return array
      */
-    public function lenses(Request $request) {
+    public function lenses(Request $request)
+    {
         return [];
     }
 
@@ -129,13 +147,20 @@ class CadastralParcel extends Resource {
      *
      * @return array
      */
-    public function actions(Request $request) {
+    public function actions(Request $request)
+    {
         return [
             (new CreateProjectFromParcelsAction())
                 ->canRun(function ($request) {
                     return true;
                 })
                 ->onlyOnIndex(),
+            (new CadastralParcelDownloadXLSCosts())
+                ->canRun(function ($request) {
+                    return true;
+                })
+                ->onlyOnTableRow()
+                ->withoutConfirmation(),
         ];
     }
 }

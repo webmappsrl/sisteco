@@ -2,6 +2,9 @@
 
 namespace App\Nova;
 
+use App\Nova\Metrics\CadastralParcelsTotalSurfaceValueMetrics;
+use App\Nova\Metrics\LandUseOfCadastralParcelsPartitionMetrics;
+use App\Nova\Metrics\NumberOfCadastralParcelsValueMetrics;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Text;
@@ -78,14 +81,19 @@ class Owner extends Resource {
                 ->onlyOnIndex(),
             Panel::make('Dati anagrafici', [
                 Text::make('Nome', 'first_name')
+                    ->required()
                     ->hideFromIndex(),
                 Text::make('Cognome', 'last_name')
+                    ->required()
                     ->hideFromIndex(),
                 Text::make('Email', 'email')
+                    ->required()
                     ->hideFromIndex(),
                 Text::make('Codice fiscale', 'fiscal_code')
+                    ->required()
                     ->hideFromIndex(),
                 Text::make('Partita IVA', 'vat_number')
+                    ->required()
                     ->hideFromIndex(),
                 Text::make('Indirizzo', function (\App\Models\Owner $model) {
                     return $model["addr:street"] . " " .
@@ -95,15 +103,30 @@ class Owner extends Resource {
                         strtoupper($model["addr:province"]) . "), " .
                         $model["addr:locality"];
                 })
-                    ->hideFromIndex(),
+                    ->onlyOnDetail(),
                 Text::make('Telefono', 'phone')
+                    ->required()
                     ->hideFromIndex(),
+                Text::make('Nome azienda', 'business_name')
+                    ->onlyOnForms(),
+                Text::make('Via', 'addr:street')
+                    ->onlyOnForms(),
+                Text::make('Numero civico', 'addr:housenumber')
+                    ->onlyOnForms(),
+                Text::make('Città', 'addr:city')
+                    ->onlyOnForms(),
+                Text::make('Codice postale', 'addr:postcode')
+                    ->onlyOnForms(),
+                Text::make('Provincia', 'addr:province')
+                    ->onlyOnForms(),
+                Text::make('Località', 'addr:locality')
+                    ->onlyOnForms()
             ]),
             BelongsToMany::make('Particelle catastali', 'cadastralParcels', 'App\Nova\CadastralParcel')
                 ->onlyOnDetail()
                 ->searchable(),
-            BelongsToMany::make('Progetti', 'projects', 'App\Nova\Project')
-                ->onlyOnDetail()
+            //            BelongsToMany::make('Progetti', 'projects', 'App\Nova\Project')
+            //                ->onlyOnDetail()
         ];
     }
 
@@ -114,8 +137,19 @@ class Owner extends Resource {
      *
      * @return array
      */
-    public function cards(Request $request) {
-        return [];
+    public function cards(Request $request): array {
+        $cards = [];
+
+        if (isset($request->resourceId)) {
+            $model = \App\Models\Owner::find($request->resourceId);
+            $cards = [
+                (new NumberOfCadastralParcelsValueMetrics)->model($model)->onlyOnDetail(),
+                (new CadastralParcelsTotalSurfaceValueMetrics)->model($model)->onlyOnDetail(),
+                (new LandUseOfCadastralParcelsPartitionMetrics)->model($model)->onlyOnDetail()
+            ];
+        }
+
+        return $cards;
     }
 
     /**

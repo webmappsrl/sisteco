@@ -2,13 +2,18 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\DownloadCadastralParcelsCsv;
+use App\Nova\Actions\DownloadCadastralParcelsExcel;
+use App\Nova\Actions\DownloadCadastralParcelsGeojson;
+use App\Nova\Actions\DownloadCadastralParcelsShapefile;
+use App\Nova\Metrics\CadastralParcelsTotalSurfaceValueMetrics;
+use App\Nova\Metrics\LandUseOfCadastralParcelsPartitionMetrics;
+use App\Nova\Metrics\NumberOfCadastralParcelsValueMetrics;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Research extends Resource {
     /**
@@ -95,8 +100,19 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function cards(Request $request) {
-        return [];
+    public function cards(Request $request): array {
+        $cards = [];
+
+        if (isset($request->resourceId)) {
+            $model = \App\Models\Research::find($request->resourceId);
+            $cards = [
+                (new NumberOfCadastralParcelsValueMetrics)->model($model)->onlyOnDetail(),
+                (new CadastralParcelsTotalSurfaceValueMetrics)->model($model)->onlyOnDetail(),
+                (new LandUseOfCadastralParcelsPartitionMetrics)->model($model)->onlyOnDetail()
+            ];
+        }
+
+        return $cards;
     }
 
     /**
@@ -106,7 +122,7 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function filters(Request $request) {
+    public function filters(Request $request): array {
         return [];
     }
 
@@ -117,7 +133,7 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function lenses(Request $request) {
+    public function lenses(Request $request): array {
         return [];
     }
 
@@ -128,7 +144,12 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function actions(Request $request) {
-        return [];
+    public function actions(Request $request): array {
+        return [
+            new DownloadCadastralParcelsShapefile,
+            new DownloadCadastralParcelsExcel,
+            new DownloadCadastralParcelsGeojson,
+            new DownloadCadastralParcelsCsv
+        ];
     }
 }
