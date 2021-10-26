@@ -2,12 +2,15 @@
 
 namespace App\Nova\Actions;
 
+use App\Exports\CadastralParcelXLSCostsExport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CadastralParcelDownloadXLSCosts extends Action
 {
@@ -24,7 +27,13 @@ class CadastralParcelDownloadXLSCosts extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
-        return Action::message('Not yet implemented');
+
+        foreach ($models as $model) {
+            $filename = 'SISTECO_' . date('Ymd') . '_dettaglio_interventi_' . $model->code . '.xlsx';
+            $publicPath = "exports/excel/$filename";
+            Excel::store(new CadastralParcelXLSCostsExport(), $publicPath, 'public');
+            return Action::download(Storage::disk('public')->url($publicPath), "$filename");
+        }
     }
 
     /**

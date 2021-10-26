@@ -159,7 +159,8 @@ class CadastralParcel extends Resource
                 ->canRun(function ($request) {
                     return true;
                 })
-                ->onlyOnTableRow(),
+                ->onlyOnTableRow()
+                ->withoutConfirmation(),
         ];
     }
 }
