@@ -2,17 +2,30 @@
 
 namespace App\Exports\Sheets;
 
+use App\Models\CadastralParcel;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithTitle;
 
 class CadastralParcelXLSCostsExportResumeSheet implements FromCollection, WithTitle
 {
+    private $parcel_id;
+
+    public function __construct($parcel_id)
+    {
+        $this->parcel_id = $parcel_id;
+    }
+
     public function collection()
     {
+        $parcel = CadastralParcel::find($this->parcel_id);
         $c = new Collection();
-        $c->add([1, 2, 3]);
-        $c->add([1, 2, 3]);
+        $row = ['Codice Particella', $parcel->code];
+        $c->add($row);
+        $row = ['Proprietari', '?'];
+        $c->add($row);
+        $row = ['Data Elaborazione', date('d/m/Y')];
+        $c->add($row);
         return $c;
     }
 

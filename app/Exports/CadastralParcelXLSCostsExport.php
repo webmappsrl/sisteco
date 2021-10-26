@@ -12,11 +12,18 @@ use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
 class CadastralParcelXLSCostsExport implements WithMultipleSheets
 {
+    private $parcel_id;
+
+    public function __construct($parcel_id)
+    {
+        $this->parcel_id = $parcel_id;
+    }
+
     public function sheets(): array
     {
         return [
-            new CadastralParcelXLSCostsExportResumeSheet(),
-            new CadastralParcelXLSCostsExportFirstYearSheet(),
+            new CadastralParcelXLSCostsExportResumeSheet($this->parcel_id),
+            new CadastralParcelXLSCostsExportFirstYearSheet($this->parcel_id),
             new CadastralParcelXLSCostsExportSecondYearSheet(),
             new CadastralParcelXLSCostsExportThirdYearSheet(),
             new CadastralParcelXLSCostsExportFourthYearSheet(),

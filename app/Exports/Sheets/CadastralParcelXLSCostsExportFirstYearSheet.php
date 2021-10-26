@@ -8,6 +8,13 @@ use Maatwebsite\Excel\Concerns\WithTitle;
 
 class CadastralParcelXLSCostsExportFirstYearSheet implements FromCollection, WithTitle
 {
+    private $parcel_id;
+
+    public function __construct($parcel_id)
+    {
+        $this->parcel_id = $parcel_id;
+    }
+
     public function collection()
     {
         $c = new Collection();

@@ -31,7 +31,7 @@ class CadastralParcelDownloadXLSCosts extends Action
         foreach ($models as $model) {
             $filename = 'SISTECO_' . date('Ymd') . '_dettaglio_interventi_' . $model->code . '.xlsx';
             $publicPath = "exports/excel/$filename";
-            Excel::store(new CadastralParcelXLSCostsExport(), $publicPath, 'public');
+            Excel::store(new CadastralParcelXLSCostsExport($model->id), $publicPath, 'public');
             return Action::download(Storage::disk('public')->url($publicPath), "$filename");
         }
     }
