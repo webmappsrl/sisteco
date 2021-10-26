@@ -8,7 +8,8 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Command\Command as CommandAlias;
 
-class UpdateCadastralParcelsEstimatedValue extends Command {
+class UpdateCadastralParcelsEstimatedValue extends Command
+{
     /**
      * The name and signature of the console command.
      *
@@ -27,7 +28,8 @@ class UpdateCadastralParcelsEstimatedValue extends Command {
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -36,15 +38,16 @@ class UpdateCadastralParcelsEstimatedValue extends Command {
      *
      * @return int
      */
-    public function handle(): int {
+    public function handle(): int
+    {
         $start = 0;
-        $step = 10000;
+        $step = 1000;
 
-        Log::info("Starting setting random values to the estimated value of the cadastral parcels");
+        Log::info("Starting setting estimated value of the cadastral parcels");
         do {
             $cadastralParcels = CadastralParcel::orderBy('id')->skip($start)->take($step)->get();
             foreach ($cadastralParcels as $cadastralParcel) {
-                $cadastralParcel->estimated_value = rand(10, 10000);
+                // $cadastralParcel->estimated_value = $cadastralParcel->getTotalCost();
                 $mun = Municipality::where('code', explode('_', $cadastralParcel->code)[0])->first();
                 if (!is_null($mun)) {
                     $cadastralParcel->municipality_id = $mun->id;
