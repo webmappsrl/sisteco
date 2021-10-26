@@ -2,19 +2,25 @@
 
 namespace App\Exports;
 
-use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Exports\Sheets\CadastralParcelXLSCostsExportFifthYearSheet;
+use App\Exports\Sheets\CadastralParcelXLSCostsExportFirstYearSheet;
+use App\Exports\Sheets\CadastralParcelXLSCostsExportFourthYearSheet;
+use App\Exports\Sheets\CadastralParcelXLSCostsExportResumeSheet;
+use App\Exports\Sheets\CadastralParcelXLSCostsExportSecondYearSheet;
+use App\Exports\Sheets\CadastralParcelXLSCostsExportThirdYearSheet;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class CadastralParcelXLSCostsExport implements FromCollection
+class CadastralParcelXLSCostsExport implements WithMultipleSheets
 {
-    /**
-     * @return Collection
-     */
-    public function collection(): Collection
+    public function sheets(): array
     {
-        $c = new Collection();
-        $c->add([1, 2, 3]);
-        $c->add([1, 2, 3]);
-        return $c;
+        return [
+            new CadastralParcelXLSCostsExportResumeSheet(),
+            new CadastralParcelXLSCostsExportFirstYearSheet(),
+            new CadastralParcelXLSCostsExportSecondYearSheet(),
+            new CadastralParcelXLSCostsExportThirdYearSheet(),
+            new CadastralParcelXLSCostsExportFourthYearSheet(),
+            new CadastralParcelXLSCostsExportFifthYearSheet(),
+        ];
     }
 }
