@@ -152,4 +152,33 @@ class CadastralParcel extends Model
 
         return $c;
     }
+
+    public function getGlobalCostsArray(): array
+    {
+        return [
+            $this->getSurfaceByUcs(312) / 10000 * (5920 + 5870),
+            0,
+            0,
+            0,
+            0
+        ];
+    }
+
+    public function getTotalCost()
+    {
+        return array_sum($this->getGlobalCostsArray());
+    }
+
+    public function getGlobalCosts(): Collection
+    {
+        $c = new Collection();
+        $c->add(['Riassuntivo']);
+        $year = 1;
+        foreach ($this->getGlobalCostsArray() as $cost_by_year) {
+            $c->add(['Anno ' . $year, $cost_by_year]);
+            $year++;
+        }
+        $c->add(['Totale', $this->getTotalCost()]);
+        return $c;
+    }
 }

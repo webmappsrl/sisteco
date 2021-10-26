@@ -26,7 +26,8 @@ class CadastralParcelXLSCostsExportResumeSheet implements FromCollection, WithTi
         $c->add($row);
         $row = ['Data Elaborazione', date('d/m/Y')];
         $c->add($row);
-        return $c;
+        $c->merge($parcel->getGlobalCosts());
+        return $parcel->getGlobalCosts();
     }
 
     /**
