@@ -6,6 +6,7 @@ use App\Nova\Actions\DownloadCadastralParcelsCsv;
 use App\Nova\Actions\DownloadCadastralParcelsExcel;
 use App\Nova\Actions\DownloadCadastralParcelsGeojson;
 use App\Nova\Actions\DownloadCadastralParcelsShapefile;
+use App\Nova\Metrics\CadastralParcelsTotalPartitionSurfaceValueMetrics;
 use App\Nova\Metrics\CadastralParcelsTotalSurfaceValueMetrics;
 use App\Nova\Metrics\LandUseOfCadastralParcelsPartitionMetrics;
 use App\Nova\Metrics\NumberOfCadastralParcelsValueMetrics;
@@ -15,7 +16,8 @@ use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 
-class Research extends Resource {
+class Research extends Resource
+{
     /**
      * The model the resource corresponds to.
      *
@@ -28,7 +30,8 @@ class Research extends Resource {
      *
      * @return string
      */
-    public static function label(): string {
+    public static function label(): string
+    {
         return 'Ricerche';
     }
 
@@ -37,7 +40,8 @@ class Research extends Resource {
      *
      * @return string
      */
-    public static function group(): string {
+    public static function group(): string
+    {
         return 'Progetti';
     }
 
@@ -63,7 +67,8 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function fields(Request $request): array {
+    public function fields(Request $request): array
+    {
         return [
             Text::make('Titolo', 'title'),
             Textarea::make('Descrizione', 'description')->hideFromIndex()->alwaysShow(),
@@ -100,7 +105,8 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function cards(Request $request): array {
+    public function cards(Request $request): array
+    {
         $cards = [];
 
         if (isset($request->resourceId)) {
@@ -108,7 +114,8 @@ class Research extends Resource {
             $cards = [
                 (new NumberOfCadastralParcelsValueMetrics)->model($model)->onlyOnDetail(),
                 (new CadastralParcelsTotalSurfaceValueMetrics)->model($model)->onlyOnDetail(),
-                (new LandUseOfCadastralParcelsPartitionMetrics)->model($model)->onlyOnDetail()
+                (new CadastralParcelsTotalPartitionSurfaceValueMetrics())->model($model)->onlyOnDetail(),
+                // (new LandUseOfCadastralParcelsPartitionMetrics)->model($model)->onlyOnDetail()
             ];
         }
 
@@ -122,7 +129,8 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function filters(Request $request): array {
+    public function filters(Request $request): array
+    {
         return [];
     }
 
@@ -133,7 +141,8 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function lenses(Request $request): array {
+    public function lenses(Request $request): array
+    {
         return [];
     }
 
@@ -144,7 +153,8 @@ class Research extends Resource {
      *
      * @return array
      */
-    public function actions(Request $request): array {
+    public function actions(Request $request): array
+    {
         return [
             new DownloadCadastralParcelsShapefile,
             new DownloadCadastralParcelsExcel,
