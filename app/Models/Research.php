@@ -7,22 +7,26 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Research extends Model {
+class Research extends Model
+{
     use HasFactory;
 
     protected $table = 'researches';
     protected $fillable = [
     ];
 
-    public function cadastralParcels(): BelongsToMany {
+    public function cadastralParcels(): BelongsToMany
+    {
         return $this->belongsToMany(CadastralParcel::class);
     }
 
-    public function projects(): HasMany {
+    public function projects(): HasMany
+    {
         return $this->hasMany(Project::class);
     }
 
-    public static function getFiltersStringFromElasticQuery($query) {
+    public static function getFiltersStringFromElasticQuery($query)
+    {
         if (empty($query)) return '';
         $j = json_decode($query, true);
         $filters_array = [];
@@ -46,7 +50,8 @@ class Research extends Model {
      *
      * @return array
      */
-    public static function getCadastralParcelFromElasticResult(array $result): array {
+    public static function getCadastralParcelFromElasticResult(array $result): array
+    {
         $parcels = [];
         if (isset($result['hits'])
             && isset($result['hits']['hits'])
@@ -61,12 +66,28 @@ class Research extends Model {
         return array_unique($parcels);
     }
 
+    public static function getPartitionTotalSurfaceFromElasticResult(array $result): float
+    {
+        $surface = 0.0;
+        if (isset($result['hits'])
+            && isset($result['hits']['hits'])
+            && count($result['hits']['hits']) > 0) {
+            foreach ($result['hits']['hits'] as $hit) {
+                if (isset($hit['fields']['area_sub_particella'])) {
+                    $surface += $hit['fields']['area_sub_particella'][0];
+                }
+            }
+        }
+        return $surface;
+    }
+
     /**
      * Create the shapefile
      *
      * @return string the shapefile location in the local storage
      */
-    public function getShapefile(): string {
+    public function getShapefile(): string
+    {
         return '';
     }
 }
