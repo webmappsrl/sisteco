@@ -27,6 +27,7 @@ class CadastralParcelsExport implements FromCollection, WithHeadings {
             $row = [
                 $parcel->code,
                 round($parcel->square_meter_surface / 10000, 4),
+                round($parcel->getSurfaceByUcs(223) / 10000, 4),
                 $parcel->municipality->name
             ];
 
@@ -45,6 +46,7 @@ class CadastralParcelsExport implements FromCollection, WithHeadings {
         return [
             'Codice catasto',
             'Superficie (ha)',
+            'Superficie Olivi (ha)',
             'Comune',
             //            'Provincia',
             //            'Regione'
