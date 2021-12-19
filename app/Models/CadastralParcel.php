@@ -15,6 +15,10 @@ class CadastralParcel extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'partitions' => 'array',
+    ];
+
     public function owners(): BelongsToMany
     {
         return $this->belongsToMany(Owner::class);
