@@ -35,10 +35,10 @@ class DatabaseSeeder extends Seeder {
 
             Artisan::call('sisteco:import_municipalities');
             Artisan::call('sisteco:import_cadastral_parcels');
-            Artisan::call('sisteco:update_cadastral_parcels_municipality');
-            Artisan::call('sisteco:update_cadastral_parcels_estimated_value', [
-                '--code' => 'A562_000'
-            ]);
+            // Artisan::call('sisteco:update_cadastral_parcels_municipality');
+            // Artisan::call('sisteco:update_cadastral_parcels_estimated_value', [
+            //    '--code' => 'A562_000'
+            //]);
 
             $this->call([
                 OwnersSeeder::class,
