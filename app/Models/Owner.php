@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Owner extends Model {
+
+    protected $fillable = [
+        'first_name','last_name','email'
+    ];
     use HasFactory;
 
     public function cadastralParcels(): BelongsToMany {
