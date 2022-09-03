@@ -71,6 +71,9 @@ class DatabaseRestoreCommand extends Command
         $postgis_cmd = 'psql -d '.$db_name.' -c "create extension postgis";';
         Log::info("db:restore -> $postgis_cmd");
         exec($postgis_cmd);
+        $postgis_cmd = 'psql -d '.$db_name.' -c "create extension hstore";';
+        Log::info("db:restore -> $postgis_cmd");
+        exec($postgis_cmd);
 
         // psql geohub < last-dump.sql
         $restore_cmd = "psql $db_name < $AbsolutePath";
