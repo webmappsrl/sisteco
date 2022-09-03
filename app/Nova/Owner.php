@@ -7,6 +7,7 @@ use App\Nova\Metrics\LandUseOfCadastralParcelsPartitionMetrics;
 use App\Nova\Metrics\NumberOfCadastralParcelsValueMetrics;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Panel;
 
@@ -79,6 +80,9 @@ class Owner extends Resource {
                 ->onlyOnIndex(),
             Text::make('Codice fiscale', 'fiscal_code')
                 ->onlyOnIndex(),
+            Number::Make('#Particelle',function() {
+                return $this->cadastralParcels->count();
+            })->onlyOnIndex(),
             Panel::make('Dati anagrafici', [
                 Text::make('Nome', 'first_name')
                     ->required()
