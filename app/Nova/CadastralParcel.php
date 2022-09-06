@@ -88,12 +88,14 @@ class CadastralParcel extends Resource {
             Text::make('Pendenza media (º)', 'average_slope', function (string $slope) {
                 return str_replace('.', ',', round($slope, 2));
             })->onlyOnDetail(),
+            Text::make('Classe Pendenza','slope')->onlyOnDetail(),
             Text::make('Distanza minima sentiero (m)', 'meter_min_distance_path', function (string $distance) {
                 return intval($distance) . ' m';
             })->onlyOnDetail(),
             Text::make('Distanza minima strada (m)', 'meter_min_distance_road', function (string $distance) {
                 return intval($distance) . ' m';
             })->onlyOnDetail(),
+            Text::make('Classe Trasporto','way')->onlyOnDetail(),
             Text::make('Area (ettari)', 'square_meter_surface', function (string $surface) {
                 return str_replace('.', ',', round($surface / 10000, 4)) . ' ha';
             })->sortable()
