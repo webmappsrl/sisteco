@@ -44,8 +44,21 @@ class CadastralParcel extends Model
         return $this->belongsTo(Municipality::class);
     }
 
+
+    public function computeSlopeClass():int{
+        if($this->average_slope<=20) return 1;
+        if($this->average_slope<=40) return 2;
+        return 3;
+    }
+
+    public function computeTransportClass():int{
+        if($this->meter_min_distance_road<=500) return 1;
+        if($this->meter_min_distance_road<=1000) return 2;
+        return 3;
+    }
+
     /**
-     * @param string $ucs
+    * @param string $ucs
      * @return float
      */
     public function getSurfaceByUcs(string $ucs): float
