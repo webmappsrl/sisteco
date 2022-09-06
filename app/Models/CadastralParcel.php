@@ -75,6 +75,33 @@ class CadastralParcel extends Model
         return array_sum($surfaces);
     }
 
+    public function computeEstimate() {
+        if ($this->landUses()->count() == 0) {
+            return 0;
+        }
+        $ucs_codes = $this->landUses()->pluck('code')->toArray();
+        $ucs_codes = array_unique($ucs_codes);
+
+        // LOOP ON CODE
+        $items = [];
+        $estimate = 0;
+        foreach($ucs_codes as $ucs_code) {
+            $ps = Price::where([
+                'ucs' => $ucs_code,
+                'slope' => $this->slope,
+                'way' => $this->way,
+            ])->get();
+            if($ps->count() >0) {
+                foreach ($ps as $p) {
+                    $estimate += $p->price * $this->getSurfaceByUcs($ucs_code) / 10000;
+                }
+                // TODO FILL ITEM
+            }
+        }
+        // TODO SAVE ITEM TO USE IT LATER
+        return $estimate;
+    }
+
     /**
      * @param int $year
      * @return Collection
