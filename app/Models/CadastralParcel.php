@@ -17,6 +17,7 @@ class CadastralParcel extends Model
 
     protected $casts = [
         'partitions' => 'array',
+        'estimate_details' => 'array'
     ];
 
     public function owners(): BelongsToMany
@@ -93,12 +94,21 @@ class CadastralParcel extends Model
             ])->get();
             if($ps->count() >0) {
                 foreach ($ps as $p) {
-                    $estimate += $p->price * $this->getSurfaceByUcs($ucs_code) / 10000;
+                    $value = $p->price * $this->getSurfaceByUcs($ucs_code) / 10000;
+                    $estimate += $value;
+                    $items[$p->id]=[
+                        $p->code,
+                        $p->action,
+                        $p->ucs,
+                        $p->price,
+                        $this->getSurfaceByUcs($p->ucs)/10000,
+                        $value,
+                    ];
                 }
-                // TODO FILL ITEM
             }
         }
-        // TODO SAVE ITEM TO USE IT LATER
+        $this->estimate_detail=$items;
+        $this->save();
         return $estimate;
     }
 
