@@ -17,6 +17,7 @@ class CadastralParcel extends Model
 
     protected $casts = [
         'partitions' => 'array',
+        'estimate_details' => 'array'
     ];
 
     public function owners(): BelongsToMany
@@ -44,8 +45,21 @@ class CadastralParcel extends Model
         return $this->belongsTo(Municipality::class);
     }
 
+
+    public function computeSlopeClass():int{
+        if($this->average_slope<=20) return 1;
+        if($this->average_slope<=40) return 2;
+        return 3;
+    }
+
+    public function computeTransportClass():int{
+        if($this->meter_min_distance_road<=500) return 1;
+        if($this->meter_min_distance_road<=1000) return 2;
+        return 3;
+    }
+
     /**
-     * @param string $ucs
+    * @param string $ucs
      * @return float
      */
     public function getSurfaceByUcs(string $ucs): float
@@ -60,6 +74,42 @@ class CadastralParcel extends Model
 
         $surfaces = $this->landUses()->where('code', $ucs)->pluck('square_meter_surface')->toArray();
         return array_sum($surfaces);
+    }
+
+    public function computeEstimate() {
+        if ($this->landUses()->count() == 0) {
+            return 0;
+        }
+        $ucs_codes = $this->landUses()->pluck('code')->toArray();
+        $ucs_codes = array_unique($ucs_codes);
+
+        // LOOP ON CODE
+        $items = [];
+        $estimate = 0;
+        foreach($ucs_codes as $ucs_code) {
+            $ps = Price::where([
+                'ucs' => $ucs_code,
+                'slope' => $this->slope,
+                'way' => $this->way,
+            ])->get();
+            if($ps->count() >0) {
+                foreach ($ps as $p) {
+                    $value = $p->price * $this->getSurfaceByUcs($ucs_code) / 10000;
+                    $estimate += $value;
+                    $items[$p->id]=[
+                        $p->code,
+                        $p->action,
+                        $p->ucs,
+                        $p->price,
+                        $this->getSurfaceByUcs($p->ucs)/10000,
+                        $value,
+                    ];
+                }
+            }
+        }
+        $this->estimate_detail=$items;
+        $this->save();
+        return $estimate;
     }
 
     /**
