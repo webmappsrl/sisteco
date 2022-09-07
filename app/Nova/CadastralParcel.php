@@ -98,7 +98,39 @@ class CadastralParcel extends Resource {
             Text::make('Classe Trasporto','way')->onlyOnDetail(),
             Text::make('Area (ettari)', 'square_meter_surface', function (string $surface) {
                 return str_replace('.', ',', round($surface / 10000, 4)) . ' ha';
-            })->sortable()
+            })->sortable(),
+            Text::make('Dettaglio Stima',function(){
+                if(empty($this->estimate_detail)) {
+                    return 'ND';
+                }
+                $o="<table>";
+
+                $o.="<tr>";
+                $o.="<th>ID</th>";
+                $o.="<th>Code</th>";
+                $o.="<th>Action</th>";
+                $o.="<th>UCS</th>";
+                $o.="<th>Unit Price</th>";
+                $o.="<th>Surface</th>";
+                $o.="<th>Price</th>";
+                $o.="</tr>";
+
+                foreach(json_decode($this->estimate_detail) as $id=>$item) {
+                    $o.="<tr>";
+                    $o.="<td>$id</td>";
+                    $o.="<td>{$item[0]}</td>";
+                    $o.="<td>{$item[1]}</td>";
+                    $o.="<td>{$item[2]}</td>";
+                    $o.="<td>{$item[3]}</td>";
+                    $o.="<td>{$item[4]}</td>";
+                    $o.="<td>{$item[5]}</td>";
+                    $o.="</tr>";    
+                }
+
+                $o.="</table>";
+                return $o;
+            }
+            )->asHtml()->onlyOnDetail(),
         ];
     }
 
