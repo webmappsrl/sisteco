@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "49ac0bd5096c3701c49152b0ab3fc0da",
+    "content-hash": "374bea1fb61d03cd8031c48344e110dc",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -7682,6 +7682,52 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
+        },
+        {
+            "name": "wm/map-multi-polygon-nova3",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webmappsrl/map-multi-polygon-nova3.git",
+                "reference": "c643e8f6ae36dd3032987ea5d25e0a04cedb22d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webmappsrl/map-multi-polygon-nova3/zipball/c643e8f6ae36dd3032987ea5d25e0a04cedb22d7",
+                "reference": "c643e8f6ae36dd3032987ea5d25e0a04cedb22d7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Wm\\MapMultiPolygonNova3\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Wm\\MapMultiPolygonNova3\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/webmappsrl/map-multi-polygon-nova3/issues",
+                "source": "https://github.com/webmappsrl/map-multi-polygon-nova3/tree/main"
+            },
+            "time": "2022-09-08T08:16:30+00:00"
         }
     ],
     "packages-dev": [
@@ -10129,7 +10175,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "wm/map-multi-polygon-nova3": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
@@ -10138,5 +10186,5 @@
         "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
