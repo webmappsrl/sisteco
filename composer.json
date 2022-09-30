@@ -25,7 +25,8 @@
         "mstaack/laravel-postgis": "^5.2",
         "my_app/nova-table": "*",
         "sisteco/projectscoverage": "*",
-        "spatie/db-dumper": "^2.21"
+        "spatie/db-dumper": "^2.21",
+        "wm/map-multi-polygon-nova3": "dev-main"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
