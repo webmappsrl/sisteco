@@ -7,6 +7,7 @@ use App\Nova\Actions\CreateProjectFromParcelsAction;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Text;
+use Wm\MapMultiPolygonNova3\MapMultiPolygonNova3;
 
 class CadastralParcel extends Resource {
     public static $perPageViaRelationship = 20;
@@ -131,6 +132,10 @@ class CadastralParcel extends Resource {
                 return $o;
             }
             )->asHtml()->onlyOnDetail(),
+            MapMultiPolygonNova3::make('geometry')->withMeta([
+                'center' => ['42.795977075', '10.326813853'],
+                'attribution' => '<a href="https://webmapp.it/">Webmapp</a> contributors',
+            ]),
         ];
     }
 
