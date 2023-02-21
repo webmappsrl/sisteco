@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class CatalogArea extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'geometry',
+        'catalog_id'
+    ];
 }

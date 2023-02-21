@@ -38,5 +38,17 @@ class CatalogSeeder extends Seeder
             'price'=>30.0,
             'catalog_id'=>1,
         ]);
+        CatalogType::factory()->create([
+            'code'=>'D',
+            'name'=>'Diradamento',
+            'price'=>30.0,
+            'catalog_id'=>1,
+        ]);
+        CatalogType::factory()->create([
+            'code'=>'E',
+            'name'=>'Decespugliamento',
+            'price'=>30.0,
+            'catalog_id'=>1,
+        ]);
     }
 }
