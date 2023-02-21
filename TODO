@@ -1,0 +1,15 @@
+Febbraio 2023 - Cataloghi
+
+Migration / Model / Factory / Interface
+  Catalog (name, description), 
+  CatalogType (code, price, catalog_id), 
+  CatalogArea (geometry, catalog_id)
+
+Command sisteco:import_catalog
+        {path : Absolute path to geojson to be imported}
+        {field : Name of the properties filed to be used to fine CatalogType}
+
+        Description: Import a geojson file to a Catalog (Catalog and types must be already defined)
+
+Command sisteco:estimate_by_catalog
+        {id : id of the catalog that must be used to estimate}
