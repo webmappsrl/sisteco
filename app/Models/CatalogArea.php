@@ -11,6 +11,7 @@ class CatalogArea extends Model
 
     protected $fillable = [
         'geometry',
-        'catalog_id'
+        'catalog_id',
+        'catalog_type_id'
     ];
 }

@@ -9,7 +9,10 @@ Command sisteco:import_catalog
         {path : Absolute path to geojson to be imported}
         {field : Name of the properties filed to be used to fine CatalogType}
 
-        Description: Import a geojson file to a Catalog (Catalog and types must be already defined)
+        Description: Import a geojson file to a Catalog (Catalog and types must be already defined) DONE
 
 Command sisteco:estimate_by_catalog
         {id : id of the catalog that must be used to estimate}
+
+
+DB::SELECT('SELECT a.id, ST_AREA(ST_Intersection(a.geometry,p.geometry)) as area FROM cadastral_parcels as p, catalog_areas as a WHERE a.catalog_id=1 AND p.id = 1211 AND ST_Intersects(a.geometry,p.geometry);');

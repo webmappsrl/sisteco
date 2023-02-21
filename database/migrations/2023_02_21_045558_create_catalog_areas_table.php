@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Catalog;
+use App\Models\CatalogType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +20,7 @@ class CreateCatalogAreasTable extends Migration
             $table->timestamps();
             $table->multiPolygon('geometry');
             $table->foreignIdFor(Catalog::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(CatalogType::class)->constrained()->onDelete('cascade');
         });
     }
 

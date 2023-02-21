@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Catalog;
 use App\Models\CatalogArea;
+use App\Models\CatalogType;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -64,16 +65,18 @@ class ImportCatalogCommand extends Command
 
         // Loop on areas
         $count = 1;
+        $types = $c->catalogTypes()->pluck('id','code')->toArray();
         foreach ($areas as $area) {
             $counter = "$count / $tot";
             $count ++;
             // Find type
-            if(in_array($area['properties'][$this->argument('field')],$c->catalogTypes()->pluck('code')->toArray())) {
+            if(array_key_exists($area['properties'][$this->argument('field')],$types)) {
                 $this->info("$counter - Processing AREA");
                 // Import AREA into geometry field
                 $geometry = json_encode($area['geometry']);
                 CatalogArea::create([
                     'catalog_id' => $this->argument('catalog_id'),
+                    'catalog_type_id' => $types[$area['properties'][$this->argument('field')]],
                     'geometry' => DB::raw("ST_GeomFromGeoJSON('$geometry')"),
                 ]);
             } else {
