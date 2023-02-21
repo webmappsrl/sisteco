@@ -1,9 +1,9 @@
 Febbraio 2023 - Cataloghi
 
 Migration / Model / Factory / Interface
-  Catalog (name, description), 
-  CatalogType (code, price, catalog_id), 
-  CatalogArea (geometry, catalog_id)
+  Catalog (name, description), DONE
+  CatalogType (code, price, catalog_id), DONE 
+  CatalogArea (geometry, catalog_id), DONE
 
 Command sisteco:import_catalog
         {path : Absolute path to geojson to be imported}
