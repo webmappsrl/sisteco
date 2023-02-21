@@ -10,6 +10,17 @@ class CatalogTypePolicy
 {
     use HandlesAuthorization;
 
+
+    /**
+     * Executed before all policy methods
+     *
+     * @param User $user
+     * @return boolean
+     */
+    public function before (User $user): bool {
+        return true;
+    }
+
     /**
      * Determine whether the user can view any models.
      *

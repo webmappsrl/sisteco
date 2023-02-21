@@ -3,27 +3,27 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Catalog extends Resource
+class CatalogType extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
      * @var string
      */
-    public static $model = \App\Models\Catalog::class;
+    public static $model = \App\Models\CatalogType::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'code';
 
     /**
      * Get the group of the resource.
@@ -40,7 +40,7 @@ class Catalog extends Resource
      * @var array
      */
     public static $search = [
-        'id','name','description'
+        'id','code'
     ];
 
     /**
@@ -53,9 +53,10 @@ class Catalog extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
+            Text::make('code'),
             Text::make('name'),
-            Textarea::make('description')->hideFromIndex(),
-            HasMany::make('CatalogTypes'),
+            Currency::make('Price')->currency('EUR'),
+            BelongsTo::make('Catalog'),
         ];
     }
 
