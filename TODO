@@ -1,18 +1,38 @@
 Febbraio 2023 - Cataloghi
 
+
+22 Febbraio 2022
+
+MH Modificare modello catalog_types per aggiungere i prezzi in funzione classe pendenza e classe distanza
+
+MH Modificare script di import per leggere direttamente il folgio excel
+
+MH Modificare i metodi che calcolano le classi di una particella allineandosi alla nuova legenda
+
+MH Modificare lo script di stima in base al catalogo tenendo in considerazioni le classi di pendenza e di distanza
+
+MH Modificare la visualizzazione della particella aggiungendo info su calcolo stima con il catalogo
+
+NTH Modificare la visualizzazione della mappa della particella aggiungendo le aree usate per il calcolo della particella
+
+MH Mettere file geojson MIPAAF in dir che si committa, mettere nuovo file XLS nella stessa cartella, da usare come esempio per le future importazioni
+
+MH Aggiornare Produzione
+
+
+============================
+
+
 Migration / Model / Factory / Interface
   Catalog (name, description), DONE
   CatalogType (code, price, catalog_id), DONE 
   CatalogArea (geometry, catalog_id), DONE
 
-Command sisteco:import_catalog
+Command sisteco:import_catalog DONE
         {path : Absolute path to geojson to be imported}
         {field : Name of the properties filed to be used to fine CatalogType}
 
         Description: Import a geojson file to a Catalog (Catalog and types must be already defined) DONE
 
-Command sisteco:estimate_by_catalog
+Command sisteco:estimate_by_catalog DONE
         {id : id of the catalog that must be used to estimate}
-
-
-DB::SELECT('SELECT a.id, ST_AREA(ST_Intersection(a.geometry,p.geometry)) as area FROM cadastral_parcels as p, catalog_areas as a WHERE a.catalog_id=1 AND p.id = 1211 AND ST_Intersects(a.geometry,p.geometry);');
