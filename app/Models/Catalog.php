@@ -13,4 +13,7 @@ class Catalog extends Model
     public function catalogTypes(): HasMany {
         return $this->hasMany(CatalogType::class);
     }
+    public function catalogAreas(): HasMany {
+        return $this->hasMany(CatalogArea::class);
+    }
 }

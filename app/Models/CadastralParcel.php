@@ -17,7 +17,8 @@ class CadastralParcel extends Model
 
     protected $casts = [
         'partitions' => 'array',
-        'estimate_details' => 'array'
+        'estimate_details' => 'array',
+        'catalog_estimate' => 'array',
     ];
 
     public function owners(): BelongsToMany

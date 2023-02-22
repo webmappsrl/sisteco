@@ -48,15 +48,23 @@ class EstimateByCatalog extends Command
             throw new Exception("Catalog with ID {$this->argument('id')} does not exist..", 1);
             
         }
-        $this->info('Processing');
+        $types = $c->catalogTypes()->pluck('code','id')->toArray(); 
+        $prices = $c->catalogTypes()->pluck('price','id')->toArray(); 
 
+        $this->info('Processing');
+        $ids = collect(DB::select('select distinct cadastral_parcel_id as id from cadastral_parcel_owner;'))->pluck('id')->toArray();
+
+        $parcels = CadastralParcel::whereIn('id',$ids)->get();
+        $tot_p = $parcels->count();
+        $count_p = 1;
         // Loop on particles
-        foreach(CadastralParcel::all() as $p) {
-            $this->info("Processing cadastral parcel {$p->id}");
+        foreach($parcels as $p) {
+            $this->info("($count_p/$tot_p)Processing cadastral parcel {$p->id}");
+            $count_p++;
             $results = DB::select("
                         SELECT 
-                            a.id, 
-                            ST_AREA(ST_Intersection(a.geometry,p.geometry)) as area 
+                            catalog_type_id, 
+                            SUM(ST_AREA(ST_Intersection(a.geometry,p.geometry))) as area 
 
                         FROM 
                            cadastral_parcels as p, 
@@ -65,11 +73,27 @@ class EstimateByCatalog extends Command
                         WHERE 
                            a.catalog_id={$this->argument('id')} AND 
                            p.id = {$p->id} 
-                           AND ST_Intersects(a.geometry,p.geometry)");
+                           AND ST_Intersects(a.geometry,p.geometry)
+                           
+                        GROUP BY
+                           catalog_type_id
+                           ");
             
             if(count($results)>0) {
+                $json = [];
                 $count = count($results);
                 $this->info("Found $count intersections");
+                // TODO: Save data into cadastral particles
+                foreach($results as $item) {
+                    $json[]=[
+                        'code' => $types[$item->catalog_type_id],
+                        'area' => $item->area,
+                        'unit_price' => $prices[$item->catalog_type_id],
+                        'price' => $item->area * $prices[$item->catalog_type_id],
+                    ];
+                }
+                $p->catalog_estimate=$json;
+                $p->save();
             } else {
                 $this->info("No intersection Found");
             }
