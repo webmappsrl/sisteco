@@ -3,6 +3,8 @@ Febbraio 2023 - Cataloghi
 
 22 Febbraio 2022
 
+FEATURE catalog_0.2
+
 MH Modificare modello catalog_types per aggiungere i prezzi in funzione classe pendenza e classe distanza
 
 MH Modificare script di import per leggere direttamente il folgio excel
