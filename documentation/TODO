@@ -5,6 +5,10 @@ Febbraio 2023 - Cataloghi
 
 FEATURE catalog_0.2
 
+MH Mettere file geojson MIPAAF in dir che si committa, mettere nuovo file XLS nella stessa cartella, da usare come esempio per le future importazioni
+
+MH Scrivere documentazione su come creare un nuovo catalogo e relativo prezzario
+
 MH Modificare modello catalog_types per aggiungere i prezzi in funzione classe pendenza e classe distanza
 
 MH Modificare script di import per leggere direttamente il folgio excel
@@ -15,12 +19,7 @@ MH Modificare lo script di stima in base al catalogo tenendo in considerazioni l
 
 MH Modificare la visualizzazione della particella aggiungendo info su calcolo stima con il catalogo
 
-NTH Modificare la visualizzazione della mappa della particella aggiungendo le aree usate per il calcolo della particella
-
-MH Mettere file geojson MIPAAF in dir che si committa, mettere nuovo file XLS nella stessa cartella, da usare come esempio per le future importazioni
-
 MH Aggiornare Produzione
-
 
 ============================
 
