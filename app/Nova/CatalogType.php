@@ -23,7 +23,7 @@ class CatalogType extends Resource
      *
      * @var string
      */
-    public static $title = 'code';
+    public static $title = 'code_int';
 
     /**
      * Get the group of the resource.
@@ -40,7 +40,7 @@ class CatalogType extends Resource
      * @var array
      */
     public static $search = [
-        'id','code'
+        'id','code_int'
     ];
 
     /**
@@ -53,9 +53,11 @@ class CatalogType extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('code'),
+            Text::make('code_int'),
             Text::make('name'),
-            Currency::make('Price')->currency('EUR'),
+            Text::make('prices',function(){
+                return json_encode($this->prices); 
+            })->onlyOnDetail(),
             BelongsTo::make('Catalog'),
         ];
     }

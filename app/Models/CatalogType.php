@@ -10,6 +10,10 @@ class CatalogType extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'prices' => 'array',
+    ] ;
+
     /**
      * Returns the corresponding catalog
      *
