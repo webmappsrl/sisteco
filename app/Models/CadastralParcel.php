@@ -47,10 +47,18 @@ class CadastralParcel extends Model
     }
 
 
-    public function computeSlopeClass():int{
-        if($this->average_slope<=20) return 1;
-        if($this->average_slope<=40) return 2;
-        return 3;
+    /**
+     * It returns the slope class:
+     * 'A' -> s < 20 deg
+     * 'B' -> 20 < s <=40 deg
+     * 'C' -> s > 40
+     *
+     * @return string
+     */
+    public function computeSlopeClass():string{
+        if($this->average_slope<=20) return 'A';
+        if($this->average_slope<=40) return 'B';
+        return 'C';
     }
 
     public function computeTransportClass():int{

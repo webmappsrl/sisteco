@@ -17,16 +17,16 @@ Nel caso del progetto MIPAAF per la comunità di bosco si è seguita la seguente
 **Seconda parte del codice:**  
 | Classe di Pendenza | Codice |
 | -----------|--------|
-| I Classe di Pendenza | A |
-| II Classe di Pendenza | B |
-| II Classe di Pendenza | C |
+| I Classe di Pendenza | A (<20 deg) |
+| II Classe di Pendenza | B (20-40 deg) |
+| II Classe di Pendenza | C (>40 deg) |
 
 **Terza parte del codice:**  
 | Distanza traposto imposto | Codice |
 | -----------|--------|
-| trasporto imposto < 500 m | A |
-| trasporto imposto 500-1000 m | A |
-| trasporto imposto > 1000 m | A |
+| trasporto imposto < 500 m | 1 |
+| trasporto imposto 500-1000 m | 2 |
+| trasporto imposto > 1000 m | 3 |
 
 Per importare un nuovo catalogo utilizzare il comando artisan:
 
