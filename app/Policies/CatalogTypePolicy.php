@@ -10,17 +10,6 @@ class CatalogTypePolicy
 {
     use HandlesAuthorization;
 
-
-    /**
-     * Executed before all policy methods
-     *
-     * @param User $user
-     * @return boolean
-     */
-    public function before (User $user): bool {
-        return true;
-    }
-
     /**
      * Determine whether the user can view any models.
      *
@@ -29,7 +18,7 @@ class CatalogTypePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +30,7 @@ class CatalogTypePolicy
      */
     public function view(User $user, CatalogType $catalogType)
     {
-        //
+        return true;
     }
 
     /**
@@ -52,7 +41,7 @@ class CatalogTypePolicy
      */
     public function create(User $user)
     {
-        //
+        return false;
     }
 
     /**
@@ -64,7 +53,7 @@ class CatalogTypePolicy
      */
     public function update(User $user, CatalogType $catalogType)
     {
-        //
+        return true;
     }
 
     /**
@@ -76,7 +65,7 @@ class CatalogTypePolicy
      */
     public function delete(User $user, CatalogType $catalogType)
     {
-        //
+        return false;
     }
 
     /**
@@ -88,7 +77,7 @@ class CatalogTypePolicy
      */
     public function restore(User $user, CatalogType $catalogType)
     {
-        //
+        return false;
     }
 
     /**
@@ -100,6 +89,6 @@ class CatalogTypePolicy
      */
     public function forceDelete(User $user, CatalogType $catalogType)
     {
-        //
+        return false;
     }
 }

@@ -22,8 +22,24 @@ class CatalogSeeder extends Seeder
         ]);
 
         CatalogType::factory()->create([
+            'code_int'=>'0',
+            'name'=>'Nessuna Lavorazione',
+            'prices'=> [
+                'A.1' => 0,
+                'A.2' => 0,
+                'A.3' => 0,
+                'B.1' => 0,
+                'B.2' => 0,
+                'B.3' => 0,
+                'C.1' => 0,
+                'C.2' => 0,
+                'C.3' => 0,
+            ],
+            'catalog_id'=>$c->id,
+        ]);
+        CatalogType::factory()->create([
             'code_int'=>'1',
-            'name'=>'',
+            'name'=>'Diradamento',
             'prices'=> [
                 'A.1' => 12814,
                 'A.2' => 12981,
@@ -39,7 +55,7 @@ class CatalogSeeder extends Seeder
         ]);
         CatalogType::factory()->create([
             'code_int'=>'2',
-            'name'=>'Diradamento',
+            'name'=>'Taglio ceduo',
             'prices'=> [
                 'A.1' => 7069,
                 'A.2' => 8132,

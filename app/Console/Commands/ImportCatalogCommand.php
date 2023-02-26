@@ -65,7 +65,7 @@ class ImportCatalogCommand extends Command
 
         // Loop on areas
         $count = 1;
-        $types = $c->catalogTypes()->pluck('id','code')->toArray();
+        $types = $c->catalogTypes()->pluck('id','code_int')->toArray();
         foreach ($areas as $area) {
             $counter = "$count / $tot";
             $count ++;

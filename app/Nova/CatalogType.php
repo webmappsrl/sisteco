@@ -53,12 +53,19 @@ class CatalogType extends Resource
     {
         return [
             ID::make(__('ID'), 'id')->sortable(),
-            Text::make('code_int'),
+            Text::make('code_int')->readonly(),
             Text::make('name'),
             Text::make('prices',function(){
-                return json_encode($this->prices); 
-            })->onlyOnDetail(),
-            BelongsTo::make('Catalog'),
+                $out = '';
+                foreach($this->prices as $key =>$value) {
+                    $out .= $this->code_int.'.'.$key .' : '.number_format($value,2,',','.').' €'.'<br />';
+                }
+                return $out; 
+            })->asHtml()->onlyOnDetail(),
+            Text::make('#A',function(){
+                return $this->catalogAreas()->count();
+            }),
+            BelongsTo::make('Catalog')->readonly(),
         ];
     }
 

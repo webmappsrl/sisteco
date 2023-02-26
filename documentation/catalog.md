@@ -84,3 +84,19 @@ Lo script esegue un ciclo su tutte le particelle che sono associate ad almeno un
     ];
 ```
 
+Production notes (20/02/2023):
+===
+```sh
+> git pull
+> php artisan optimize
+> php artisan migrate
+> php artisan db:seed CatalogSeeder
+> php artisan sisteco:import_catalog storg
+```
+
+Local Test
+```sh
+> bash scripts/deploy_local_with_prod.sh
+> php artisan db:seed CatalogSeeder
+> php artisan sisteco:import_catalog storage/catalogs/mipaaf/areas.geojson 1 COD_INT
+```
