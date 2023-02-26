@@ -7,3 +7,5 @@ Febbraio 2023 - Cataloghi
 - Catalog Type Details: aggiungere Superficie totale (somma aree di quel tipo nel catalogo)
 - Catalog Details / Index: Aggiungere Superficie totale (somma di tutte le aree del catalogo)
 - Catalog Details / CatalogTypes: aggiungere superficie totale per singolo tipo
+- Modificare comando sisteco:estimate_by_catalog aggiungendo parametro opzionale cadastral_parcel_id per scegliere una pecifica particella sui cui calcolare
+- Rifattorizzare il calcolo della stima di una particella a partire da metodo (parametro: parcel_id)
