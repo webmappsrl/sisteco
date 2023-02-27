@@ -1,0 +1,11 @@
+Febbraio 2023 - Cataloghi
+
+26 Febbraio 2022
+- Creazione catalogo con unico comando che 1. legge foglio excel prezzario.xls, 2. crea catalogo (nome preso dal basename del PATH), 3. importa le aree dal file geojson assegnato ad opportuno catalogType in base al campo COD_INT
+- Estendere il campo estimate_catalog di CadastraParcel perché possa contenere la stima di più cataloghi
+- Introdurre il concetto di procetto come collezione di PROPRIETARI
+- Catalog Type Details: aggiungere Superficie totale (somma aree di quel tipo nel catalogo)
+- Catalog Details / Index: Aggiungere Superficie totale (somma di tutte le aree del catalogo)
+- Catalog Details / CatalogTypes: aggiungere superficie totale per singolo tipo
+- Modificare comando sisteco:estimate_by_catalog aggiungendo parametro opzionale cadastral_parcel_id per scegliere una pecifica particella sui cui calcolare
+- Rifattorizzare il calcolo della stima di una particella a partire da metodo (parametro: parcel_id)
