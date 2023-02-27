@@ -80,21 +80,30 @@ class EstimateByCatalog extends Command
                            ");
             // SLOPE AND DISTANCE
             $parcel_code = $p->computeSlopeClass().'.'.$p->computeTransportClass();
+            $total_price = 0;
+            $json = [];
             if(count($results)>0) {
-                $json = [];
+                $items = [];
                 $count = count($results);
                 $this->info("Found $count intersections");
                 foreach($results as $item) {
                     $code_int = $types[$item->catalog_type_id];
                     $unit_price = $prices[$code_int][$parcel_code];
-                    $json[]=[
+                    $price = $item->area / 10000 * $unit_price;
+                    $total_price += $price;
+                    $items[]=[
                         'code' => $code_int.'.'.$parcel_code,
-                        'area' => number_format($item->area / 10000,4),
+                        'area' => number_format($item->area / 10000,4,',','.'),
                         'unit_price' => number_format($unit_price,2,',','.'),
-                        'price' => number_format($item->area / 10000 * $unit_price,2,',','.'),
+                        'price' => number_format($price,2,',','.'),
                     ];
                 }
+                $json = [
+                    'items' => $items,
+                    'price' => number_format($total_price,2,',','.')
+                ];
                 $p->catalog_estimate=$json;
+                $p->estimated_value=$total_price;
                 $this->info(json_encode($json));
                 $p->save();
             } else {

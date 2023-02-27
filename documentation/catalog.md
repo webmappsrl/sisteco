@@ -74,7 +74,7 @@ Lo script esegue un ciclo su tutte le particelle che sono associate ad almeno un
             ...
             $itemN
         ],
-        "value" => somma di tutti i price dei vari items
+        "price" => somma di tutti i price dei vari items
     ];
     $item[]=[
         'code' => COD_INT,
