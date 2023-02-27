@@ -19,12 +19,12 @@ class CadatralParcelComputeSlopeClassTest extends TestCase
  * 3 -> >40
  */
         $values = [
-            1 => 0,
-            1 => 10,
-            1 => 20,
-            2 => 30,
-            2 => 40,
-            3 => 45
+            'A' => 0,
+            'A' => 10,
+            'A' => 20,
+            'B' => 30,
+            'B' => 40,
+            'C' => 45
         ];
         foreach($values as $class => $slope) {
             $this->assertEquals($class,$this->p($slope)->computeSlopeClass());

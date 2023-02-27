@@ -89,7 +89,7 @@ class CadastralParcel extends Resource {
             Text::make('Pendenza media (º)', 'average_slope', function (string $slope) {
                 return str_replace('.', ',', round($slope, 2));
             })->onlyOnDetail(),
-            Text::make('Classe Pendenza','slope')->onlyOnDetail(),
+            Text::make('Classe Pendenza',function(){return $this->computeSlopeClass();})->onlyOnDetail(),
             Text::make('Distanza minima sentiero (m)', 'meter_min_distance_path', function (string $distance) {
                 return intval($distance) . ' m';
             })->onlyOnDetail(),
@@ -101,30 +101,30 @@ class CadastralParcel extends Resource {
                 return str_replace('.', ',', round($surface / 10000, 4)) . ' ha';
             })->sortable(),
             Text::make('Dettaglio Stima',function(){
-                if(empty($this->estimate_detail)) {
+                if(is_null($this->catalog_estimate)) {
                     return 'ND';
                 }
-                $o="<table>";
-
+                if(!isset($this->catalog_estimate['items'])) {
+                    return 'ND';
+                }
+                if(count($this->catalog_estimate['items'])==0) {
+                    return 'ND';
+                }
+                $o='<style> table, th, td { border: 1px solid black; padding: 5px;}</style>';
+                $o.='<table border="1">';
                 $o.="<tr>";
-                $o.="<th>ID</th>";
-                $o.="<th>Code</th>";
-                $o.="<th>Action</th>";
-                $o.="<th>UCS</th>";
+                $o.="<th>COD_INT</th>";
+                $o.="<th>Area</th>";
                 $o.="<th>Unit Price</th>";
-                $o.="<th>Surface</th>";
                 $o.="<th>Price</th>";
                 $o.="</tr>";
-
-                foreach(json_decode($this->estimate_detail) as $id=>$item) {
+//    {"code":"0.B.1","area":"9.1400","unit_price":"0,00","price":"0,00"},
+                foreach($this->catalog_estimate['items'] as $item) {
                     $o.="<tr>";
-                    $o.="<td>$id</td>";
-                    $o.="<td>{$item[0]}</td>";
-                    $o.="<td>{$item[1]}</td>";
-                    $o.="<td>{$item[2]}</td>";
-                    $o.="<td>{$item[3]}</td>";
-                    $o.="<td>{$item[4]}</td>";
-                    $o.="<td>{$item[5]}</td>";
+                    $o.="<td>{$item['code']}</td>";
+                    $o.="<td>{$item['area']}</td>";
+                    $o.="<td>{$item['unit_price']}</td>";
+                    $o.="<td>{$item['price']}</td>";
                     $o.="</tr>";    
                 }
 
