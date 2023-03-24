@@ -95,8 +95,9 @@ Production notes (20/02/2023):
 > php artisan sisteco:estimate_by_catalog 1
 ```
 
-Local Test
+Local Test (destroy all data first)
 ```sh
+> php artisan db:wipe
 > bash scripts/deploy_local_with_prod.sh
 > php artisan db:seed CatalogSeeder
 > php artisan sisteco:import_catalog storage/catalogs/mipaaf/areas.geojson 1 COD_INT
