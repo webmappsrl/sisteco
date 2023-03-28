@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\DB;
 
 class CadastralParcelResource extends JsonResource
 {
@@ -14,6 +15,9 @@ class CadastralParcelResource extends JsonResource
      */
     public function toArray($request)
     {
+
+        $res = DB::select(DB::raw("SELECT ST_asgeojson('$this->geometry') as geom;"));
+        $geom = json_decode($res[0]->geom,true);
         return [
             'id' => $this->id,
             'code' => $this->code,
@@ -26,7 +30,7 @@ class CadastralParcelResource extends JsonResource
             'slope' => $this->slope,
             'way' => $this->way,
             'catalog_estimate' => $this->catalog_estimate,
-            'geometry' => $this->geometry,
+            'geometry' => $geom,
         ];
     }
 }
